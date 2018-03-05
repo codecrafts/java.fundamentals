@@ -1,0 +1,32 @@
+﻿<Task>
+<id>Task0001</id>
+<title>Программа решения квадратного уравнения</title>
+<content>
+Написать программу решения квадратного уравнения вида a*x2 + bx + c = 0 
+</content>
+<type>
+Writing
+</type>
+<category #Conditional #Math </category>
+
+<hints>
+    <hint>Что на вход должна принимать программа? Что на выход?</hint>
+    <hint>Какие формулы используются для получения решения квадратного уравнения?</hint>
+    <hint> А вы предусмотрели случаи D = 0, D < 0, a = 0? </hint>
+    <hint> В каком виде вы будете выводить решения? </hint>
+</hints>
+<steps>
+   <step>Заведите переменные для a,b,c. Какой тип переменных более подходящий? </step>
+   <step>Напишите решение для двух корней</step>
+   <step>Обработайте ситуацию когда D<0</step>
+   <step>Напишите решение линейного уравнения когда a=0</step>
+   <step>Оформите ввод/вывод, чтобы он был понятен для человека</step>
+   <step>Напишите автоматическое тестирование вашего кода</step>
+</actions>
+
+<reference>
+https://ru.wikipedia.org/wiki/%D0%9A%D0%B2%D0%B0%D0%B4%D1%80%D0%B0%D1%82%D0%BD%D0%BE%D0%B5_%D1%83%D1%80%D0%B0%D0%B2%D0%BD%D0%B5%D0%BD%D0%B8%D0%B5
+https://docs.oracle.com/javase/tutorial/java/nutsandbolts/index.html
+</references>
+<complexity>1</complexity>
+</Task>
