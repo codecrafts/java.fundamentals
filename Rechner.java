@@ -4,7 +4,7 @@ public class Rechner {
 
     public static void main(String[] args) {
 
-        Scanner in = new Scanner (System.in);
+        Scanner in = new Scanner(System.in);
         System.out.println("Please enter the first number: ");
         int x = in.nextInt();
         System.out.println("Please enter the second number: ");
@@ -27,29 +27,34 @@ public class Rechner {
             System.out.print("The operation was not identified. Try again.");
 
         int i = 0;
-        while (i < 10) {
+        String button = "yes";
+        while (i < 1000 & button.equals("yes"))
+        {
+            Scanner big = new Scanner(System.in);
+            System.out.print("To continue press yes, to exit press no: ");
+            button = big.next();
+            if (button.equals("no"))
+                break;
+
             System.out.println("Enter the operation again: ");
             String r = in.next();
-            System.out.println("Please enter the first number: ");
-            int x1 = in.nextInt();
-            System.out.println("Please enter the second number: ");
-            int y1 = in.nextInt();
+            System.out.println("Please enter the third number: ");
+            int b = in.nextInt();
             i++;
 
             if (r.equals("+"))
-                System.out.println(x1 + " + " + y1 + " = " + (x1 + y1));
+                System.out.println(b + " + " + result + " = " + (b + result));
             else if (r.equals("/"))
-                System.out.println(x1 + " / " + y1 + " = " + (x1 / y1));
+                System.out.println(b + " / " + result + " = " + (b / result));
             else if (r.equals("*"))
-                System.out.println(x1 + " * " + y1 + " = " + (x1 * y1));
+                System.out.println(b + " * " + result + " = " + (b * result));
             else if (r.equals("^"))
-                System.out.println(x1 + " ^ " + y1 + " = " + (x1 ^ y1));
+                System.out.println(b + " ^ " + result + " = " + (b ^ result));
             else if (r.equals("&"))
-                System.out.println(x1 + " & " + y1 + " = " + (x1 & y1));
+                System.out.println(b + " & " + result + " = " + (b & result));
             else
                 System.out.print("The operation was not identified. Try again.");
+            }
         }
-
     }
-}
 
