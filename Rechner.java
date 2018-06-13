@@ -30,20 +30,22 @@ public class Rechner {
         while (i < 10) {
             System.out.println("Enter the operation again: ");
             String r = in.next();
-            System.out.println("Please enter the third number: ");
-            int b = in.nextInt();
+            System.out.println("Please enter the first number: ");
+            int x1 = in.nextInt();
+            System.out.println("Please enter the second number: ");
+            int y1 = in.nextInt();
             i++;
 
             if (r.equals("+"))
-                System.out.println(b + " + " + result + " = " + (b + result));
+                System.out.println(x1 + " + " + y1 + " = " + (x1 + y1));
             else if (r.equals("/"))
-                System.out.println(b + " / " + result + " = " + (b / result));
+                System.out.println(x1 + " / " + y1 + " = " + (x1 / y1));
             else if (r.equals("*"))
-                System.out.println(b + " * " + result + " = " + (b * result));
+                System.out.println(x1 + " * " + y1 + " = " + (x1 * y1));
             else if (r.equals("^"))
-                System.out.println(b + " ^ " + result + " = " + (b ^ result));
+                System.out.println(x1 + " ^ " + y1 + " = " + (x1 ^ y1));
             else if (r.equals("&"))
-                System.out.println(b + " & " + result + " = " + (b & result));
+                System.out.println(x1 + " & " + y1 + " = " + (x1 & y1));
             else
                 System.out.print("The operation was not identified. Try again.");
         }
