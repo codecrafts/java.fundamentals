@@ -8,6 +8,7 @@ public class Main {
         String flag = "u";
         double result = 0;
         double b;
+        int i = 0;
         while(flag.equals("u")) {
 
 
@@ -18,7 +19,7 @@ public class Main {
             System.out.print("Enter number 1 = ");
             double a = in.nextDouble();
 
-            if (result == 0 ){
+            if (i == 0 ){
                 System.out.print("Enter number 2 = ");
                 b = in.nextDouble();}
             else b = result;
@@ -38,6 +39,7 @@ public class Main {
                 System.out.println(a + " % " + b + " = " + (result = a % b));
             else
                 System.out.print("Invalid Action");
+            i++;
 
         }
 
