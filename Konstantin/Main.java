@@ -19,7 +19,6 @@ public class Main {
             {
                 System.out.print("Enter number 2 = ");
                 num2 = in.nextDouble();
-                flag = "u";
 
             }
             else num2 = result ;
