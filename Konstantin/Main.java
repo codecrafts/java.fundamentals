@@ -11,7 +11,7 @@ public class Main
         Scanner in = new Scanner(System.in);
         String flag = "u";
 
-        Double result = NaN;
+        double result = NaN;
         double num2;
 
         for(;flag.equals("u");)
@@ -20,13 +20,13 @@ public class Main
             System.out.print("Enter number 1 = ");
             double num1 = in.nextDouble();
 
-            if (result.isNaN())
+            if (result != result )
             {
                 System.out.print("Enter number 2 = ");
                 num2 = in.nextDouble();
             }
             else num2 = result ;
-            
+
             System.out.print("Сhoose action ( + - * / %) = ");
             String action = in.next();
 
