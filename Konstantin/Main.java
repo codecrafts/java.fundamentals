@@ -14,7 +14,7 @@ public class Main {
         {
 
             System.out.print("Enter number 1 = ");
-            double a = in.nextDouble();
+            double num1 = in.nextDouble();
 
             if (FirstAction.equals("akt1"))
             {
@@ -25,28 +25,28 @@ public class Main {
             else num2 = result;
 
             System.out.print("Сhoose action ( + - * / %) = ");
-            String num1 = in.next();
+            String action = in.next();
 
-            switch (num1) {
+            switch (action) {
                 case "+":
-                    result = a + num2;
-                    System.out.println(a + " + " + num2 + " = " + result);
+                    result = num1 + num2;
+                    System.out.println(num1 + " + " + num2 + " = " + result);
                     break;
                 case "-":
-                    result = a - num2;
-                    System.out.println(a + " - " + num2 + " = " + result);
+                    result = num1 - num2;
+                    System.out.println(num1 + " - " + num2 + " = " + result);
                     break;
                 case "*":
-                    result = a * num2;
-                    System.out.println(a + " * " + num2 + " = " + result);
+                    result = num1 * num2;
+                    System.out.println(num1 + " * " + num2 + " = " + result);
                     break;
                 case "/":
-                    result = a / num2;
-                    System.out.println(a + " / " + num2 + " = " + result);
+                    result = num1 / num2;
+                    System.out.println(num1 + " / " + num2 + " = " + result);
                     break;
                 case "%":
-                    result = a % num2;
-                    System.out.println(a + " % " + num2 + " = " + result);
+                    result = num1 % num2;
+                    System.out.println(num1 + " % " + num2 + " = " + result);
                     break;
                 default:
                     System.out.print("Invalid Action");
