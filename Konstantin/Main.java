@@ -6,45 +6,47 @@ public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         String flag = "u";
+        String FirstAction = "akt1";
         double result = 0;
-        double b;
+        double num2;
 
-        for(int i = 0;flag.equals("u");i++)
+        for(;flag.equals("u");)
         {
 
             System.out.print("Enter number 1 = ");
             double a = in.nextDouble();
 
-            if (i == 0 )
+            if (FirstAction.equals("akt1"))
             {
                 System.out.print("Enter number 2 = ");
-                b = in.nextDouble();
+                num2 = in.nextDouble();
+                FirstAction = "endakt";
             }
-            else b = result;
+            else num2 = result;
 
             System.out.print("Сhoose action ( + - * / %) = ");
-            String c = in.next();
+            String num1 = in.next();
 
-            switch (c) {
+            switch (num1) {
                 case "+":
-                    result = a + b;
-                    System.out.println(a + " + " + b + " = " + result);
+                    result = a + num2;
+                    System.out.println(a + " + " + num2 + " = " + result);
                     break;
                 case "-":
-                    result = a - b;
-                    System.out.println(a + " - " + b + " = " + result);
+                    result = a - num2;
+                    System.out.println(a + " - " + num2 + " = " + result);
                     break;
                 case "*":
-                    result = a * b;
-                    System.out.println(a + " * " + b + " = " + result);
+                    result = a * num2;
+                    System.out.println(a + " * " + num2 + " = " + result);
                     break;
                 case "/":
-                    result = a / b;
-                    System.out.println(a + " / " + b + " = " + result);
+                    result = a / num2;
+                    System.out.println(a + " / " + num2 + " = " + result);
                     break;
                 case "%":
-                    result = a % b;
-                    System.out.println(a + " % " + b + " = " + result);
+                    result = a % num2;
+                    System.out.println(a + " % " + num2 + " = " + result);
                     break;
                 default:
                     System.out.print("Invalid Action");
