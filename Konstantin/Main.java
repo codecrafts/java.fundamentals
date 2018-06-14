@@ -24,10 +24,6 @@ public class Main
             {
                 System.out.print("Enter number 2 = ");
                 num2 = in.nextDouble();
-<<<<<<< HEAD
-=======
-
->>>>>>> 641935e252ed9d2b00cfbaf9a1178c9060ee7879
             }
             else num2 = result ;
             
