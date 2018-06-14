@@ -5,24 +5,25 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        String flag = "u";
-        String FirstAction = "akt1";
+        String flag = "akt1";
         double result = 0;
         double num2;
 
-        for(;flag.equals("u");)
+        for(;flag.equals("u")|flag.equals("akt1");)
         {
 
             System.out.print("Enter number 1 = ");
             double num1 = in.nextDouble();
 
-            if (FirstAction.equals("akt1"))
+            if (flag.equals("akt1"))
             {
                 System.out.print("Enter number 2 = ");
                 num2 = in.nextDouble();
-                FirstAction = "endakt";
+                flag = "u";
+
             }
-            else num2 = result;
+            else num2 = result ;
+
 
             System.out.print("Сhoose action ( + - * / %) = ");
             String action = in.next();
