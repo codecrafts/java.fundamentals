@@ -7,12 +7,11 @@ public class Array
     {
         ArrayList<Double> numbers = new ArrayList<>();
         Scanner in = new Scanner(System.in);
-        Scanner act = new Scanner(System.in);
         String flag = "u";
         double result = 0;
 
         System.out.println(" Введите несколько чисел через Enter ");
-        System.out.println(" Для окончания набора введите любую букву и нажмите Enter");
+        System.out.println(" Для окончания набора введите действие выполняемое над числами");
 
         for(;flag.equals("u");)
         {
@@ -22,8 +21,8 @@ public class Array
                 flag = "x";
         }
 
-        System.out.println(" Введите действие ( + - * / %) ");
-        String action = act.next() ;
+        //System.out.println(" Введите действие ( + - * / %) ");
+        String action = in.next() ;
         result = numbers.get(0);
 
         for ( int i = 1;i<numbers.size();i++)
