@@ -27,25 +27,31 @@ public class Array
 
         for ( int i = 0;i<Numbers.size();i++)
         {
-            switch (action)
+            if (i == 0)
+                result = Numbers.get(i);
+            else
             {
-                case "+":
-                    result = result + Numbers.get(i);
-                    break;
-                case "-":
-                    result = result - Numbers.get(i);
-                    break;
-                case "*":
-                    result = result * Numbers.get(i);
-                    break;
-                case "/":
-                    result = result / Numbers.get(i);
-                    break;
-                case "%":
-                    result = result % Numbers.get(i);
-                    break;
-                default:
-                    System.out.print("Не правильное действие");
+                switch (action)
+                {
+                    case "+":
+                        result = result + Numbers.get(i);
+                        break;
+                    case "-":
+                        result = result - Numbers.get(i);
+                        break;
+                    case "*":
+                        result = result * Numbers.get(i);
+                        break;
+                    case "/":
+                        result = result / Numbers.get(i);
+                        break;
+                    case "%":
+                        result = result % Numbers.get(i);
+                        break;
+                    default:
+                        System.out.print("Не правильное действие");
+
+                }
             }
         }
         System.out.println(result);
