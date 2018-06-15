@@ -22,7 +22,7 @@ public class Rechner
 
             String operation = big.next() ;
             result = digits.get(0);
-
+            //for
             for ( int i = 1;i<digits.size();i++)
             {
                 switch (operation)
