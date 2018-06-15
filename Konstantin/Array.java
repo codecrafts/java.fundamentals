@@ -5,7 +5,7 @@ public class Array
 {
     public static void main(String[] args)
     {
-        ArrayList<Double> Numbers = new ArrayList<>();
+        ArrayList<Double> numbers = new ArrayList<>();
         Scanner in = new Scanner(System.in);
         Scanner act = new Scanner(System.in);
         String flag = "u";
@@ -17,42 +17,40 @@ public class Array
         for(;flag.equals("u");)
         {
             if (in.hasNextDouble())
-                Numbers.add(in.nextDouble());
+                numbers.add(in.nextDouble());
             else
                 flag = "x";
         }
 
         System.out.println(" Введите действие ( + - * / %) ");
         String action = act.next() ;
+        result = numbers.get(0);
 
-        for ( int i = 0;i<Numbers.size();i++)
+        for ( int i = 1;i<numbers.size();i++)
         {
-            if (i == 0)
-                result = Numbers.get(i);
-            else
-            {
+            
                 switch (action)
                 {
                     case "+":
-                        result = result + Numbers.get(i);
+                        result = result + numbers.get(i);
                         break;
                     case "-":
-                        result = result - Numbers.get(i);
+                        result = result - numbers.get(i);
                         break;
                     case "*":
-                        result = result * Numbers.get(i);
+                        result = result * numbers.get(i);
                         break;
                     case "/":
-                        result = result / Numbers.get(i);
+                        result = result / numbers.get(i);
                         break;
                     case "%":
-                        result = result % Numbers.get(i);
+                        result = result % numbers.get(i);
                         break;
                     default:
-                        System.out.print("Не правильное действие");
+                        System.out.print("Неправильное действие");
 
                 }
-            }
+            
         }
         System.out.println(result);
     }
