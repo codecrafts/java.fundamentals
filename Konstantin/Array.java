@@ -21,8 +21,10 @@ public class Array
                 flag = "x";
         }
 
-        //System.out.println(" Введите действие ( + - * / %) ");
+
         String action = in.next() ;
+        if (numbers.size()==0);
+        else
         result = numbers.get(0);
 
         for ( int i = 1;i<numbers.size();i++)
