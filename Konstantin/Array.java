@@ -23,13 +23,11 @@ public class Array
 
 
         String action = in.next() ;
-        if (numbers.size()==0);
-        else
+        if (numbers.size()>0);
         result = numbers.get(0);
 
         for ( int i = 1;i<numbers.size();i++)
         {
-            
                 switch (action)
                 {
                     case "+":
@@ -49,12 +47,9 @@ public class Array
                         break;
                     default:
                         System.out.print("Неправильное действие");
-
                 }
-            
         }
         System.out.println(result);
-        //аа
     }
 
 }
