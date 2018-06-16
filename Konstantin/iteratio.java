@@ -24,9 +24,5 @@ public class iteratio {
             System.out.print(" " + ( i + 1 ));
         }
     }
-}
-
-
-
-
+   }
 }
