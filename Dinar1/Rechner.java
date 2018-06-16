@@ -8,9 +8,9 @@ public class Rechner
             ArrayList<Integer> digits = new ArrayList<>();
             Scanner big = new Scanner(System.in);
             String button = "yes";
-            int result;
+            int result = 0;
 
-            System.out.println("Please enter so much numbers as you wish. You have only 5 operations to choose: +, /, *, ^, &  ");
+            System.out.println("Please, enter so many numbers as you wish. You have only 5 operations to choose from these: +, /, *, ^, &  ");
 
             for(;button.equals("yes");)
             {
@@ -21,9 +21,10 @@ public class Rechner
             }
 
             String operation = big.next() ;
-            result = digits.get(0);
-            //for
-            for ( int i = 1;i<digits.size();i++)
+            if (digits.size() > 0) 
+                result = digits.get(0);
+            
+            for (int i = 1;i < digits.size();i++)
             {
                 switch (operation)
                     {
