@@ -10,20 +10,20 @@ public class Kalknew {
             res = result(number1, number2, arithmeticOperation);
             System.out.print(" " + number1 + " " + arithmeticOperation + " " + number2 + " = " + res );
         }
-        static double inputNumber (String text){
+        static double inputNumber (String text) {
             double number;
             Scanner in = new Scanner(System.in);
             System.out.println(text);
             number = in.nextDouble();
             return number;
         }
-        static String operation (String text){
+        static String operation (String text) {
             String operation;
             Scanner in = new Scanner(System.in);
             operation = in.next();
             return operation;
         }
-        static double result (double num1, double num2, String oper){
+        static double result (double num1, double num2, String oper) {
             double result = 0;
             switch (oper){
 
@@ -43,7 +43,7 @@ public class Kalknew {
                     result = num1 % num2;
                     break;
                 default:
-                    System.out.println("Не верное арифметическое действие");
+                    System.out.println("Неверное арифметическое действие");
             }
 
             return result;
