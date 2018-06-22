@@ -7,7 +7,7 @@ public class quadraticEquation {
     public static void main(String[] args) {
         double a = coefficient("Введите старший коэффициент (а)");
 
-        while (a != 0) {
+        while (a == 0) {
             System.out.println("Старший коэффициент не может быть равен 0");
             a = coefficient("Введите старший коэффициент (а)");
         }
