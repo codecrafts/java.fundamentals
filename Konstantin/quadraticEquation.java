@@ -7,11 +7,11 @@ public class quadraticEquation {
     public static void main(String[] args) {
         double a = coefficient("Введите старший коэффициент (а)");
 
-        while (a < 0) {
-            System.out.println("Старший коэффициент не может быть меньше 0");
+        while (a != 0) {
+            System.out.println("Старший коэффициент не может быть равен 0");
             a = coefficient("Введите старший коэффициент (а)");
         }
-        
+
         double b = coefficient("Введите коэффициент при х (b)");
         double c = coefficient("Введите свободный член (c)");
 
@@ -30,7 +30,6 @@ public class quadraticEquation {
             result = solutionOfEquation(a, b,- Math.sqrt(d));
             System.out.println("2 корень уравнения равен x2 = " + result);
         }
-        test();
     }
     static double coefficient (String text) {
         double value;
