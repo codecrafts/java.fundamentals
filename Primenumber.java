@@ -14,15 +14,15 @@ public class Primenumber {
         System.out.println("\n Prime numbers from 1 to " + num + " are:");
         printPrime(num);
     }
+
     static void printPrime(int num) {
-        Primenumber primeNum = new Primenumber();
         for (int i = 3; i <= num; i++) {
-            if (primeNum.isPrime(i)) {
+            if (Primenumber.isPrime(i)) {
                 System.out.print(i + " ");
             }
         }
     }
-    public boolean isPrime(int num) {
+    static boolean isPrime(int num) {
         if (num < 2){
             return false;
         }
