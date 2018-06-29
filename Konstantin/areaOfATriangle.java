@@ -18,5 +18,4 @@ public class areaOfATriangle {
             System.out.println("Площадь треугольника равна " + areaOfATriangle);
         }
     }
-
 }
