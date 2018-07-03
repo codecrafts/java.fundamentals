@@ -3,7 +3,7 @@ public class Triangle extends Figure {
         super(sizeA, sizeB, sizeC);
     }
 
-    public void inputSize(){
+    public void inputSize() {
         double aSize = 0;
         double bSize = 0;
         double cSize = 0;
@@ -40,7 +40,7 @@ public class Triangle extends Figure {
             setSizeC(cSize);
         }
     }
-    public double areaFind(){
+    public double areaFind() {
         double areaOfATriangle = 0;
         if (getSizeA() > 0 && getSizeB() > 0 && getSizeC() > 0) {
             double triangleSemiperimeter = (getSizeA() + getSizeB() + getSizeC()) / 2;
@@ -49,14 +49,12 @@ public class Triangle extends Figure {
         }
        return  areaOfATriangle;
     }
-
     @Override
     public double getSquare() {
         System.out.println("Площадь тругольника равна 0");
         return 0;
     }
-    public double getSquare(int multipliyer){
-
+    public double getSquare(int multipliyer) {
         System.out.println("Площадь треугольника введеная пользователем равна " + multipliyer);
         return multipliyer;
     }

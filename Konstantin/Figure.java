@@ -53,11 +53,10 @@ public class Figure {
         double temp = size1;
         double min;
         double max;
-        if (size1 < size2){
+        if (size1 < size2) {
             size1 = size2;
             size2 = temp;
         }
-
         min = size1 - size2;
         max = size1 + size2;
         text = text + " больше " + min + " до " + max;
@@ -66,7 +65,7 @@ public class Figure {
         }
         return length;
     }
-    public double getSquare(){
+    public double getSquare() {
         System.out.println("Площадь фигуры равно 0");
         return 0;
     }
