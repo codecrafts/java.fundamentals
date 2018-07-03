@@ -24,21 +24,30 @@ public class Triangle extends Figure {
         }
         min = aSize - bSize;
         max = aSize + bSize;
-        if (aSize <= 0 || bSize <= 0 || cSize <= 0) System.out.println("Значения не могут быть меньше 0");
-        else if (cSize <= min || cSize >= max) System.out.println("Значение длины стороны С должно быть в пределах от " + min + " до " + max);
-        else {
+        if (aSize <= 0 || bSize <= 0 || cSize <= 0) {
+            System.out.println("Значения не могут быть меньше 0");
+            setSizeA(0);
+            setSizeB(0);
+            setSizeC(0);
+        } else if (cSize <= min || cSize >= max) {
+            System.out.println("Значение длины стороны С должно быть в пределах от " + min + " до " + max);
+            setSizeA(0);
+            setSizeB(0);
+            setSizeC(0);
+        } else {
             setSizeA(aSize);
             setSizeB(bSize);
             setSizeC(cSize);
         }
     }
-    public void areaFind(){
+    public double areaFind(){
+        double areaOfATriangle = 0;
         if (getSizeA() > 0 && getSizeB() > 0 && getSizeC() > 0) {
             double triangleSemiperimeter = (getSizeA() + getSizeB() + getSizeC()) / 2;
-            double areaOfATriangle;
             areaOfATriangle = Math.sqrt(triangleSemiperimeter * (triangleSemiperimeter - getSizeA()) * (triangleSemiperimeter - getSizeB()) * (triangleSemiperimeter - getSizeC()));
             System.out.println("Площадь треугольника равна " + areaOfATriangle);
         }
+       return  areaOfATriangle;
     }
 
     @Override
