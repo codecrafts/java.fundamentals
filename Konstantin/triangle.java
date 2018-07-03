@@ -58,4 +58,11 @@ public class Triangle extends Figure {
         System.out.println("Площадь треугольника введеная пользователем равна " + multipliyer);
         return multipliyer;
     }
+    public void makeClassExpirement(){
+        Triangle exp = new Triangle(2,3,4);
+        System.out.println("hashCode - " + exp.hashCode());
+        System.out.println("toString - " + exp.toString());
+        Triangle pxe = exp;
+        System.out.println("equals - " + exp.equals(pxe));
+    }
 }

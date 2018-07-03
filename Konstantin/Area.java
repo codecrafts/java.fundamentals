@@ -3,6 +3,7 @@ public class Area {
     Triangle abc = new Triangle(0,0,0);
     abc.inputSize();
     System.out.println(abc.getSizeA()+" "+abc.getSizeB()+" "+abc.getSizeC());
+    abc.makeClassExpirement();
     abc.areaFind();
     abc.getSquare();
     abc.getSquare(5);
