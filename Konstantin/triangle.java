@@ -1,4 +1,4 @@
-public class Triangle extends Figure {
+public class Triangle extends Figure implements Contr {
     public Triangle(double sizeA, double sizeB, double sizeC) {
         super(sizeA, sizeB, sizeC);
     }
