@@ -1,13 +1,18 @@
-public class Area {
+import javax.naming.ldap.Control;
+import java.util.Scanner;
+
+public class Area  {
     public static void main(String[] args) {
-    Triangle abc = new Triangle(0,0,0);
+        System.out.println("Для тестирования введите - test");
+        Scanner in = new Scanner(System.in);
+        String choice = in.next();
+        System.out.println(choice);
+        if (choice.equals("test")) test();
+    InWord abc = new Triangle(0,0, 0);
     abc.inputSize();
-    System.out.println(abc.getSizeA()+" "+abc.getSizeB()+" "+abc.getSizeC());
-    abc.makeClassExpirement();
     abc.areaFind();
-    abc.getSquare();
-    abc.getSquare(5);
-    test();
+
+
     }
     static void test() {
         Triangle test = new Triangle(2,2,2);

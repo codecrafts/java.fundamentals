@@ -1,4 +1,6 @@
-public class Triangle extends Figure implements Contr {
+import javax.naming.ldap.Control;
+
+public class Triangle extends Figure implements InWord  {
     public Triangle(double sizeA, double sizeB, double sizeC) {
         super(sizeA, sizeB, sizeC);
     }
