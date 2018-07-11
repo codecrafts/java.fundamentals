@@ -5,27 +5,27 @@ public class emailValidation {
     static final int maxDomen = 255;
     static int countDog = 0;
     public static void main(String[] args) {
-        testCode();
-        /*String email = enterEmail();
+        String email = enterEmail();
         findDog(email);
         if (countDog != 1) {
             System.out.println("Вы ввели не корректный адрес.");
             System.out.println("В адресе должен быть один символ @");
         }
          else   checkEmail(email);
-*/
     }
 
     static boolean checkEmail (String email){
             int userNameLength;
             int domenLength;
             boolean check = false;
-            boolean nameСhecks;
-            boolean domenChecks;
+            boolean nameСhecks = false;
+            boolean domenChecks = false;
             userNameLength = findDog(email);
             char[] userName = new char[userNameLength];
             email.getChars(0, userNameLength, userName, 0);
-            nameСhecks = validation(userName, maxUsername);
+            if(validationMaxWord(userName, maxUsername) && validationDoted(userName, maxUsername) && validationSimbol(userName, maxUsername)) {
+                nameСhecks = true;
+            }
             if (nameСhecks) System.out.println("Валидация имени пройдена");
             else System.out.println("Валидация имени не пройдена");
             System.out.println(nameСhecks);
@@ -33,7 +33,9 @@ public class emailValidation {
             domenLength = email.length() - userNameLength - 1;
             char[] userDomen = new char[domenLength];
             email.getChars(userNameLength + 1, email.length(), userDomen, 0);
-            domenChecks = validation(userDomen, maxDomen);
+            if (validationMaxWord(userDomen, maxDomen) && validationDoted(userDomen, maxDomen) && validationSimbol(userDomen, maxDomen)) {
+                domenChecks = true;
+            }
             if (domenChecks) System.out.println("Валидация домена пройдена");
             else System.out.println("Валидация домена не пройдена");
             System.out.println(domenChecks);
@@ -62,31 +64,39 @@ public class emailValidation {
 
         return index;
     }
-    static boolean validation(char[] text, int max) {
-        boolean testDoted = false;
-        boolean testDubleDoted = false;
-        boolean testWord = false;
-        boolean allTest = false;
+    static boolean validationMaxWord(char[] text, int max) {
         boolean testMax = false;
         int countTest = 0;
         if (text.length <= max) {
             testMax = true;
         }
-        if (text[0] == '.' || text[text.length-1] == '.') {
+        return testMax;
+    }
+    static boolean validationDoted(char[] text, int max) {
+        boolean testDoted = false;
+
+
+        if (text[0] == '.' || text[text.length - 1] == '.') {
             System.out.println("точки не могут быть в начале или конце имени пользователя");
-            return allTest = false;
+            return testDoted = false;
         } else {
             testDoted = true;
         }
         for (int i = 0; i < text.length - 1; i++) {
             if (text[i] == '.' && text[i + 1] == '.') {
-                testDubleDoted = false;
+                testDoted = false;
                 System.out.println("стоящие рядом точки не допускаются");
-                return allTest = false;
+                return testDoted = false;
             } else {
-                testDubleDoted = true;
+                testDoted = true;
             }
         }
+        return testDoted;
+    }
+    static boolean validationSimbol(char[] text, int max) {
+        boolean testWord = false;
+        boolean allTest = false;
+        int countTest = 0;
         for (int i = 0; i < text.length; i++) {
             if (text[i] >= 'a' && text[i] <= 'z'|| text[i] >= 'A' && text[i] <= 'Z') {
                 countTest++;
@@ -98,11 +108,10 @@ public class emailValidation {
                 countTest++;
             } else if (text[i] == '_' || text[i] == '{' || text[i] == '}' || text[i] == '|' || text[i] == '?' || text[i] == '.' ) {
                 countTest++;
-            } else return allTest = false;
+            } else return testWord = false;
         }
         if (countTest == text.length) testWord =true;
-        if (testDoted && testDubleDoted && testWord && testMax) allTest = true;
-        return allTest;
+        return testWord;
     }
     static void testCode (){
 
