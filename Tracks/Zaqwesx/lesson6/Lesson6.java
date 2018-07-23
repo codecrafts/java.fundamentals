@@ -12,16 +12,16 @@ public class Lesson6 {
         Scanner input = new Scanner(System.in);
         System.out.println("Введите IPv4 адрес :");
         String ip = input.next();
-        ArrayList<String> splitInput = new ArrayList<>();
+        int segments = 0;
 
         for (String element : ip.split("\\.")) {
-            if (inputChecker(element))
-                splitInput.add(element);
+            if (inputChecker(element) && numChecker(element))
+                segments++;
             else
                 break;
         }
 
-        if (numChecker(splitInput) && splitInput.size() == 4)           // Проверяем, что ввод удовлетворяет маске IPv4.
+        if (segments == 4)
             System.out.println("Введен корректный IPv4 адрес: " + ip);
         else
             System.out.println("Введен некорректный IPv4 адрес.");
@@ -44,17 +44,13 @@ public class Lesson6 {
         return checker;
     }
 
-    static boolean numChecker(ArrayList<String> input) {
-        boolean checker = false;
+    static boolean numChecker(String input) {
+        boolean checker;
 
-        for (String element : input) {
-            if (!element.equals("") && Integer.parseInt(element) >= 0 && Integer.parseInt(element) <= 255) {
-                checker = true;
-            }else {
-                checker = false;
-                break;
-            }
-        }
+        if (!input.equals("") && Integer.parseInt(input) >= 0 && Integer.parseInt(input) <= 255)
+            checker = true;
+        else
+            checker = false;
 
         return checker;
     }
