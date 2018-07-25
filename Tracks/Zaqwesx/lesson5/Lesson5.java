@@ -42,11 +42,11 @@ public class Lesson5 {
 
     static StringBuffer decToHex(int natNum) {   // Метод перевода из десятичной системы в шестнадцатеричную.
         byte byteNum = 0;
-        StringBuffer hexNum = new StringBuffer("");
+        StringBuffer hexNum = new StringBuffer();
 
         for (int i = 0; i < BYTE_IN_INT; i++) {
             byteNum = (byte) (natNum & 0x0F);
-            hexNum.insert(0,hexNums(Byte.toString(byteNum)));
+            hexNum.insert(0,Character.toString((char) byteNum));
             natNum >>= 4;
         }
         return hexNum;
@@ -56,29 +56,29 @@ public class Lesson5 {
         String numHex = "";
 
         switch (input) {
-            case "10":
+            case 1:
                 numHex = "A";
                 break;
-            case "11":
-                numHex = "B";
-                break;
-            case "12":
-                numHex = "C";
-                break;
-            case "13":
-                numHex = "D";
-                break;
-            case "14":
-                numHex = "E";
-                break;
-            case "15":
-                numHex = "F";
-                break;
-            default:
-                numHex = input;
-                break;
-        }
-
-        return numHex;
-    }
+//            case 11:
+////                numHex = "A";
+////                break;
+////            case 12:
+////                numHex = "A";
+////                break; 'A';
+////            case 13:
+////                numHex = "A";
+////                break;
+////            case 14:
+////                numHex = "A";
+////                break;
+////            case 15:
+////                numHex = "A";
+////                break;
+//            default:
+////                numHex = Byte.toString(input);
+//                break;
+//        }
+//
+//        return input;
+//    }
 }
