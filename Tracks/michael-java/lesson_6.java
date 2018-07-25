@@ -7,14 +7,14 @@ package lesson_6;
 import java.util.Scanner;
 
 public class Lesson_6 {
+    static final int amountTest = 9;                                    // количество тестов
 
     public static void main(String[] args) {
-        
-        final int lengthPhoneNumber = 12;                                           // количество символов в номере телефона
-        boolean phoneCondition = false;                                             // соответствие номера коду РФ
 
-        String telephoneNumber = getTelephoneNumber();                              // получаем телефонный номер
-        phoneCondition = isTruePhone (telephoneNumber);                             // проверка на валидность
+        boolean phoneCondition = false;                                 // состояние соответствия номера коду РФ
+
+        String telephoneNumber = getTelephoneNumber();                  // получаем телефонный номер
+        phoneCondition = isTruePhone (telephoneNumber);                 // проверка на валидность
         resultOutput(phoneCondition);                                               // вывод результата
         System.out.println (testCode() ? "тест пройден" : "тест не пройден");       // тесты
     }
@@ -27,7 +27,7 @@ public class Lesson_6 {
         return phoneNumber;
     }
 
-   static void resultOutput(boolean conditionRF){        //вывод
+    static void resultOutput(boolean conditionRF){      //вывод
         if (conditionRF)
             System.out.println ("Введенный номер телефона ЯВЛЯЕТСЯ ВАЛИДНЫМ российским телефоном");
         else
@@ -36,30 +36,28 @@ public class Lesson_6 {
 
     static boolean isTruePhone(String phoneNumber) {    // проверка на валидность и принадлежность номера РФ
 
-        if (!phoneNumber.startsWith("+")) return false;                        // провека - первый не плюс
-
-        if (phoneNumber.length() != lengthPhoneNumber) return false;           // проверка на 12 знаков
-
-        for(int numberPosition = 1; numberPosition<phoneNumber.length(); numberPosition++) {         // проверка на цифры в номере
+        boolean isAllNumber = true;
+        for(int numberPosition = 1; numberPosition < phoneNumber.length(); numberPosition++) {         // проверка на все ли цифры в номере
             if (phoneNumber.charAt (numberPosition) < '0' || phoneNumber.charAt (numberPosition) > '9')
-                return false;;
+                isAllNumber = false;
         }
-        return phoneNumber.startsWith ("7", 1) ? true : false;
+
+        return phoneNumber.startsWith ( "+" ) && phoneNumber.startsWith ( "7", 1 ) && phoneNumber.length () == 12 && isAllNumber;
     }
 
-    static boolean testCode(){              // тест
-        boolean testCondition = false;      // переменная хранит состояние прохождения теста
+    static boolean testCode(){      // тесты
+        int testComplete = 0;      // переменная хранит состояние прохождения теста
 
-        testCondition = isTruePhone("231234") ? false : true;
-        testCondition = isTruePhone("+7123-123-12-34") ? false : true;
-        testCondition = isTruePhone("71231231234") ? false : true;
-        testCondition = isTruePhone("+31231231234") ? false : true;
-        testCondition = isTruePhone("+7123123O234") ? false : true;
-        testCondition = isTruePhone("+7231234") ? false : true;
-        testCondition = isTruePhone("+7(904)231234") ? false : true;
-        testCondition = isTruePhone("+7(904)231-23-45") ? false : true;
-        testCondition = isTruePhone("+71231234567") ? true : false;
+        if( !isTruePhone ( "231234")) testComplete++;                   // заведомо не валидный тест
+        if( !isTruePhone ( "+7123-123-12-34")) testComplete++;          // заведомо не валидный тест
+        if( !isTruePhone ( "71231231234")) testComplete++;              // заведомо не валидный тест
+        if( !isTruePhone ( "+31231231234")) testComplete++;             // заведомо не валидный тест
+        if( !isTruePhone ( "+7123123O234")) testComplete++;             // заведомо не валидный тест
+        if( !isTruePhone ( "+7231234")) testComplete++;                 // заведомо не валидный тест
+        if( !isTruePhone ( "+7(904)231234")) testComplete++;            // заведомо не валидный тест
+        if( !isTruePhone ( "+7(904)231-23-45")) testComplete++;         // заведомо не валидный тест
+        if( isTruePhone ( "+71231234567")) testComplete++;              // валидный тест
 
-        return testCondition;
+        return testComplete == amountTest;              // возвращаем истину, если прошли все тесты успешно
     }
 }
