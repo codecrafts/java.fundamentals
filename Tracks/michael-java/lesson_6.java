@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class lesson_6 {
 
     public static void main(String[] args) {
-
+        
+        final int lengthPhoneNumber = 12;                               // количество символов в номере телефона
         boolean phoneCondition = false;                                 // соответствие номера коду РФ
 
         String telephoneNumber = getTelephoneNumber();                  // получаем телефонный номер
@@ -40,7 +41,7 @@ public class lesson_6 {
 
         if (!phoneNumber.startsWith("+")) return false;         // провека - первый не плюс
 
-        if (phoneNumber.length() != 12) return false;           // проверка на 12 знаков
+        if (phoneNumber.length() != lengthPhoneNumber) return false;           // проверка на 12 знаков
 
         for(int numberPosition = 1; numberPosition<phoneNumber.length(); numberPosition++) {         // проверка на цифры в номере
             if (phoneNumber.charAt (numberPosition) < '0' || phoneNumber.charAt (numberPosition) > '9')
