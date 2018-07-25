@@ -12,9 +12,20 @@ public class Lesson6 {
         Scanner input = new Scanner(System.in);
         System.out.println("Введите IPv4 адрес :");
         String ip = input.next();
+
+        if (isIP(ip))
+            System.out.println("Введен корректный IPv4 адрес: " + ip);
+        else
+            System.out.println("Введен некорректный IPv4 адрес.");
+
+        input.close();
+        System.out.println (testCode() ? "Тест пройден." : "Тест не пройден.");
+    }
+
+    static boolean isIP(String input) {
         int segments = 0;
 
-        for (String element : ip.split("\\.")) {
+        for (String element : input.split("\\.")) {
             if (inputChecker(element) && numChecker(element))
                 segments++;
             else
@@ -22,11 +33,9 @@ public class Lesson6 {
         }
 
         if (segments == 4)
-            System.out.println("Введен корректный IPv4 адрес: " + ip);
+            return true;
         else
-            System.out.println("Введен некорректный IPv4 адрес.");
-
-        input.close();
+            return false;
     }
 
     static boolean inputChecker(String input) {
@@ -53,5 +62,37 @@ public class Lesson6 {
             checker = false;
 
         return checker;
+    }
+
+    static boolean testCode() {
+        boolean testPassed = false;
+        int passCounter = 0;
+
+        if (!isIP("asda.asd.asd.asd"))
+            passCounter++;
+        if (!isIP("123...123123"))
+            passCounter++;
+        if (!isIP("...123"))
+            passCounter++;
+        if (!isIP("0...1"))
+            passCounter++;
+        if (!isIP("123. 123.123.123"))
+            passCounter++;
+        if (!isIP("123.?.123.123"))
+            passCounter++;
+        if (!isIP(".123.123.123.123"))
+            passCounter++;
+        if (!isIP("123.222.-1.123"))
+            passCounter++;
+        if (!isIP("777.123.1.1"))
+            passCounter++;
+        if (isIP("123.123.123.123"))
+            passCounter++;
+
+        if (passCounter == 10)
+            testPassed = true;
+
+        return testPassed;
+
     }
 }
