@@ -7,6 +7,8 @@ package lesson_5;
 import java.util.Scanner;
 
 public class Lesson_5 {
+    static final int amountTest = 5;
+
     public static void main(String[] args) {
         int arabicNumber = 0;           // введенное число
         String romeNumber = "";         // результат перевода арабского в римское
@@ -20,21 +22,19 @@ public class Lesson_5 {
 
     static int getArabicNumber() {
         Scanner in = new Scanner (System.in);
-        int number;
         System.out.println ("Введите натуральное число от 1 до 3999:");
-        number = in.nextInt();
+        int number = in.nextInt();
         return number;
     }
     static String arabicToRome(int arabicNum){
         String romeNum = "";        // римское число
-        int index;                  // индекс элемента массива арабско-Римских чисел
         int[] arabic = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
         String[] roman = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
 
         if (arabicNum >= 4000 || arabicNum <= 0)        // входящее число входит в допустимый диапазон
-            return null;
+            return "";
 
-        index = arabic.length - 1;
+        int index = arabic.length - 1;                  // индекс элемента массива арабско-Римских чисел
         while(arabicNum > 0)                            // в цикле собираем Римское число
         {
             if(arabicNum >= arabic[index])
@@ -56,14 +56,15 @@ public class Lesson_5 {
     }
 
     static boolean tests (){
-        boolean testCondition = false;      // переменная хранит состояние прохождения теста
+        int testComplete = 0;      // переменная хранит состояние прохождения теста
 
-        testCondition = arabicToRome(-12345) == null ? true : false;
-        testCondition = arabicToRome(-1) == null ? true : false;
-        testCondition = arabicToRome(4000) == null ? true : false;
-        testCondition = arabicToRome(0) == null ? true : false;
-        testCondition = arabicToRome(123) == null ? false : true;
+        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345) == null) testComplete++;
 
-        return testCondition;
+        return testComplete == amountTest;
     }
 }
