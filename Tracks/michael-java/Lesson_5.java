@@ -7,7 +7,7 @@ package lesson_5;
 import java.util.Scanner;
 
 public class Lesson_5 {
-    static final int amountTest = 5;
+    static final int amountTest = 5;    // количество тестов
 
     public static void main(String[] args) {
         int arabicNumber = 0;           // введенное число
@@ -26,6 +26,7 @@ public class Lesson_5 {
         int number = in.nextInt();
         return number;
     }
+
     static String arabicToRome(int arabicNum){
         String romeNum = "";        // римское число
         int[] arabic = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
@@ -49,7 +50,7 @@ public class Lesson_5 {
     }
 
     static void outToConsole(String romeNum, int arabicNum){
-        if (romeNum == null)
+        if (romeNum.equals(""))
             System.out.println ("Число вне диапазона");
         else
             System.out.println ("Результат перевода числа " + arabicNum + " в Римскую систему - " + romeNum);
@@ -58,12 +59,11 @@ public class Lesson_5 {
     static boolean tests (){
         int testComplete = 0;      // переменная хранит состояние прохождения теста
 
-        if(arabicToRome(-12345) == null) testComplete++;
-        if(arabicToRome(-12345) == null) testComplete++;
-        if(arabicToRome(-12345) == null) testComplete++;
-        if(arabicToRome(-12345) == null) testComplete++;
-        if(arabicToRome(-12345) == null) testComplete++;
-        if(arabicToRome(-12345) == null) testComplete++;
+        if(arabicToRome(-12345).equals ("")) testComplete++;
+        if(arabicToRome(-1).equals ("")) testComplete++;
+        if(arabicToRome(4000).equals ("")) testComplete++;
+        if(arabicToRome(0).equals ("")) testComplete++;
+        if(!arabicToRome(123).equals ("")) testComplete++;
 
         return testComplete == amountTest;
     }
