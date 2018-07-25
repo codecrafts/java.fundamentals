@@ -1,4 +1,4 @@
-package Lesson_6;
+package lesson_6;
     /* Пользователь вводит строку.
     Программа определяет является ли данная строка валидным российским телефоном.
     (+76939985727 - является, +96939985727 - нет)
@@ -6,21 +6,20 @@ package Lesson_6;
 
 import java.util.Scanner;
 
-public class lesson_6 {
+public class Lesson_6 {
 
     public static void main(String[] args) {
         
-        final int lengthPhoneNumber = 12;                               // количество символов в номере телефона
-        boolean phoneCondition = false;                                 // соответствие номера коду РФ
+        final int lengthPhoneNumber = 12;                                           // количество символов в номере телефона
+        boolean phoneCondition = false;                                             // соответствие номера коду РФ
 
-        String telephoneNumber = getTelephoneNumber();                  // получаем телефонный номер
-        phoneCondition = isTruePhone (telephoneNumber);                 // проверка на валидность
-        resultOutput(phoneCondition);                                        // вывод результата
+        String telephoneNumber = getTelephoneNumber();                              // получаем телефонный номер
+        phoneCondition = isTruePhone (telephoneNumber);                             // проверка на валидность
+        resultOutput(phoneCondition);                                               // вывод результата
         System.out.println (testCode() ? "тест пройден" : "тест не пройден");       // тесты
     }
 
-    // ввод
-    static String getTelephoneNumber() {
+    static String getTelephoneNumber() {                // ввод
         Scanner in = new Scanner (System.in);
         String phoneNumber;
         System.out.println ("Введите 12-и значный номер телефона в формате +12345678901:");
@@ -28,18 +27,16 @@ public class lesson_6 {
         return phoneNumber;
     }
 
-    //вывод
-    static void resultOutput(boolean conditionRF){
+   static void resultOutput(boolean conditionRF){        //вывод
         if (conditionRF)
             System.out.println ("Введенный номер телефона ЯВЛЯЕТСЯ ВАЛИДНЫМ российским телефоном");
         else
             System.out.println ("Введенный номер телефона НЕ ЯВЛЯЕТСЯ ВАЛИДНЫМ российским телефоном");
     }
 
-    // проверка на валидность и принадлежность номера РФ
-    static boolean isTruePhone(String phoneNumber) {
+    static boolean isTruePhone(String phoneNumber) {    // проверка на валидность и принадлежность номера РФ
 
-        if (!phoneNumber.startsWith("+")) return false;         // провека - первый не плюс
+        if (!phoneNumber.startsWith("+")) return false;                        // провека - первый не плюс
 
         if (phoneNumber.length() != lengthPhoneNumber) return false;           // проверка на 12 знаков
 
@@ -50,8 +47,7 @@ public class lesson_6 {
         return phoneNumber.startsWith ("7", 1) ? true : false;
     }
 
-    // тест
-    static boolean testCode(){
+    static boolean testCode(){              // тест
         boolean testCondition = false;      // переменная хранит состояние прохождения теста
 
         testCondition = isTruePhone("231234") ? false : true;
