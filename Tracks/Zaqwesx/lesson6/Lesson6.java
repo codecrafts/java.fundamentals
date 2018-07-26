@@ -22,15 +22,17 @@ public class Lesson6 {
 
     static boolean isIP(String input) {
         boolean isIp = true;
-        String tempNum = "";
+        StringBuilder tempNum = new StringBuilder();
         int dotCounter = 0;
+        int intParse;
 
         for (int i = 0; i < input.length(); i++) {
             if (Character.isDigit(input.charAt(i)))
-                tempNum += input.charAt(i);
-            else if ((input.charAt(i) == '.')) {
-                if ((tempNum != "") && (Integer.parseInt(tempNum) >= 0) && (Integer.parseInt(tempNum) <= 255)) {
-                    tempNum = "";
+                tempNum.append(input.charAt(i));
+            else if ((input.charAt(i) == '.') && !(tempNum.length() == 0) && (tempNum.length() <= 3)) {
+                intParse = Integer.parseInt(tempNum.toString());
+                if ((intParse >= 0) && (intParse <= 255)) {
+                    tempNum.setLength(0);
                     dotCounter++;
                 }else {
                     isIp = false;
