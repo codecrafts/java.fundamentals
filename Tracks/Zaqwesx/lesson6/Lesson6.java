@@ -3,8 +3,6 @@
 Пользователь вводит строку. Программа определяет является ли данная строка потенциально валидным IPv4 адресом.
 (255.255.255.255 - является, а 255.255.255.257 - нет)
 */
-
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Lesson6 {
@@ -18,50 +16,36 @@ public class Lesson6 {
         else
             System.out.println("Введен некорректный IPv4 адрес.");
 
-        input.close();
         System.out.println (testCode() ? "Тест пройден." : "Тест не пройден.");
+        input.close();
     }
 
     static boolean isIP(String input) {
-        int segments = 0;
-
-        for (String element : input.split("\\.")) {
-            if (inputChecker(element) && numChecker(element))
-                segments++;
-            else
-                break;
-        }
-
-        if (segments == 4)
-            return true;
-        else
-            return false;
-    }
-
-    static boolean inputChecker(String input) {
-        boolean checker = true;
+        boolean isIp = true;
+        String tempNum = "";
+        int dotCounter = 0;
 
         for (int i = 0; i < input.length(); i++) {
             if (Character.isDigit(input.charAt(i)))
-                continue;
-            else {
-                checker = false;
+                tempNum += input.charAt(i);
+            else if ((input.charAt(i) == '.')) {
+                if ((tempNum != "") && (Integer.parseInt(tempNum) >= 0) && (Integer.parseInt(tempNum) <= 255)) {
+                    tempNum = "";
+                    dotCounter++;
+                }else {
+                    isIp = false;
+                    break;
+                }
+            }else {
+                isIp = false;
                 break;
             }
         }
 
-        return checker;
-    }
+        if (dotCounter != 3)
+            isIp = false;
 
-    static boolean numChecker(String input) {
-        boolean checker;
-
-        if (!input.equals("") && Integer.parseInt(input) >= 0 && Integer.parseInt(input) <= 255)
-            checker = true;
-        else
-            checker = false;
-
-        return checker;
+        return isIp;
     }
 
     static boolean testCode() {
@@ -78,7 +62,7 @@ public class Lesson6 {
             passCounter++;
         if (!isIP("123. 123.123.123"))
             passCounter++;
-        if (!isIP("123.?.123.123"))
+        if (!isIP("123.123.123.123."))
             passCounter++;
         if (!isIP(".123.123.123.123"))
             passCounter++;
