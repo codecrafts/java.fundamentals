@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class emailValidation {
     static final int maxUsername = 65;
     static final int maxDomen = 255;
-    static int indexDog = 0;
     public static void main(String[] args) {
         boolean  checkEmail;
         String email = enterEmail();
