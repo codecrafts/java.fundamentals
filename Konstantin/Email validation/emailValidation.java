@@ -18,18 +18,18 @@ public class emailValidation {
             boolean check = false;
             boolean nameСhecks = false;
             boolean domenChecks = false;
-            userNameLength = indexDog;
+            userNameLength = findeIndexDog(email);
             char[] userName = new char[userNameLength];
             email.getChars(0, userNameLength, userName, 0);
             if(validationMaxWord(userName, maxUsername) && validationDoted(userName) && validationSimbol(userName)) {
                 nameСhecks = true;
-            }
+            } else return false;
             domenLength = email.length() - userNameLength - 1;
             char[] userDomen = new char[domenLength];
             email.getChars(userNameLength + 1, email.length(), userDomen, 0);
             if (validationMaxWord(userDomen, maxDomen) && validationDoted(userDomen) && validationSimbol(userDomen)) {
                 domenChecks = true;
-            }
+            } else return false;
             if (nameСhecks && domenChecks) check = true;
             return check ;
         }
@@ -50,12 +50,21 @@ public class emailValidation {
         int lengthemail = email.length();
         for (int i = 0; i < lengthemail; i++) {
             if (email.charAt(i) == '@') {
-                indexDog = i;
                 index++;
             }
         }
         if (index != 1) return false;
         return true;
+    }
+    static int findeIndexDog(String email) {
+        int index = 0;
+        int lengthemail = email.length();
+        for (int i = 0; i < lengthemail; i++) {
+            if (email.charAt(i) == '@') {
+                index = i;
+            }
+        }
+        return index;
     }
     static boolean validationMaxWord(char[] text, int max) {
         boolean testMax = false;
@@ -67,14 +76,12 @@ public class emailValidation {
     static boolean validationDoted(char[] text) {
         boolean testDoted = false;
         if (text[0] == '.' || text[text.length - 1] == '.') {
-            System.out.println("точки не могут быть в начале или конце имени пользователя");
             return false;
         } else {
             testDoted = true;
         }
         for (int i = 0; i < text.length - 1; i++) {
             if (text[i] == '.' && text[i + 1] == '.') {
-                System.out.println("стоящие рядом точки не допускаются");
                 return false;
             } else {
                 testDoted = true;
@@ -126,13 +133,33 @@ public class emailValidation {
         if (countTest == text.length) testWord =true;
         return testWord;
     }
-    static void testCode(){
-        if (checkEmail("mkt@yandex.ru")) System.out.println("Ура тест пройден");
-        if (!checkEmail("mkt.@yandex.ru")) System.out.println("Ура тест пройден");
-        if (!checkEmail("mk..t@yandex.ru")) System.out.println("Ура тест пройден");
-        if (!checkEmail("mkt@yan@dex.ru")) System.out.println("Ура тест пройден");
-        if (!checkEmail("mkt@yan@dex.ru")) System.out.println("Ура тест пройден");
+    static boolean testCode() {
+        int testcount = 0;
+        if (checkEmail("mkt@yandex.ru")) {
+            System.out.println("Ура тест пройден");
+            testcount++;
+        }
+        if (!checkEmail("mkt.@yandex.ru")) {
+            System.out.println("Ура тест пройден");
+            testcount++;
+        }
+        if (!checkEmail("mk..t@yandex.ru")) {
+            System.out.println("Ура тест пройден");
+            testcount++;
+        }
+        if (!checkEmail("mkt@yan@dex.ru")) {
+            System.out.println("Ура тест пройден");
+            testcount++;
+        }
+        if (!checkEmail("mkt@yan@dex.ru")) {
+            System.out.println("Ура тест пройден");
+            testcount++;
+        }
+        if (testcount == 5)return true;
+        else return false;
     }
+
+
 }
 
 
