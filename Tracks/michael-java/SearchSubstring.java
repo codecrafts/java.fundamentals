@@ -1,13 +1,11 @@
 package searchSubstring;
-    /*
-        Есть две строки.
+    /*  Есть две строки.
         Строка - предложение на русском языке и строка с разделителями.
         Нужно подсчитать количество слов используя разделители.
      */
-
 public class SearchSubstring {
 
-    static String words = "... мама -папа, (дед+баба) ели к_а_ш_у!";
+    static String words = "Однажды, в студеную зимнюю пору...";
     static String separators = "., !-:+";
 
     public static void main(String[] args) {
@@ -29,14 +27,14 @@ public class SearchSubstring {
 
             if (isLetter(index, testWords, testSeparators)) {            // элемент строки - буква
                 isWasLetter = true;                                      // меняем состояние на "буква"
-                if(index == testWords.length() - 1)                      // в строке - последняя буква
-                    counterWords++;
             } else {                                                     // элемент строки - не буква
                 if (isWasLetter)                                         // сечас не буква, а перед ней - буква, плюсуем слово
                     counterWords++;
                 isWasLetter = false;                                     // меняем состояние на "не буква"
             }
         }
+        if(isWasLetter)                                                  // в строке - последняя буква
+            counterWords++;
         return counterWords;
     }
 
