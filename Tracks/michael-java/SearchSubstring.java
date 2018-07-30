@@ -29,9 +29,11 @@ public class SearchSubstring {
 
             if (isLetter(index, testWords, testSeparators)) {            // элемент строки - буква
                 isWasLetter = true;                                      // меняем состояние на "буква"
-                if(index == testWords.length()-1) counterWords++;        // в строке - последняя буква
+                if(index == testWords.length() - 1)                      // в строке - последняя буква
+                    counterWords++;
             } else {                                                     // элемент строки - не буква
-                if (isWasLetter) counterWords++;                         // сечас не буква, а перед ней - буква, плюсуем слово
+                if (isWasLetter)                                         // сечас не буква, а перед ней - буква, плюсуем слово
+                    counterWords++;
                 isWasLetter = false;                                     // меняем состояние на "не буква"
             }
         }
@@ -40,10 +42,10 @@ public class SearchSubstring {
 
     static boolean isLetter(int index, String whatTest, String withTest) {      // проверка вхождения подстроки в строку
 
-        char letter = whatTest.charAt (index);
+        char letter = whatTest.charAt(index);
         boolean isLetter = true;                                                // состояние элемента тестируемой строки: буква/не буква
 
-        for (int j = 0; j < withTest.length (); j++) {                // проверка элемента тестируемой строки
+        for (int j = 0; j < withTest.length(); j++) {                // проверка элемента тестируемой строки
             if (letter == withTest.charAt(j)) {                       // поймали разделитель
                 isLetter = false;
                 break;
