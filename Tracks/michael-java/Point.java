@@ -4,26 +4,25 @@ import java.util.Scanner;
 
 public class Point {
 
-    float x;
-    float y;
-    private String name;
+    private int x;
+    private int y;
 
     // конструктор
-    public Point(String name) {
-        this.name = name;
-        Scanner take = new Scanner (System.in);
-        System.out.println ("Введите координату X для точки " + name);
-        x = take.nextFloat();
-        System.out.println ("Введите координату Y для точки " + name);
-        y = take.nextFloat();
-    }
-
-    public Point (float x, float y){
+    public Point (int x, int y){
         this.x = x;
         this.y = y;
     }
 
-    public void getCoordinate(){
+    // геттеры
+    public int getX(){
+        return x;
+    }
+
+    public int getY(){
+        return y;
+    }
+
+    public void printCoordinate(){
         System.out.println (x + " " + y);
     }
 

@@ -8,21 +8,41 @@ package lesson_7;
      */
 
 public class Lesson_7 {
-    static final int amountTest = 4;
+    static final int AMOUNT_TEST = 4;
+
     public static void main(String[] args) {
 
-        Triangle trigon = new Triangle();
-        float area = trigon.getSquare();
-        System.out.println ("Площадь треугольника = " + area);
+        Triangle trigon = BuilderTriangle.createTriangle();
+
+        if (Checker.dotInLine (trigon))
+            System.out.println ("Треугольник не треугольный!");
+        else
+            System.out.println ("Площадь треугольника = " + trigon.getSquare());
+
+        System.out.println (tryTests() ? "тест пройден" : "тест не пройден");       // тесты
     }
-    /*
+
+
     static boolean tryTests(){      // тесты
-        int testComplete = 0;      // переменная хранит состояние прохождения теста
+        int testComplete = 0;       // переменная хранит состояние прохождения теста
 
-        if( trigon.getSquare() != 0 ) testComplete++;               // заведомо не валидный тест
+        Triangle testTrigon = Triangle.newBuilder()
+                .setA(0, 0)
+                .setB(2, 2)
+                .setC(1, 1)
+                .build();
 
-        if( Triangle.getSquare() != 0) testComplete++;              // валидный тест
+        Triangle testTrigon2 = Triangle.newBuilder()
+                .setA(0, 0)
+                .setB(0, 2)
+                .setC(2, 0)
+                .build();
 
-        return testComplete == amountTest              // возвращаем истину, если прошли все тесты успешно
-    }*/
+        if (Checker.dotInLine (testTrigon)) testComplete++;                 // проверка лежат ли три точки на одной прямой
+        if (!Checker.dotInLine (testTrigon2)) testComplete++;
+        if (testTrigon2.getSquare() != 0) testComplete++;                   // проверка площади
+        if (Float.isNaN(testTrigon.getSquare())) testComplete++;
+
+        return testComplete == AMOUNT_TEST;                                 // возвращаем истину, если прошли все тесты успешно
+    }
 }
