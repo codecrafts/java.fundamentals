@@ -1,9 +1,6 @@
 package lesson_7;
 
-import java.util.Scanner;
-
 public class Point {
-
     private int x;
     private int y;
 

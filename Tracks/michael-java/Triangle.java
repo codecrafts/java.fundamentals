@@ -1,6 +1,6 @@
 package lesson_7;
 
-public class Triangle  {
+public class Triangle extends Square  {
     private Point a;
     private Point b;
     private Point c;
