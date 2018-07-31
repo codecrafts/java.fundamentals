@@ -3,50 +3,47 @@ import java.util.Scanner;
 public class Lesson7 {
     public static void main(String[] args) {
         Dot[] dots = new Dot[4];
-        Integer x = 0;
-        Integer y = 0;
+        int x = 0;
+        int y = 0;
         Scanner input = new Scanner(System.in);
 
+        System.out.println("Введите координаты точек. Порядок ввода определяет построение фигуры.");
+
         for (int i = 0; i < 4; i++) {
-            System.out.println("Введите координату х точки " + i + " :");
+            System.out.println("X" + i + " :");
 
             while (input.hasNext()) {
                 if (input.hasNextInt()) {
                     x = input.nextInt();
                     break;
                 }else {
-                    System.out.println("Введенна некорректная координата. Повторите ввод:");
+                    System.out.println("Введенна некорректная координата. Повторите ввод координаты Х" + i + ":");
                     input.next();
                 }
             }
 
-            System.out.println("Введите координату y точки " + i + " :");
+            System.out.println("Y" + i + " :");
 
             while (input.hasNext()) {
                 if (input.hasNextInt()) {
                     y = input.nextInt();
                     break;
                 }else {
-                    System.out.println("Введенна некорректная координата. Повторите ввод:");
+                    System.out.println("Введенна некорректная координата. Повторите ввод координаты Y" + i + ":");
                     input.next();
                 }
             }
 
-            dots[i] = new Dot(x,y);
+            dots[i] = new Dot(x,y);     // Заполняем массив точек введенными координатами.
         }
 
-        Quadrangle quadrangle = new Quadrangle(dots);
-        Double square = Double.NaN;
+        input.close();
 
-        if (quadrangle.isRectangle()) {
-            Rectangle rectangle = new Rectangle(dots, quadrangle);
-            square = rectangle.getSquare();
-            System.out.print("Площадь прямоугольника равна: ");
-            System.out.printf("%.2f",square);
-            System.out.println();
-        }
-        else
-            System.out.println("Фигура не является прямоугольником.");
+        Rectangle rectangle = new Rectangle(dots);
+        Double square = rectangle.getSquare();
+        System.out.print("Площадь прямоугольника равна: ");
+        System.out.printf("%.2f",square);
+        System.out.println();
 
         if (testCode())
             System.out.println("Тест пройден.");
@@ -55,25 +52,35 @@ public class Lesson7 {
 
     }
 
-    public static boolean checkRectangle(Integer... coords) {
-        Dot[] dots = new Dot[4];
+    public static Dot[] setCoords(Integer... coords) {      // Метод превращает массив цифр в массив координат.
+        Dot[] dots = new Dot[4];                            // Удобно для проведения тестов.
 
         for (int i = 0; i < 4; i++)
             dots[i] = new Dot(coords[i*2],coords[i*2+1]);
 
-        Quadrangle quadrangle = new Quadrangle(dots);
-        return quadrangle.isRectangle();
+        return dots;
     }
+
+
 
     public static boolean testCode () {
         boolean testPass = false;
         int counter = 0;
+        Dot[] testDots;
 
-        if (checkRectangle(0,0,1,0,0,1,1,1))
+        testDots = setCoords(0,0,2,0,2,1,0,1);
+        Rectangle testRect1 = new Rectangle(testDots);
+        if (testRect1.getSquare() == 2)
             counter++;
-        if (checkRectangle(1,1,1,1,1,1,1,1))
+
+        testDots = setCoords(0,0,1,1,0,1,1,0);
+        Rectangle testRect2 = new Rectangle(testDots);
+        if (testRect2.getSquare() == Double.NaN)
             counter++;
-        if (!checkRectangle(1,6,9,2,1,13,8,1))
+
+        testDots = setCoords(0,0,1,1,2,2,3,3);
+        Rectangle testRect3 = new Rectangle(testDots);
+        if (testRect3.getSquare() == Double.NaN)
             counter++;
 
         if (counter == 3)
