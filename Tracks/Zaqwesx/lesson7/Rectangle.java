@@ -1,20 +1,20 @@
 public class Rectangle extends Quadrangle {
-    private Double square;          // Используем ссылочный тип, т.к. нужен NaN.
+    private double square;
 
     public Rectangle(Dot[] dotArray) {
         super(dotArray);
     }
 
-    public Double getSquare() {
+    public double getSquare() {
         Dot[] dots = super.getDotArray();
 
         if (super.isRectangle())
             square = dots[0].getDistance(dots[1]) * dots[1].getDistance(dots[2]);
         else
-            square = Double.NaN;
+            square = 0.0/0;
 
         if (square == 0)
-            square = Double.NaN;
+            square = 0.0/0;
 
         return square;
     }

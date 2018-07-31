@@ -34,15 +34,15 @@ public class Lesson7 {
                 }
             }
 
-            dots[i] = new Dot(x,y);     // Заполняем массив точек введенными координатами.
+            dots[i] = new Dot(x, y);     // Заполняем массив точек введенными координатами.
         }
 
         input.close();
 
         Rectangle rectangle = new Rectangle(dots);
-        Double square = rectangle.getSquare();
+        double square = rectangle.getSquare();
         System.out.print("Площадь прямоугольника равна: ");
-        System.out.printf("%.2f",square);
+        System.out.printf("%.2f", square);
         System.out.println();
 
         if (testCode())
@@ -56,7 +56,7 @@ public class Lesson7 {
         Dot[] dots = new Dot[4];                            // Удобно для проведения тестов.
 
         for (int i = 0; i < 4; i++)
-            dots[i] = new Dot(coords[i*2],coords[i*2+1]);
+            dots[i] = new Dot(coords[i*2], coords[i*2+1]);
 
         return dots;
     }
@@ -75,12 +75,12 @@ public class Lesson7 {
 
         testDots = setCoords(0,0,1,1,0,1,1,0);
         Rectangle testRect2 = new Rectangle(testDots);
-        if (testRect2.getSquare() == Double.NaN)
+        if (Double.isNaN(testRect2.getSquare()))
             counter++;
 
         testDots = setCoords(0,0,1,1,2,2,3,3);
         Rectangle testRect3 = new Rectangle(testDots);
-        if (testRect3.getSquare() == Double.NaN)
+        if (Double.isNaN(testRect3.getSquare()))
             counter++;
 
         if (counter == 3)
