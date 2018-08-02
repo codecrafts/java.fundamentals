@@ -6,10 +6,7 @@ public class AreaTriangle  {
     protected static double areaResult;
     static Triangular triangular = new Triangular();
     public static void main(String[] args) {
-        modeSelection();
-    }
-    private static void modeSelection() {
-        printMessage(9);
+        System.out.println("Для тестиирования введите test");
         Scanner in = new Scanner(System.in);
         String mode = in.next();
         if (mode.equals("test")) {
@@ -20,15 +17,15 @@ public class AreaTriangle  {
         }
     }
     private static void calculatingResult() {
-        boolean validationResult = triangular.validationTriangular();
+        boolean validationResult = triangular.checkTriangular();
         if (validationResult) {
             areaResult = triangular.findArea();
-            printMessage(6);
-            printMessage(8);
+            System.out.println("Валидация треугольника пройдена");;
+            System.out.println("Площадь треугольника равна " + areaResult);
         } else {
             areaResult = triangular.findArea();
-            printMessage(7);
-            printMessage(8);
+            System.out.println("Валидация треугольника не пройдена");
+            System.out.println("Площадь треугольника равна " + areaResult);
         }
     }
     private static double input() {
@@ -43,14 +40,14 @@ public class AreaTriangle  {
         double cSize;
         double tempSize;
         do {
-            printMessage(1);
+            System.out.println("Введите длину 1 стороны треугольника");
             aSize = input();
-            if (!checkPositiveNumber(aSize)) printMessage(2);
+            if (!checkPositiveNumber(aSize)) System.out.println("Значение должно быть больше 0");
         } while (!checkPositiveNumber(aSize));
         do {
-            printMessage(3);
+            System.out.println("Введите длину 2 стороны треугольника");
             bSize = input();
-            if (!checkPositiveNumber(bSize)) printMessage(2);
+            if (!checkPositiveNumber(bSize)) System.out.println("Значение должно быть больше 0");
         } while (!checkPositiveNumber(bSize));
         if(sortNumber(aSize,bSize)) {
             tempSize = aSize;
@@ -60,50 +57,13 @@ public class AreaTriangle  {
         do {
             difference = aSize - bSize;
             sum = aSize + bSize;
-            printMessage(4);
+            System.out.println("Длина 3 стороны тругольника должна быть от " + difference + " до " + sum);
             cSize = input();
             if (!checkPositiveNumber(cSize) && !checkWithin(aSize,bSize,cSize)) {
-                printMessage(5);
+                System.out.println("Значение должно быть в заданных пределах и больше 0");
             }
         } while (!checkPositiveNumber(cSize) && !checkWithin(aSize,bSize,cSize));
         triangular = new Triangular(aSize,bSize,cSize);
-    }
-    private static void printMessage(int indexMessage) {
-        switch (indexMessage) {
-            case 1:
-                System.out.println("Введите длину 1 стороны треугольника");
-                break;
-            case 2:
-                System.out.println("Значение должно быть больше 0");
-                break;
-            case 3:
-                System.out.println("Введите длину 2 стороны треугольника");
-                break;
-            case 4:
-                System.out.println("Длина 3 стороны тругольника должна быть от " + difference + " до " + sum);
-                break;
-            case 5:
-                System.out.println("Значение должно быть в заданных пределах и больше 0");
-                break;
-            case 6:
-                System.out.println("Валидация треугольника пройдена");
-                break;
-            case 7:
-                System.out.println("Валидация треугольника не пройдена");
-                break;
-            case 8:
-                System.out.println("Площадь треугольника равна " + areaResult);
-                break;
-            case 9:
-                System.out.println("Для тестиирования введите test");
-                break;
-            case 10:
-                System.out.println("Тест пройден");
-                break;
-            case 11:
-                System.out.println("Тест не пройден");
-                break;
-        }
     }
     private static boolean checkPositiveNumber(double number) {
         boolean check = false;
@@ -124,8 +84,20 @@ public class AreaTriangle  {
     private static void testTiangularArea() {
         triangular = new Triangular(0,0,0);
         calculatingResult();
-        if (Double.isNaN(areaResult))printMessage(10);
-        else printMessage(11);
+        int testCount = 0;
+        if (Double.isNaN(areaResult)) testCount++;
+        triangular = new Triangular(1,2,3);
+        calculatingResult();
+        if (Double.isNaN(areaResult)) testCount++;
+        triangular = new Triangular(2,2,2);
+        calculatingResult();
+        if (triangular.findArea() == 1.7320508075688772) testCount++;
+        triangular = new Triangular(-2,-2,-2);
+        calculatingResult();
+        if (Double.isNaN(areaResult)) testCount++;
+        if (testCount == 4) System.out.println("Тест пройден");
+        else System.out.println("Тест не пройден");
+
     }
 }
 

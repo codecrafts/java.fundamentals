@@ -13,7 +13,7 @@ public  class Triangular extends Figure {
     public Triangular() {
     }
     @Override
-    boolean validationTriangular() {
+    boolean checkTriangular() {
         if (sizeA >= sizeB && sizeA - sizeB < sizeC && sizeC < sizeA + sizeB) {
             return true;
         } else {
@@ -25,10 +25,8 @@ public  class Triangular extends Figure {
     }
     @Override
     double findArea() {
-        double areaOfATriangle;
-        double triangleSemiperimeter;
-        triangleSemiperimeter = (sizeA + sizeB + sizeC) / 2;
-        areaOfATriangle = Math.sqrt(triangleSemiperimeter * (triangleSemiperimeter - sizeA) * (triangleSemiperimeter - sizeB) * (triangleSemiperimeter - sizeC));
+        double triangleSemiperimeter = (sizeA + sizeB + sizeC) / 2;
+        double areaOfATriangle = Math.sqrt(triangleSemiperimeter * (triangleSemiperimeter - sizeA) * (triangleSemiperimeter - sizeB) * (triangleSemiperimeter - sizeC));
         return areaOfATriangle;
     }
 
