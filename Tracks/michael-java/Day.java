@@ -24,7 +24,7 @@ public class Day{                                                // день в 
         for (EventI anEventsList : eventsList){
             if (anEventsList instanceof Meet){                                                          // не назначено ни одной встречи или элемент - встреча
                 Meet myMeetObject = (Meet)anEventsList;                                                 // кастим элемент списка к Meet
-                if (sdf.format(date).equals(sdf.format(myMeetObject.getMeetTime())))                   // проверка на дублирование времени встречи
+                if (sdf.format(date).equals(sdf.format(myMeetObject.getMeetTime())))                    // проверка на дублирование времени встречи
                     return true;
             }
         }
@@ -74,25 +74,13 @@ public class Day{                                                // день в 
 
     public void delEvent(EventI event) {                     // удалить событие по объекту
         if (event instanceof Meet)
-            System.out.println ("!");
+            taskCounter--;
         eventsList.remove(event);
     }
-//        for (EventI anEventsList : eventsList) {
-//            if(anEventsList.equals(event)){
-//                if(anEventsList instanceof Task) {
-//                    taskCounter--;
-//                }
-//                eventsList.remove(anEventsList);
-//            }
-//        }
-
-//        if (event instanceof Task)
-//            taskCounter--;
-//            this.eventsList.remove(event);
 
     public void delEvent(int i) {                            // удалить событие по индексу
         if (eventsList.get(i) instanceof Task)
             taskCounter--;
-        this.eventsList.remove(i);
+        eventsList.remove(i);
     }
 }
