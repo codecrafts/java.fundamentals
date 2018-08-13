@@ -1,7 +1,17 @@
 public abstract class Event {
-    boolean isDone;
+    private String name;
+    private boolean isDone;
 
+    public Event(String name) {
+        this.name = name;
+        this.isDone = false;
+    }
 
-    abstract String getName();
-    abstract String getDescription();
+    public void MarkAsDone() {
+        this.isDone = true;
+    }
+
+    public boolean CheckStatus() {
+        return isDone;
+    }
 }

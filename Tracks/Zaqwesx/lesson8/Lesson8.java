@@ -1,128 +1,153 @@
-import java.util.TreeMap;
+//Система жесткого планирования.
+//Весь день разбит на равные интервалы времени (по часу или по тридцать минут - как будет задано).
+//Таски привязываются к этим интервалам. Таски могут быть двух типов - встреча, задача. Данные таски - название, описание.
+//Задача - категория, список действий. Встреча - список присутствующих, место проведения.
+//Операции над задачами: создать, удалить, переместить, пометить как сделанное/несделанное.
+//Система должна учитывать количество сделанных задач в прошедший день.
 
 public class Lesson8 {
     public static void main(String[] args) {
+        MyCalendar myCalendar = new MyCalendar();
 
-        if (testCode())
-            System.out.println("Тесть пройден.");
+        if (testScenario1(myCalendar))
+            System.out.println("Тест 1 пройден.");
         else
-            System.out.println("Тест не пройден.");
+            System.out.println("Тест 1 не пройден.");
 
-
-    }
-
-    public static boolean testCode() {
-        TreeMap<Integer, Day> days = new TreeMap();
-        int counter = 0;
-//         1. добавь элемент в несуществующий день
-        setEvent(days, 1, "12:00", new Task("name", "category", "actions"));
-        if (days.size() == 0)
-            counter ++;
-//          2. создать день, добавить элемент
-        setDay(days,1, 1);
-        setEvent(days, 1, "12:00", new Task("name", "category", "actions"));
-        if ((days.size() == 1) && days.get(1).getTasksTotal() == 1)
-            counter ++;
-
-//          3. добавить событие туда, где уже есть событие
-        setEvent(days, 1, "12:00", new Task("name", "category", "actions"));
-        if (days.get(1).getTasksTotal() == 1)
-            counter ++;
-
-//        4. добавить день туда, где уже есть день
-        setDay(days, 1, 1);
-        if (days.get(1).getTasksTotal() == 1)
-            counter ++;
-
-        // 5. добавим еще день, добавим событие, удалим событие
-        setDay(days,2, 2);
-        setEvent(days,2,"12:00", new Meeting("name", "people, people", "actions"));
-        remEvent(days, 2,"12:00");
-        if (days.get(2).getTasksTotal() == 0)
-            counter ++;
-
-
-        // 6. переместим событие из дня 1 в день 2
-        moveEvent(days,1,2,"12:00","15:30");
-        if ((days.get(1).getTasksTotal() == 0 && days.get(2).getTasksTotal() == 1))
-            counter ++;
-
-        // 7. переместим событие в день, которого нет
-        moveEvent(days,2,3,"15:00","15:00");
-        if (days.get(2).getTasksTotal() == 1)
-            counter ++;
-
-        // 8. пометим задачу как сделанную
-        setDone(days, 2, "15:30");
-        if (days.get(2).getTasksDone() == 1)
-            counter ++;
-
-        // 9. создадим день по с часовыми интервалами и присвоим получасовое событие
-        setDay(days,3,1);
-        setEvent(days,3,"12:30", new Meeting("name", "people, people", "actions"));
-        if (days.get(3).getTasksTotal() == 0)
-            counter ++;
-
-        // 10. проверим, что в событие попадает верная информация
-        setEvent(days,2,"12:30", new Meeting("name", "people, people", "actions"));
-        if (days.get(2).events.get("12:30").getName() == "name")
-            counter ++;
-
-
-        if (counter == 10)
-            return true;
+        if (testScenario2(myCalendar))
+            System.out.println("Тест 2 пройден.");
         else
-            return false;
+            System.out.println("Тест 2 не пройден.");
+
+        if (testScenario3(myCalendar))
+            System.out.println("Тест 3 пройден.");
+        else
+            System.out.println("Тест 3 не пройден.");
+
+        if (testScenario4(myCalendar))
+            System.out.println("Тест 4 пройден.");
+        else
+            System.out.println("Тест 4 не пройден.");
+
+        if (testScenario5(myCalendar))
+            System.out.println("Тест 5 пройден.");
+        else
+            System.out.println("Тест 5 не пройден.");
+
+        if (testScenario6(myCalendar))
+            System.out.println("Тест 6 пройден.");
+        else
+            System.out.println("Тест 6 не пройден.");
+
+        if (testScenario7(myCalendar))
+            System.out.println("Тест 7 пройден.");
+        else
+            System.out.println("Тест 7 не пройден.");
 
     }
 
-    public static void setDay(TreeMap<Integer, Day> days, Integer date, Integer sheduleType) {
-        if (!days.containsKey(date))
-            days.put(date, new Day(date, sheduleType));
+    public static boolean testScenario1(MyCalendar myCalendar) {
+        // добавим событие, пометим его как выполненное, проверим список выполненных событий
+        boolean check = false;
+        myCalendar.CreateDay(1,1);
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        myCalendar.CreateEvent(1,"12:00", newTask);
+        myCalendar.MarkAsDoneEvent(1,"12:00");
+        if (myCalendar.CountCompletedEvents(1) == 1)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-    public static void setEvent(TreeMap<Integer, Day> days, Integer date, String time, Event event) {
-        if (days.containsKey(date) && !days.get(date).events.containsKey(time) && timeCheck(time) != 0)
-            if (!(days.get(date).getSheduleType() == 1 && timeCheck(time) == 2))
-                days.get(date).events.put(time, event);
-
+    public static boolean testScenario2(MyCalendar myCalendar) {
+        // проверим, что нельзя создать один и тот же день дважды
+        boolean check = false;
+        myCalendar.CreateDay(4,1);
+        myCalendar.CreateDay(4,2);
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        myCalendar.CreateEvent(4,"12:30", newTask);
+        myCalendar.MarkAsDoneEvent(4,"12:30");
+        if (myCalendar.CountCompletedEvents(4) == 0)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-    public static void remEvent(TreeMap<Integer, Day> days, Integer date, String time) {
-        if (days.containsKey(date) && days.get(date).events.containsKey(time))
-            days.get(date).events.remove(time);
+    public static boolean testScenario3(MyCalendar myCalendar) {
+        // добавим событие, пометим его как выполненное, удалим событие, проверим список выполненных событий
+        boolean check = false;
+        myCalendar.CreateDay(2,2);
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        myCalendar.CreateEvent(2,"12:00", newTask);
+        myCalendar.MarkAsDoneEvent(2,"12:00");
+        myCalendar.DeleteEvent(2,"12:00");
+        if (myCalendar.CountCompletedEvents(2) == 0)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-    public static void moveEvent(TreeMap<Integer, Day> days, Integer date1, Integer date2, String time1, String time2){
-        if (days.containsKey(date1) && days.get(date1).events.containsKey(time1)) {
-            setEvent(days, date2, time2, days.get(date1).events.get(time1));
-            remEvent(days, date1, time1);
-        }
+    public static boolean testScenario4(MyCalendar myCalendar) {
+        // переместим событие с 1го дня на 2ой, проверим список выполненных событий за оба дня
+        boolean check = false;
+        myCalendar.CreateDay(1,1);
+        myCalendar.CreateDay(2,2);
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        myCalendar.CreateEvent(1,"12:00", newTask);
+        myCalendar.MarkAsDoneEvent(1,"12:00");
+        myCalendar.MoveEvent(1,2,"12:00","16:30");
+        if (myCalendar.CountCompletedEvents(1) == 0 && myCalendar.CountCompletedEvents(2) == 1)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-    public static void setDone(TreeMap<Integer, Day> days, Integer date, String time) {
-        if (days.containsKey(date) && days.get(date).events.containsKey(time))
-            days.get(date).events.get(time).isDone = true;
-
+    public static boolean testScenario5(MyCalendar myCalendar) {
+        // добавим событие, пометим как выполненное, добавим событие на это же время
+        boolean check = false;
+        myCalendar.CreateDay(1,1);
+        Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
+        myCalendar.CreateEvent(1, "12:00", newMeeting);
+        myCalendar.MarkAsDoneEvent(1,"12:00");
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        myCalendar.CreateEvent(1,"12:00", newTask);
+        if (myCalendar.CountCompletedEvents(1) == 1)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-    public static int timeCheck(String time) {
-        String[] timeparts = time.split(":");
-        int hours = Integer.parseInt(timeparts[0]);
-        if (hours >= 0 && hours <= 24) {
-            if (timeparts[1].equals("00"))
-                return 1;
-            else if (timeparts[1].equals("30"))
-                return 2;
-            else
-                return 0;
-        }else
-            return 0;
+    public static boolean testScenario6(MyCalendar myCalendar) {
+        // добавим событие в получасовой интервал дня с получасовыми интервалами, попробуем перенести на день с часовыми
+        boolean check = false;
+        myCalendar.CreateDay(2,2);
+        myCalendar.CreateDay(3,1);
+        Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
+        myCalendar.CreateEvent(2, "15:30", newMeeting);
+        myCalendar.MarkAsDoneEvent(2,"15:30");
+        myCalendar.MoveEvent(2,3,"15:30","12:30");
+        if (myCalendar.CountCompletedEvents(2) == 1 && myCalendar.CountCompletedEvents(3) == 0)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
     }
 
-
-
-
+    public static boolean testScenario7(MyCalendar myCalendar) {
+        // попробуем добавить события на неправильное время
+        boolean check = false;
+        myCalendar.CreateDay(5,1);
+        Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
+        myCalendar.CreateEvent(5, "52:00", newMeeting);
+        myCalendar.MarkAsDoneEvent(5,"52:00");
+        myCalendar.CreateEvent(5, "12:30", newMeeting);
+        myCalendar.MarkAsDoneEvent(5,"12:30");
+        myCalendar.CreateEvent(5, "-1:00", newMeeting);
+        myCalendar.MarkAsDoneEvent(5,"-1:00");
+        if (myCalendar.CountCompletedEvents(5) == 0)
+            check = true;
+        myCalendar.ResetCalendar();
+        return check;
+    }
 }
 
 
