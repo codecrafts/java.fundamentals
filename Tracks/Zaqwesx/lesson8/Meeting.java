@@ -1,6 +1,6 @@
 public class Meeting extends Event {
-    String people;
-    String place;
+    private String people;
+    private String place;
 
     public Meeting(String name, String people, String place) {
         super(name);
