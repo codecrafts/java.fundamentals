@@ -12,10 +12,9 @@ public class Meet extends Event {                                       // со�
     private String place;                                               // место встречи
     private ArrayList<String> membersList;                              // список участников встречи
 
-
     // конструктор
     public Meet(String description, Date meetTime, String place) {
-        super(meet, description);
+        super(EventType.MEET, description);
         this.meetTime = meetTime;
         this.place = place;
         membersList = new ArrayList<> ();

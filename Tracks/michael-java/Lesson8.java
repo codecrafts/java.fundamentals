@@ -15,20 +15,15 @@ import java.util.Scanner;
 
 public class Lesson8 {
     private static final int AMOUNT_TEST = 6;
-    public static final int TASK = 0;
-    public static final int MEET = 1;
-    public static String[] EVENT_NAME = {"ЗАДАЧА", "ВСТРЕЧА"};
-
-
 
     public static void main(String[] args) {
         Schedule schedule = new Schedule();
 
-        EventI eventT = schedule.createEvent(inputDate(), TASK);
+        EventI eventT = schedule.createEvent(inputDate(), Event.EventType.TASK);
         eventT.setEventPerform(true);
         eventT.setEventDuration(120);
 
-        EventI eventM = schedule.createEvent(inputDate(), MEET);
+        EventI eventM = schedule.createEvent(inputDate(), Event.EventType.MEET);
         eventM.setEventPerform(true);
         eventM.setEventDuration(60);
         eventM.getEventPreform();
@@ -63,7 +58,7 @@ public class Lesson8 {
         return day.getTime();
     }
 
-    public static void createList(Event event) {                        // метод ввода списка
+    public static void createList(EventI event) {                        // метод ввода списка
         String something;
         do {
             something = inputText(event.getMessage());

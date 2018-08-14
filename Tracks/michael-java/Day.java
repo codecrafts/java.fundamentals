@@ -2,12 +2,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Day {                                                // день в расписании
+public class Day {                                              // день в расписании
     
-    private Date dateOfDay;                                      // дата дня
-    private ArrayList<EventI> eventsList;    // список событий для task и meet
-    static final int MAX_DAY_TASKS = 3;                  // max количество задач на день
-    private int taskCounter;                                     // счетчик задач в дне
+    private Date dateOfDay;                                     // дата дня
+    private ArrayList<EventI> eventsList;                       // список событий для событий
+    static final int MAX_DAY_TASKS = 3;                         // max количество задач на день
+    private int taskCounter;                                    // счетчик задач в дне
 
     // конструктор
     public Day(Date date) {
@@ -15,7 +15,6 @@ public class Day {                                                // день в
         this.taskCounter = 0;
         eventsList = new ArrayList<>();
     }
-
 
     public void addNewEvent(EventI event) {
         eventsList.add(event);

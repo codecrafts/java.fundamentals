@@ -11,7 +11,7 @@ public class Task extends Event {                                   // собы�
 
     // конструктор
     public Task(String description, String category) {
-        super(task, description);
+        super(EventType.TASK, description);
         this.category = category;
         listToDo = new ArrayList<>();
     }

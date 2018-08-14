@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-
 public interface EventI {
-
-    String meet = "Встреча";
-    String task = "Задача";
 
     boolean getEventPreform();
 
@@ -13,4 +8,7 @@ public interface EventI {
 
     void setEventDuration(int duration);
 
+    String getMessage();
+
+    void createArrList(String string);
 }

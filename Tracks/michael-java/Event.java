@@ -4,14 +4,18 @@
 
 public abstract class Event implements EventI {
 
-    private String name;                               // название события
+    private EventType type;                               // название события
     private String description;                        // описание события
     private int duration;                              // продолжительность события
     private boolean isPerform;                         // статус выполнения
+    enum EventType{
+        TASK,
+        MEET
+    }
 
     // конструктор
-    public Event(String name, String description) {
-        this.name = name;
+    public Event(Event.EventType type, String description) {
+        this.type = type;
         this.description = description;
         this.duration = 0;
         this.isPerform = false;
