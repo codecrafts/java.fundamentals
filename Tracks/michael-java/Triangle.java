@@ -1,6 +1,6 @@
 package lesson_7;
 
-public class Triangle extends Square  {
+public class Triangle {
     private Point a;
     private Point b;
     private Point c;
@@ -44,21 +44,8 @@ public class Triangle extends Square  {
         }
     }
 
-    // геттеры
-    public Point getA() {
-        return a;
-    }
-
-    public Point getB() {
-        return b;
-    }
-
-    public Point getC() {
-        return c;
-    }
-
     // площадь
-    public float getSquare() {
+    public float getTriangleArea() {
         float x1 = a.getX();
         float y1 = a.getY();
         float x2 = b.getX();
@@ -70,5 +57,17 @@ public class Triangle extends Square  {
         if (square == 0)
             square = Float.NaN;
         return square;
+    }
+
+    // проверка точек
+    public boolean isValid() {
+        float x1 = a.getX();
+        float y1 = a.getY();
+        float x2 = b.getX();
+        float y2 = b.getY();
+        float x3 = c.getX();
+        float y3 = c.getY();
+
+        return !((x1 == x2 && y1 == y2) || (x1 == x3 && y1 == y3) || (x2 == x3 && y2 == y3));
     }
 }

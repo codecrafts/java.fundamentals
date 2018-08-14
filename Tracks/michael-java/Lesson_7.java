@@ -7,17 +7,18 @@ package lesson_7;
     Введенные точки могут не образовывать нужную фигуру, площадь в этом случае NaN.
      */
 
+import java.util.Scanner;
+
 public class Lesson_7 {
     static final int AMOUNT_TEST = 4;
 
     public static void main(String[] args) {
 
-        Triangle trigon = BuilderTriangle.createTriangle();
-
-        if (Checker.dotInLine (trigon))
-            System.out.println ("Треугольник не треугольный!");
-        else
-            System.out.println ("Площадь треугольника = " + trigon.getSquare());
+        Point a = inputPointCoordinate();
+        Point b = inputPointCoordinate();
+        Point c = inputPointCoordinate();
+        Triangle trigon = new Triangle(a, b, c);
+        System.out.println ("Площадь треугольника = " + trigon.getTriangleArea());
 
         System.out.println (tryTests() ? "тест пройден" : "тест не пройден");       // тесты
     }
@@ -38,11 +39,22 @@ public class Lesson_7 {
                 .setC(2, 0)
                 .build();
 
-        if (Checker.dotInLine (testTrigon)) testComplete++;                 // проверка лежат ли три точки на одной прямой
-        if (!Checker.dotInLine (testTrigon2)) testComplete++;
-        if (testTrigon2.getSquare() != 0) testComplete++;                   // проверка площади
-        if (Float.isNaN(testTrigon.getSquare())) testComplete++;
+        if (testTrigon.isValid ()) testComplete++;                                  // проверка лежат ли три точки на одной прямой
+        if (testTrigon2.isValid ()) testComplete++;
+        if (testTrigon2.getTriangleArea() != 0) testComplete++;                     // проверка площади
+        if (Float.isNaN(testTrigon.getTriangleArea())) testComplete++;
 
-        return testComplete == AMOUNT_TEST;                                 // возвращаем истину, если прошли все тесты успешно
+        return testComplete == AMOUNT_TEST;                                         // возвращаем истину, если прошли все тесты успешно
     }
+
+    public static Point inputPointCoordinate(){
+        Scanner take = new Scanner (System.in);
+        System.out.println("Введите 1ю коодинату точки:");
+        int x = take.nextInt ();
+        System.out.println("Введите 2ю коодинату точки:");
+        int y = take.nextInt ();
+        return new Point( x, y );
+    }
+
 }
+
