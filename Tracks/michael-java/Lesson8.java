@@ -15,75 +15,45 @@ import java.util.Scanner;
 
 public class Lesson8 {
     private static final int AMOUNT_TEST = 6;
+    public static final int TASK = 0;
+    public static final int MEET = 1;
+    public static String[] EVENT_NAME = {"ЗАДАЧА", "ВСТРЕЧА"};
+
+
 
     public static void main(String[] args) {
-        Shedule shedule = new Shedule();
+        Schedule schedule = new Schedule();
 
-        EventI eventT = createTask(shedule);
-        eventT.printAllInfo();
-        eventT.setPerform(true);
-        eventT.setDuration(120);
-        eventT.printAllInfo();
+        EventI eventT = schedule.createEvent(inputDate(), TASK);
+        eventT.setEventPerform(true);
+        eventT.setEventDuration(120);
 
-        EventI eventM = createMeet(shedule);
-        eventM.printAllInfo();
-        eventM.setPerform(true);
-        eventM.setDuration(60);
-        eventM.printAllInfo();
-        eventM.getIsPerform();
-        System.out.println ("За день потрачено часов на все события: " + (eventT.getDuration() + eventM.getDuration ())/60);
-        printShedule (shedule);
+        EventI eventM = schedule.createEvent(inputDate(), MEET);
+        eventM.setEventPerform(true);
+        eventM.setEventDuration(60);
+        eventM.getEventPreform();
 
         System.out.println (tryTests() ? "тест пройден" : "тест не пройден");
     }
 
-    // TODO объединить два метода в один
-    private static Task createTask(Shedule shedule) {            // новое событие ЗАДАЧА
-        System.out.println ("Создаем новое событие - ЗАДАЧА");
-        Date date = inputDate();                                 // ввод даты события
-        Day day = shedule.getDay(date);                          // получили день в расписании
-        if (!day.checkTaskNotMore3()) {                          // проверка на количество задач в дне
-            System.out.println ("Ошибка. На выбранный день превышено количество задач");
-            return null;
-        } else {
-            Task task = new Task(inputText("Введите описание события"), inputText("Введите категорию задачи"));
-            createList(task);                                    // заполняем список действий задачи
-            day.addNewEvent(task);                               // добавили событие в спиок событий дня
-            return task;
-        }
-    }
-
-    private static Meet createMeet(Shedule shedule) {            // новое событие ВСТРЕЧА
-        System.out.println ("Создаем событие - ВСТРЕЧА");
-        Date date = inputDate();                                 // ввод даты события
-        Day day = shedule.getDay(date);                          // получили день в расписании
-        if (day.checkMeetTimeOverlap(date)) {                    // проверка на дублирование времени встречи
-            System.out.println ("Ошибка выбора времени встречи. Cовпадение по времени встреч");
-            return null;
-        } else {
-            Meet meet = new Meet(inputText("Введите описание события"), date, inputText("Введите место встречи"));
-            createList(meet);                                    // заполняем список участников встречи
-            day.addNewEvent(meet);
-            return meet;
-        }
-    }
-
-    private static  String inputText(String text){                // получаем строку ввода с консоли
+    public static  String inputText(String text) {                // получаем строку ввода с консоли
         System.out.println (text);
         Scanner in = new Scanner (System.in);
         return in.nextLine();
     }
 
-    private static Date inputDate() {                                    // метод воода даты
+    public static Date inputDate() {                             // получаем дату с консоли
         Scanner in = new Scanner (System.in);
         int[] meetDate = new int[5];                             // масив для хранения даты, размерность - 5 (год, месяц, день, час, минуты)
         String[] timePart = {"год", "месяц", "день", "час", "минуты"};
-        GregorianCalendar day = new GregorianCalendar ();
+        GregorianCalendar day = new GregorianCalendar();
         System.out.println ("Введите дату и время события");
+
         for (int i = 0; i < meetDate.length; i++) {
             System.out.println ("введите " + timePart[i]);
-            meetDate[i] = in.nextInt ();
+            meetDate[i] = in.nextInt();
         }
+        // TODO инициализацию в цикл
         day.set(Calendar.YEAR, meetDate[0]);
         day.set(Calendar.MONTH, meetDate[1]);
         day.set(Calendar.DATE, meetDate[2]);
@@ -93,31 +63,22 @@ public class Lesson8 {
         return day.getTime();
     }
 
-        private static void createList(Event event) {                      // метод ввода списка
-        String member;
+    public static void createList(Event event) {                        // метод ввода списка
+        String something;
         do {
-            member = inputText(event.getMessage());
-            if (member.equals("0"))
+            something = inputText(event.getMessage());
+            if (something.equals("0"))
                 break;
-            event.createArrList(member);
+            event.createArrList(something);
         } while (true);
     }
 
-    private static void printShedule(Shedule shedule){                      // печать расписания по дням
-        for (Day anDaysList : shedule.getDaysList()){
-            System.out.println ("День " + anDaysList.getDateOfDay());
-            for (EventI anEventsList : anDaysList.getEventsList()){
-                anEventsList.printAllInfo ();
-            }
-        }
-    }
-
-    static boolean tryTests() {
+    public static boolean tryTests() {
         int testComplete = 0;
 
-        Shedule shedule = new Shedule();
+        Schedule schedule = new Schedule();
         Date today = new Date();
-        Day day = shedule.getDay(today);
+        Day day = schedule.getDay(today);
 
         // проверка на количество задач не более трех в день
         Task task1 = new Task("задача 1", "Важное");
@@ -128,35 +89,35 @@ public class Lesson8 {
         day.addNewEvent(task2);
         day.addNewEvent(task3);
         day.addNewEvent(task4);
-        if (!day.checkTaskNotMore3()) testComplete++;
+        if (day.getTaskCounter() == 4) testComplete++;
 
         // проверка на дублирование времени встречи
-        Meet meet1 = new Meet("Введите описание события", today, "место встречи");
-        Meet meet2 = new Meet("Введите описание события", today, "место встречи");
+        Meet meet1 = new Meet("Описание события1", today, "место встречи1");
+        Meet meet2 = new Meet("Описание события2", today, "место встречи2");
         day.addNewEvent(meet1);
         day.addNewEvent(meet2);
         if (day.checkMeetTimeOverlap(today)) testComplete++;
 
         // провека изменения статуса
-        task1.setPerform(true);
-        meet1.setPerform(true);
-        if (task1.getIsPerform() && meet1.getIsPerform()) testComplete++;
+        task1.setEventPerform(true);
+        meet1.setEventPerform(true);
+        if (task1.getEventPreform() && meet1.getEventPreform()) testComplete++;
 
         // списать потраченное время на задачу
-        task2.setDuration(60);
-        meet2.setDuration(120);
-        if ((task2.getDuration() + meet2.getDuration()) == 180) testComplete++;
+        task2.setEventDuration(60);
+        meet2.setEventDuration(120);
+        if ((task2.getEventDuration() + meet2.getEventDuration()) == 180) testComplete++;
 
         // учет потраченных часов на задачи и встречи, а также сделанные задачи
-        task1.setDuration(30);
-        meet1.setDuration(40);
-        task2.setPerform(true);
-        meet2.setPerform(true);
-        if (day.getSolveTask() == 4 && day.getDuration() == 250) testComplete++;
+        task1.setEventDuration(30);
+        meet1.setEventDuration(40);
+        task2.setEventPerform(true);
+        meet2.setEventPerform(true);
+        if (day.getDaySolveEvents () == 4 && day.getDayEventsDuration() == 250) testComplete++;
 
         // удалить
         day.delEvent(task1);
-        if (day.getDuration() == 220) testComplete++;
+        if (day.getDayEventsDuration() == 220) testComplete++;
 
         return testComplete == AMOUNT_TEST;
     }

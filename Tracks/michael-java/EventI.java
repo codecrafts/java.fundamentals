@@ -1,22 +1,13 @@
 import java.util.ArrayList;
 
 public interface EventI {
-    String meet = "Встреча";
-    String task = "Задача";
 
-    void printAllInfo();                             // общий метод для печати полной инфы о событии
+    boolean getEventPreform();
 
-    void printList();                                // общий метод для печати списков
+    void setEventPerform(boolean perform);
 
-    boolean getIsPerform();
+    int getEventDuration();
 
-    void setPerform(boolean perform);
+    void setEventDuration(int duration);
 
-    int getDuration();
-
-    void setDuration(int duration);
-
-    String getDescription();
-
-    void  createArrList(String string);
 }

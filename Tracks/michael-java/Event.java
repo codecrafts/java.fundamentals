@@ -2,68 +2,48 @@
  - название,
  - описание */
 
-import java.util.ArrayList;
+public abstract class Event implements EventI {
 
-public class Event implements EventI{
-
-    private String name;                              // название события
-    private String description;                       // описание события
-    private int duration = 0;                         // продолжительность события
-    private boolean isPerform = false;                // статус выполнения
+    private String name;                               // название события
+    private String description;                        // описание события
+    private int duration;                              // продолжительность события
+    private boolean isPerform;                         // статус выполнения
 
     // конструктор
-    public Event(String name, String description){
+    public Event(String name, String description) {
         this.name = name;
         this.description = description;
+        this.duration = 0;
+        this.isPerform = false;
     }
 
     // геттеры
-    public String getMessage(){
-        return "";
-    }
+    public abstract String getMessage();
 
-    @Override
-    public String getDescription() {
+    public String getEventDescription() {
         return this.description;
     }
 
-    @Override
-    public void createArrList(String string){           // метод переопределен в дочерних
-    }
+    public abstract void createArrList(String string);
 
     @Override
-    public int getDuration() {
+    public int getEventDuration() {
         return duration;
     }
 
     @Override
-    public boolean getIsPerform() {
+    public boolean getEventPreform() {
         return isPerform;
     }
 
     // сеттеры
     @Override
-    public void setDuration(int duration) {             // задать количество потраченных часов на событие в МИНУТАХ
+    public void setEventDuration(int duration) {
         this.duration = duration;
     }
 
     @Override
-    public void setPerform(boolean perform) {           // задать статус события: сделано/не сделано
+    public void setEventPerform(boolean perform) {           // задать статус события: сделано/не сделано
         isPerform = perform;
     }
-
-    @Override
-    public void printAllInfo() {
-        System.out.println("Событие: " + name);
-        System.out.println("Описание: " + getDescription());
-        System.out.println ("Продолжительность: " + getDuration());
-        System.out.print ("Статус выполнения: ");
-        System.out.println (getIsPerform() ? "Событие выполнено" : "Событие не выполнено");
-    }
-
-    @Override
-    public void printList(){
-        System.out.println("Список");
-    }
-
 }
