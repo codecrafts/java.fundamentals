@@ -16,7 +16,7 @@ public class Task extends Event {                                   // собы�
         this.listToDo = new ArrayList<>();
     }
 
-    public void createArrList(String toDo) {             // заполняем список действий для задачи
+    public void addArrList(String toDo) {             // дополняем список действий для задачи
         listToDo.add(toDo);
     }
 

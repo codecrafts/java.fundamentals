@@ -20,7 +20,7 @@ public class Meet extends Event {                                       // со�
         this.membersList = new ArrayList<> ();
     }
 
-    public void createArrList(String members) {         // заполняем список участников встречи
+    public void addArrList(String members) {         // заполняем список участников встречи
         membersList.add(members);
     }
 
