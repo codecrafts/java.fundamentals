@@ -1,6 +1,6 @@
 package lesson_7;
 
-public class Triangle {
+public class Triangle implements Figure {
     private Point a;
     private Point b;
     private Point c;
@@ -45,14 +45,13 @@ public class Triangle {
     }
 
     // площадь
-    public float getTriangleArea() {
+    public float getArea() {
         float x1 = a.getX();
         float y1 = a.getY();
         float x2 = b.getX();
         float y2 = b.getY();
         float x3 = c.getX();
         float y3 = c.getY();
-
         float square = Math.abs (((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3)) / 2);
         if (square == 0)
             square = Float.NaN;
@@ -67,7 +66,6 @@ public class Triangle {
         float y2 = b.getY();
         float x3 = c.getX();
         float y3 = c.getY();
-
-        return !((x1 == x2 && y1 == y2) || (x1 == x3 && y1 == y3) || (x2 == x3 && y2 == y3));
+        return !((x3 - x1) * (y2 - y1) == (y3 - y1) * (x2 - x1) || (x1 == x2 && y1 == y2) || (x1 == x3 && y1 == y3) || (x2 == x3 && y2 == y3));
     }
 }

@@ -10,51 +10,59 @@ package lesson_7;
 import java.util.Scanner;
 
 public class Lesson_7 {
-    static final int AMOUNT_TEST = 4;
+    static final int AMOUNT_TEST = 5;
 
     public static void main(String[] args) {
 
-        Point a = inputPointCoordinate();
-        Point b = inputPointCoordinate();
-        Point c = inputPointCoordinate();
-        Triangle trigon = new Triangle(a, b, c);
-        System.out.println ("Площадь треугольника = " + trigon.getTriangleArea());
+        Point a = inputPointCoordinate("A");
+        Point b = inputPointCoordinate("B");
+        Point c = inputPointCoordinate("C");
+        Figure trigon = new Triangle(a, b, c);
+
+        if(!trigon.isValid ())
+            System.out.println ("Введенные кординаты не образуют треугольник");
+        System.out.println ("Площадь треугольника = " + trigon.getArea());
 
         System.out.println (tryTests() ? "тест пройден" : "тест не пройден");       // тесты
     }
 
-
     static boolean tryTests(){      // тесты
         int testComplete = 0;       // переменная хранит состояние прохождения теста
 
-        Triangle testTrigon = Triangle.newBuilder()
+        Figure testTrigon = Triangle.newBuilder()         // координаты лежат на одной прямой
                 .setA(0, 0)
                 .setB(2, 2)
                 .setC(1, 1)
                 .build();
 
-        Triangle testTrigon2 = Triangle.newBuilder()
+        Figure testTrigon1 = Triangle.newBuilder()        // координаты двух точек идентичны
+                .setA(0, 0)
+                .setB(2, 2)
+                .setC(2, 2)
+                .build();
+
+        Figure testTrigon2 = Triangle.newBuilder()        // координаты образуют треугольник
                 .setA(0, 0)
                 .setB(0, 2)
                 .setC(2, 0)
                 .build();
 
-        if (testTrigon.isValid ()) testComplete++;                                  // проверка лежат ли три точки на одной прямой
+        if (!testTrigon.isValid ()) testComplete++;                                  // проверка лежат ли три точки на одной прямой
+        if (!testTrigon1.isValid ()) testComplete++;                                 // проверка введенных координат
         if (testTrigon2.isValid ()) testComplete++;
-        if (testTrigon2.getTriangleArea() != 0) testComplete++;                     // проверка площади
-        if (Float.isNaN(testTrigon.getTriangleArea())) testComplete++;
+        if (testTrigon2.getArea() != 0) testComplete++;                      // проверка площади
+        if (Float.isNaN(testTrigon.getArea())) testComplete++;
 
-        return testComplete == AMOUNT_TEST;                                         // возвращаем истину, если прошли все тесты успешно
+        return testComplete == AMOUNT_TEST;                                          // возвращаем истину, если прошли все тесты успешно
     }
 
-    public static Point inputPointCoordinate(){
+    public static Point inputPointCoordinate(String point){
         Scanner take = new Scanner (System.in);
-        System.out.println("Введите 1ю коодинату точки:");
+        System.out.println("Введите 1ю коодинату для точки " +  point);
         int x = take.nextInt ();
-        System.out.println("Введите 2ю коодинату точки:");
+        System.out.println("Введите 2ю коодинату для точки ");
         int y = take.nextInt ();
         return new Point( x, y );
     }
-
 }
 
