@@ -3,49 +3,33 @@
 - время,
 - место проведения. */
 
+import java.time.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Meet extends Event {                                       // событие - встреча
 
-    private Date meetTime;                                              // время встречи
-    private String place;                                               // место встречи
-    private ArrayList<String> membersList;                              // список участников встречи
+    private final LocalDateTime _meetTime;                                     // время встречи
+    private final String _place;                                               // место встречи
+    private ArrayList<String> _membersList;                              // список участников встречи
 
     // конструктор
-    public Meet(String description, Date meetTime, String place) {
+    public Meet( LocalDateTime meetTime, String description, String place) {
         super(EventType.MEET, description);
-        this.meetTime = meetTime;
-        this.place = place;
-        this.membersList = new ArrayList<> ();
+        _meetTime = meetTime;
+        _place = place;
+        _membersList = new ArrayList<> ();
     }
 
-    public void addArrList(String members) {         // заполняем список участников встречи
-        membersList.add(members);
+    public void addToArrList(String members) {         // заполняем список участников встречи
+        _membersList.add(members);
     }
 
     // геттеры
-    public Date getMeetTime() {
-        return meetTime;
+    public LocalDateTime getMeetTime() {
+        return _meetTime;
     }
 
     public String getPlace() {
-        return place;
-    }
-
-    public String getMessage() {
-        return "Введите участника встречи. Введите 0-ноль для выхода.";
-    }
-
-    public void setMeetTime(Date meetTime) {
-        this.meetTime = meetTime;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public void setMembersList(ArrayList<String> membersList) {
-        this.membersList = membersList;
+        return _place;
     }
 }

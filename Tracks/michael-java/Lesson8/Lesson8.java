@@ -8,112 +8,46 @@
     Операции над задачами: создать, удалить, списать потраченное время на задачу, пометить как сделанное/несделанное.
     Система должна учитывать количество потраченных часов на задачи и встречи, а также сделанные задачи. */
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
-import java.util.Scanner;
+import java.time.*;
 
 public class Lesson8 {
-    private static final int AMOUNT_TEST = 6;
 
     public static void main(String[] args) {
-        Schedule schedule = new Schedule();
 
-        EventI eventT = schedule.createEvent(inputDate(), EventType.TASK);
-        eventT.setEventPerform(true);
-        eventT.setEventMinuteDuration(120);
-
-        EventI eventM = schedule.createEvent(inputDate(), EventType.MEET);
-        eventM.setEventPerform(true);
-        eventM.setEventMinuteDuration(60);
-        eventM.getEventPreform();
-
-        System.out.println (tryTests() ? "тест пройден" : "тест не пройден");
-    }
-
-    public static  String inputText(String text) {                // получаем строку ввода с консоли
-        System.out.println (text);
-        Scanner in = new Scanner (System.in);
-        return in.nextLine();
-    }
-
-    public static Date inputDate() {                             // получаем дату с консоли
-        Scanner in = new Scanner (System.in);
-        int[] meetDate = new int[5];                             // масив для хранения даты, размерность - 5 (год, месяц, день, час, минуты)
-        String[] timePart = {"год", "месяц", "день", "час", "минуты"};
-        GregorianCalendar day = new GregorianCalendar();
-        System.out.println ("Введите дату и время события");
-
-        for (int i = 0; i < meetDate.length; i++) {
-            System.out.println ("введите " + timePart[i]);
-            meetDate[i] = in.nextInt();
-        }
-        // TODO инициализацию в цикл
-        day.set(Calendar.YEAR, meetDate[0]);
-        day.set(Calendar.MONTH, meetDate[1]);
-        day.set(Calendar.DATE, meetDate[2]);
-        day.set(Calendar.HOUR, meetDate[3]);
-        day.set(Calendar.MINUTE, meetDate[4]);
-        System.out.println(day.getTime());
-        return day.getTime();
-    }
-
-    public static void createList(EventI event) {                        // метод ввода списка
-        String something;
-        do {
-            something = inputText(event.getMessage());
-            if (something.equals("0"))
-                break;
-            event.createArrList(something);
-        } while (true);
-    }
-
-    public static boolean tryTests() {
-        int testComplete = 0;
+        LocalDateTime today = LocalDateTime.now();
 
         Schedule schedule = new Schedule();
-        Date today = new Date();
-        Day day = schedule.getDay(today);
 
         // проверка на количество задач не более трех в день
-        Task task1 = new Task("задача 1", "Важное");
-        Task task2 = new Task("задача 2", "Очень важное");
-        Task task3 = new Task("задача 3", "Не важное");
-        Task task4 = new Task("задача 4", "!!!");
-        day.addNewEvent(task1);
-        day.addNewEvent(task2);
-        day.addNewEvent(task3);
-        day.addNewEvent(task4);
-        if (day.getTaskCounter() == 4) testComplete++;
+        EventI task1 = schedule.addNewEvent(EventType.TASK, today,"задача 1","Очень важное");
+        task1.addToArrList ( "действие 1" );
+        task1.addToArrList ( "действие 2" );
+        EventI task2 = schedule.addNewEvent(EventType.TASK, today,"задача 2","Важное");
+        EventI task3 = schedule.addNewEvent(EventType.TASK, today,"задача 3","Не важное");
+        EventI task4 = schedule.addNewEvent(EventType.TASK, today,"задача 4","!!!");
+        System.out.println (task4 == null ? "тест пройден" : "тест не пройден");
 
         // проверка на дублирование времени встречи
-        Meet meet1 = new Meet("Описание события1", today, "место встречи1");
-        Meet meet2 = new Meet("Описание события2", today, "место встречи2");
-        day.addNewEvent(meet1);
-        day.addNewEvent(meet2);
-        if (day.checkMeetTimeOverlap(today)) testComplete++;
+        EventI meet1 = schedule.addNewEvent(EventType.MEET, today,"Встреча 1","место встречи 1");
+        EventI meet2 = schedule.addNewEvent(EventType.MEET, today,"Встреча 2","место встречи 2");
+        meet1.addToArrList ( "Иван Иванович" );
+        meet1.addToArrList ( "Петр Петрович" );
+        System.out.println (meet2 == null ? "тест пройден" : "тест не пройден");
 
-        // провека изменения статуса
-        task1.setEventPerform(true);
+        // провека изменения статуса, а также сделанные задачи
+        task3.setEventPerform(true);
         meet1.setEventPerform(true);
-        if (task1.getEventPreform() && meet1.getEventPreform()) testComplete++;
+        System.out.println (task3.getEventPreform() && meet1.getEventPreform() ? "тест пройден" : "тест не пройден");
+        System.out.println (schedule.getDay(today).amtSolveEvents () == 2 ? "тест пройден" : "тест не пройден");
 
-        // списать потраченное время на задачу
+
+        // списать потраченное время на задачу, учет потраченных часов на задачи и встречи,
         task2.setEventMinuteDuration(60);
-        meet2.setEventMinuteDuration(120);
-        if ((task2.getEventMinuteDuration() + meet2.getEventMinuteDuration()) == 180) testComplete++;
-
-        // учет потраченных часов на задачи и встречи, а также сделанные задачи
-        task1.setEventMinuteDuration(30);
-        meet1.setEventMinuteDuration(40);
-        task2.setEventPerform(true);
-        meet2.setEventPerform(true);
-        if (day.numberSolveEvents () == 4 && day.getDayEventsMinuteDuration () == 250) testComplete++;
+        meet1.setEventMinuteDuration(120);
+        System.out.println ((task2.getEventMinuteDuration() + meet1.getEventMinuteDuration()) == 180 ? "тест пройден" : "тест не пройден");
+        System.out.println (schedule.getDay(today).getDayEventsMinuteDuration() == 180 ? "тест пройден" : "тест не пройден");
 
         // удалить
-        day.delEvent(task1);
-        if (day.getDayEventsMinuteDuration () == 220) testComplete++;
-
-        return testComplete == AMOUNT_TEST;
+        System.out.println (schedule.getDay(today).delEvent(task1) ? "тест пройден" : "тест не пройден");
     }
 }

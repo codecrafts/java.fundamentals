@@ -10,7 +10,6 @@ public interface EventI {
 
     void setEventMinuteDuration(int duration);
 
-    String getMessage();
+    void addToArrList(String list);
 
-    void createArrList(String string);
 }
