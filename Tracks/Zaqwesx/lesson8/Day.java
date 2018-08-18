@@ -3,29 +3,39 @@ import java.util.TreeMap;
 public class Day {
     private final int date_;
     private final int sheduleType_;             // параметр описывает тип дня: 1 - часовые интервалы, 2 - получасовые
-    TreeMap<String, Event> events_;
+    private final TreeMap<String, Event> events_;
 
     public Day(int date, int sheduleType) {
-        this.events_ = new TreeMap<>();
+        this.events_ = new TreeMap<String, Event>();
         this.date_ = date;
         this.sheduleType_ = sheduleType;
+    }
+
+    public TreeMap<String, Event> getEvents() {
+        return events_;
     }
 
     public int getSheduleType() {
         return sheduleType_;
     }
 
-    public void addEvent(String time, Event event) {
-        if (timeCheck(time) != 0 && !(this.getSheduleType() == 1 && timeCheck(time) == 2))
+    public boolean addEvent(String time, Event event) {
+        if (checkTime(time) != 0 && !(this.getSheduleType() == 1 && checkTime(time) == 2)) {
             events_.put(time, event);
+            return true;
+        } else
+            return false;
     }
 
-    public void remEvent(String time) {
+    public boolean remEvent(String time) {
+        events_.remove(time);
         if (events_.containsKey(time))
-            events_.remove(time);
+            return false;
+        else
+            return true;
     }
 
-    public int timeCheck(String time) {
+    public static int checkTime(String time) {
         String[] timeparts = time.split(":");
         int hours = Integer.parseInt(timeparts[0]);
         if (hours >= 0 && hours < 24) {

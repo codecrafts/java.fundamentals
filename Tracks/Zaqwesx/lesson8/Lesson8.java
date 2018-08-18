@@ -8,145 +8,126 @@
 public class Lesson8 {
     public static void main(String[] args) {
         MyCalendar myCalendar = new MyCalendar();
+        myCalendar.createDay(1,1);
+        myCalendar.createDay(2,2);
+        myCalendar.createDay(3,1);
+        int testCounter = 0;
+        int testPass = 0;
 
-        if (testScenario1(myCalendar))
-            System.out.println("Тест 1 пройден.");
-        else
-            System.out.println("Тест 1 не пройден.");
+        testCounter++;
+        if (testCreateEvent(myCalendar)) {
+            System.out.println("Тест на создание события пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на создание события не пройден.");
 
-        if (testScenario2(myCalendar))
-            System.out.println("Тест 2 пройден.");
-        else
-            System.out.println("Тест 2 не пройден.");
+        testCounter++;
+        if (testCheckEventMarked(myCalendar)) {
+            System.out.println("Тест на пометку 'Сделано' пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на пометку 'Сделано' не пройден.");
 
-        if (testScenario3(myCalendar))
-            System.out.println("Тест 3 пройден.");
-        else
-            System.out.println("Тест 3 не пройден.");
+        testCounter++;
+        if (testOverrideDay(myCalendar)) {
+            System.out.println("Тест на перезапись дня пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на перезапись дня не пройден.");
 
-        if (testScenario4(myCalendar))
-            System.out.println("Тест 4 пройден.");
-        else
-            System.out.println("Тест 4 не пройден.");
+        testCounter++;
+        if (testDeleteEvent(myCalendar)) {
+            System.out.println("Тест на удаление события пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на удаление события не пройден.");
 
-        if (testScenario5(myCalendar))
-            System.out.println("Тест 5 пройден.");
-        else
-            System.out.println("Тест 5 не пройден.");
+        testCounter++;
+        if (testMoveEvent(myCalendar)) {
+            System.out.println("Тест на перемещение события пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на перемещение события не пройден.");
 
-        if (testScenario6(myCalendar))
-            System.out.println("Тест 6 пройден.");
-        else
-            System.out.println("Тест 6 не пройден.");
+        testCounter++;
+        if (testOverrideEvent(myCalendar)) {
+            System.out.println("Тест перезапись события пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест перезапись события не пройден.");
 
-        if (testScenario7(myCalendar))
-            System.out.println("Тест 7 пройден.");
-        else
-            System.out.println("Тест 7 не пройден.");
+        testCounter++;
+        if (testMoveEventWrongShedule(myCalendar)) {
+            System.out.println("Тест на перенос события на неверное время пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на перенос события на неверное время не пройден.");
+
+        testCounter++;
+        if (testCreateEventWrongShedule(myCalendar)) {
+            System.out.println("Тест на создание событий с неправильным временем пройден.");
+            testPass++;
+        } else
+            System.out.println("Тест на создание событий с неправильным временем не пройден.");
+
+        System.out.println("Обещее число проведенных тестов: " + testCounter);
+        System.out.println("Тестов пройдено положительно: " + testPass);
 
     }
 
-    public static boolean testScenario1(MyCalendar myCalendar) {
+    public static boolean testCreateEvent(MyCalendar myCalendar) {
+        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
+        return myCalendar.createEvent(1,"12:00", newTask);
+    }
+
+    public static boolean testCheckEventMarked(MyCalendar myCalendar) {
         // добавим событие, пометим его как выполненное, проверим список выполненных событий
-        boolean check = false;
-        myCalendar.CreateDay(1,1);
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.CreateEvent(1,"12:00", newTask);
-        myCalendar.MarkAsDoneEvent(1,"12:00");
-        if (myCalendar.CountCompletedEvents(1) == 1)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        myCalendar.createEvent(1,"12:00", newTask);
+        return myCalendar.markAsDoneEvent(1,"12:00");
     }
 
-    public static boolean testScenario2(MyCalendar myCalendar) {
+    public static boolean testOverrideDay(MyCalendar myCalendar) {
         // проверим, что нельзя создать один и тот же день дважды
-        boolean check = false;
-        myCalendar.CreateDay(4,1);
-        myCalendar.CreateDay(4,2);
-        Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.CreateEvent(4,"12:30", newTask);
-        myCalendar.MarkAsDoneEvent(4,"12:30");
-        if (myCalendar.CountCompletedEvents(4) == 0)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        return !myCalendar.createDay(1,2);
     }
 
-    public static boolean testScenario3(MyCalendar myCalendar) {
+    public static boolean testDeleteEvent(MyCalendar myCalendar) {
         // добавим событие, пометим его как выполненное, удалим событие, проверим список выполненных событий
-        boolean check = false;
-        myCalendar.CreateDay(2,2);
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.CreateEvent(2,"12:00", newTask);
-        myCalendar.MarkAsDoneEvent(2,"12:00");
-        myCalendar.DeleteEvent(2,"12:00");
-        if (myCalendar.CountCompletedEvents(2) == 0)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        myCalendar.createEvent(2,"12:00", newTask);
+        return myCalendar.deleteEvent(2,"12:00");
     }
 
-    public static boolean testScenario4(MyCalendar myCalendar) {
+    public static boolean testMoveEvent(MyCalendar myCalendar) {
         // переместим событие с 1го дня на 2ой, проверим список выполненных событий за оба дня
         boolean check = false;
-        myCalendar.CreateDay(1,1);
-        myCalendar.CreateDay(2,2);
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.CreateEvent(1,"12:00", newTask);
-        myCalendar.MarkAsDoneEvent(1,"12:00");
-        myCalendar.MoveEvent(1,2,"12:00","16:30");
-        if (myCalendar.CountCompletedEvents(1) == 0 && myCalendar.CountCompletedEvents(2) == 1)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        myCalendar.createEvent(1,"14:00", newTask);
+        return myCalendar.moveEvent(1,2,"14:00","16:30");
     }
 
-    public static boolean testScenario5(MyCalendar myCalendar) {
+    public static boolean testOverrideEvent(MyCalendar myCalendar) {
         // добавим событие, пометим как выполненное, добавим событие на это же время
-        boolean check = false;
-        myCalendar.CreateDay(1,1);
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        myCalendar.CreateEvent(1, "12:00", newMeeting);
-        myCalendar.MarkAsDoneEvent(1,"12:00");
+        myCalendar.createEvent(1, "10:00", newMeeting);
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.CreateEvent(1,"12:00", newTask);
-        if (myCalendar.CountCompletedEvents(1) == 1)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        return !myCalendar.createEvent(1,"10:00", newTask);
     }
 
-    public static boolean testScenario6(MyCalendar myCalendar) {
+    public static boolean testMoveEventWrongShedule(MyCalendar myCalendar) {
         // добавим событие в получасовой интервал дня с получасовыми интервалами, попробуем перенести на день с часовыми
-        boolean check = false;
-        myCalendar.CreateDay(2,2);
-        myCalendar.CreateDay(3,1);
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        myCalendar.CreateEvent(2, "15:30", newMeeting);
-        myCalendar.MarkAsDoneEvent(2,"15:30");
-        myCalendar.MoveEvent(2,3,"15:30","12:30");
-        if (myCalendar.CountCompletedEvents(2) == 1 && myCalendar.CountCompletedEvents(3) == 0)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        myCalendar.createEvent(2, "15:30", newMeeting);
+        return !myCalendar.moveEvent(2,3,"15:30","12:30");
     }
 
-    public static boolean testScenario7(MyCalendar myCalendar) {
+    public static boolean testCreateEventWrongShedule(MyCalendar myCalendar) {
         // попробуем добавить события на неправильное время
-        boolean check = false;
-        myCalendar.CreateDay(5,1);
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        myCalendar.CreateEvent(5, "52:00", newMeeting);
-        myCalendar.MarkAsDoneEvent(5,"52:00");
-        myCalendar.CreateEvent(5, "12:30", newMeeting);
-        myCalendar.MarkAsDoneEvent(5,"12:30");
-        myCalendar.CreateEvent(5, "-1:00", newMeeting);
-        myCalendar.MarkAsDoneEvent(5,"-1:00");
-        if (myCalendar.CountCompletedEvents(5) == 0)
-            check = true;
-        myCalendar.ResetCalendar();
-        return check;
+        return !(myCalendar.createEvent(5, "52:00", newMeeting) ||
+            myCalendar.createEvent(5, "12:30", newMeeting) ||
+            myCalendar.createEvent(5, "-1:00", newMeeting));
     }
 }
 

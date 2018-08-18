@@ -11,7 +11,7 @@ public abstract class Event {
         this.isDone = true;
     }
 
-    public boolean CheckStatus() {
+    public boolean checkStatus() {
         return isDone;
     }
 }
