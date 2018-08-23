@@ -77,13 +77,13 @@ public class Lesson8 {
 
     public static boolean testCreateEvent(MyCalendar myCalendar) {
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        return myCalendar.createEvent(1,"12:00", newTask);
+        return myCalendar.addEvent(1,"12:00", newTask);
     }
 
     public static boolean testCheckEventMarked(MyCalendar myCalendar) {
         // добавим событие, пометим его как выполненное, проверим список выполненных событий
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.createEvent(1,"12:00", newTask);
+        myCalendar.addEvent(1,"12:00", newTask);
         return myCalendar.markAsDoneEvent(1,"12:00");
     }
 
@@ -95,7 +95,7 @@ public class Lesson8 {
     public static boolean testDeleteEvent(MyCalendar myCalendar) {
         // добавим событие, пометим его как выполненное, удалим событие, проверим список выполненных событий
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.createEvent(2,"12:00", newTask);
+        myCalendar.addEvent(2,"12:00", newTask);
         return myCalendar.deleteEvent(2,"12:00");
     }
 
@@ -103,31 +103,31 @@ public class Lesson8 {
         // переместим событие с 1го дня на 2ой, проверим список выполненных событий за оба дня
         boolean check = false;
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        myCalendar.createEvent(1,"14:00", newTask);
+        myCalendar.addEvent(1,"14:00", newTask);
         return myCalendar.moveEvent(1,2,"14:00","16:30");
     }
 
     public static boolean testOverrideEvent(MyCalendar myCalendar) {
         // добавим событие, пометим как выполненное, добавим событие на это же время
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        myCalendar.createEvent(1, "10:00", newMeeting);
+        myCalendar.addEvent(1, "10:00", newMeeting);
         Event newTask = new Task("TaskName","TaskCategory", "TaskActions");
-        return !myCalendar.createEvent(1,"10:00", newTask);
+        return !myCalendar.addEvent(1,"10:00", newTask);
     }
 
     public static boolean testMoveEventWrongShedule(MyCalendar myCalendar) {
         // добавим событие в получасовой интервал дня с получасовыми интервалами, попробуем перенести на день с часовыми
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        myCalendar.createEvent(2, "15:30", newMeeting);
+        myCalendar.addEvent(2, "15:30", newMeeting);
         return !myCalendar.moveEvent(2,3,"15:30","12:30");
     }
 
     public static boolean testCreateEventWrongShedule(MyCalendar myCalendar) {
         // попробуем добавить события на неправильное время
         Event newMeeting = new Meeting("MeetingName", "MeetingPeople", "MeetingPlace");
-        return !(myCalendar.createEvent(5, "52:00", newMeeting) ||
-            myCalendar.createEvent(5, "12:30", newMeeting) ||
-            myCalendar.createEvent(5, "-1:00", newMeeting));
+        return !(myCalendar.addEvent(5, "52:00", newMeeting) ||
+            myCalendar.addEvent(5, "12:30", newMeeting) ||
+            myCalendar.addEvent(5, "-1:00", newMeeting));
     }
 }
 

@@ -1,10 +1,10 @@
 public class Task extends Event {
-    private final String category;
-    private final String actions;
+    private final String category_;
+    private final String actions_;
 
     public Task(String name, String category, String actions) {
         super(name);
-        this.category = category;
-        this.actions = actions;
+        this.category_ = category;
+        this.actions_ = actions;
     }
 }

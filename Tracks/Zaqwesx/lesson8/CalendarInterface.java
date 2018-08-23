@@ -1,7 +1,7 @@
 public interface CalendarInterface {
     boolean createDay(int date, Integer sheduleType);  // инициализация дня
 
-    boolean createEvent(int date, String time, Event event);   // создание события
+    boolean addEvent(int date, String time, Event event);   // создание события
 
     boolean deleteEvent(int date, String time);    // удаление события
 

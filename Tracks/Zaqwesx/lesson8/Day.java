@@ -1,6 +1,8 @@
 import java.util.TreeMap;
 
 public class Day {
+    public static final int FULL_DAY_SHEDULE_TYPE = 1;
+    public static final int HALF_DAY_SHEDULE_TYPE = 2;
     private final int date_;
     private final int sheduleType_;             // параметр описывает тип дня: 1 - часовые интервалы, 2 - получасовые
     private final TreeMap<String, Event> events_;
@@ -20,7 +22,7 @@ public class Day {
     }
 
     public boolean addEvent(String time, Event event) {
-        if (checkTime(time) != 0 && !(this.getSheduleType() == 1 && checkTime(time) == 2)) {
+        if (checkIfEventFitsDay(time)) {
             events_.put(time, event);
             return true;
         } else
@@ -28,11 +30,10 @@ public class Day {
     }
 
     public boolean remEvent(String time) {
-        events_.remove(time);
-        if (events_.containsKey(time))
-            return false;
-        else
+        if (events_.remove(time) != null)
             return true;
+        else
+            return false;
     }
 
     public static int checkTime(String time) {
@@ -47,5 +48,10 @@ public class Day {
                 return 0;
         }else
             return 0;
+    }
+
+    private boolean checkIfEventFitsDay(String time) {
+        return (checkTime(time) != 0 && !(this.getSheduleType() == FULL_DAY_SHEDULE_TYPE &&
+                checkTime(time) == HALF_DAY_SHEDULE_TYPE));
     }
 }
