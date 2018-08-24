@@ -7,7 +7,7 @@ public abstract class Event {
         this.isDone_ = false;
     }
 
-    public void MarkAsDone() {
+    public void markAsDone() {
         this.isDone_ = true;
     }
 

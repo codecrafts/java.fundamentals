@@ -10,6 +10,4 @@ public interface CalendarInterface {
     boolean markAsDoneEvent(int date, String time); // пометить событие как выполненное
 
     int countCompletedEvents(int date); // посчитать кол-во выполнененных событий за день
-
-    void resetCalendar();   // сброс календаря
 }

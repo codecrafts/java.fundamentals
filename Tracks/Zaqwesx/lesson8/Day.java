@@ -1,6 +1,7 @@
 import java.util.TreeMap;
 
 public class Day {
+    public static final int INCORRECT_INPUT = 0;
     public static final int FULL_DAY_SHEDULE_TYPE = 1;
     public static final int HALF_DAY_SHEDULE_TYPE = 2;
     private final int date_;
@@ -41,13 +42,13 @@ public class Day {
         int hours = Integer.parseInt(timeparts[0]);
         if (hours >= 0 && hours < 24) {
             if (timeparts[1].equals("00"))
-                return 1;
+                return FULL_DAY_SHEDULE_TYPE;
             else if (timeparts[1].equals("30"))
-                return 2;
+                return HALF_DAY_SHEDULE_TYPE;
             else
-                return 0;
+                return INCORRECT_INPUT;
         }else
-            return 0;
+            return INCORRECT_INPUT;
     }
 
     private boolean checkIfEventFitsDay(String time) {

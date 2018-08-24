@@ -19,8 +19,10 @@ public class MyCalendar implements CalendarInterface {
 
     @Override
     public boolean addEvent(int date, String time, Event event) {
-        if (days_.get(date) != null && (!days_.get(date).getEvents().containsKey(time))) {
-            days_.get(date).addEvent(time, event);
+        var day = days_.get(date);
+
+        if (day != null && (!day.getEvents().containsKey(time))) {
+            day.addEvent(time, event);
             return true;
         } else
             return false;
@@ -28,7 +30,9 @@ public class MyCalendar implements CalendarInterface {
 
     @Override
     public boolean deleteEvent(int date, String time) {
-        if (days_.get(date) != null && days_.get(date).remEvent(time))
+        var day = days_.get(date);
+
+        if (day != null && day.remEvent(time))
             return true;
          else
             return false;
@@ -36,11 +40,19 @@ public class MyCalendar implements CalendarInterface {
 
     @Override
     public boolean moveEvent(int dateFrom, int dateTo, String timeFrom, String timeTo) {
-        if (days_.get(dateFrom) != null && days_.get(dateFrom).getEvents().get(timeFrom) != null) {
-            if (Day.checkTime(timeTo) == days_.get(dateTo).getSheduleType()) {
-                addEvent(dateTo, timeTo, days_.get(dateFrom).getEvents().get(timeFrom));
-                deleteEvent(dateFrom, timeFrom);
-                return true;
+        var dayFrom = days_.get(dateFrom);
+        var dayTo = days_.get(dateTo);
+
+        if (dayFrom != null) {
+            var eventToMove = dayFrom.getEvents().get(timeFrom);
+
+            if (eventToMove != null) {
+                if (Day.checkTime(timeTo) == dayTo.getSheduleType()) {
+                    addEvent(dateTo, timeTo, eventToMove);
+                    deleteEvent(dateFrom, timeFrom);
+                    return true;
+                } else
+                    return false;
             } else
                 return false;
         } else
@@ -49,9 +61,15 @@ public class MyCalendar implements CalendarInterface {
 
     @Override
     public boolean markAsDoneEvent(int date, String time) {
-        if (days_.get(date) != null && days_.get(date).getEvents().get(time) != null) {
-            days_.get(date).getEvents().get(time).MarkAsDone();
-            return true;
+        var day = days_.get(date);
+
+        if (day != null) {
+            var event = day.getEvents().get(time);
+            if (event != null) {
+                event.markAsDone();
+                return true;
+            } else
+                return false;
         } else
             return false;
     }
@@ -59,16 +77,16 @@ public class MyCalendar implements CalendarInterface {
     @Override
     public int countCompletedEvents(int date) {
         int completedEventsCounter = 0;
-        if (days_.get(date) != null)
-            for (String key : days_.get(date).getEvents().keySet()) {
-                if (days_.get(date).getEvents().get(key).checkStatus())
-                    completedEventsCounter ++;
-            }
-        return completedEventsCounter;
-    }
+        var day = days_.get(date);
 
-    @Override
-    public void resetCalendar() {
-        days_.clear();
+        if (day != null) {
+            var events = day.getEvents();
+            for (String key : events.keySet()) {
+                if (events.get(key).checkStatus())
+                    completedEventsCounter++;
+            }
+        }
+
+        return completedEventsCounter;
     }
 }
