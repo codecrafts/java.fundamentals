@@ -1,23 +1,38 @@
-public class ExceptionHandling {
-    public void catchException() {
-        try {
-            System.out.println("This will be not printed");
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
-            // Ключевое слово catch используется для определения блока обработки исключений
-            // В скобках указывается тип обрабатываемого исключения
+public class ExceptionHandling extends Exception {
+    private String errorCode = "Unknown_Exception";
 
-        } catch (NullPointerException ex) {  // Обработка встроенного исключения типа NullPointerException
-            System.out.println("Null pointer was referenced");
-        } catch (Exception ex) { // Обработчик всех возможных исключений
-            System.out.println("Some other error situation happened");
-        } catch (Error ex) { // Родитель всех ошибок, предок Throwable
-            System.out.println("Some other error situation happened");
-        } catch (Throwable ex) { // Родитель всех ошибок и исключений
-            System.out.println("All other situation happened");
-            // Ключевое слово finally используется для определения завершающего блока
-            // Этот код будет выполнен в любом случае даже при возникновении исключительной ситуации
-        } finally {
-            System.out.println("We are in the finally block");
+    public ExceptionHandling(String message, String errorCode){
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+
+    public String getErrorCode(){
+        return this.errorCode;
+    }
+    public static void processErrorCodes(ExceptionHandling e) throws ExceptionHandling {
+        // здесь мы ищем указанный при выбросе исключения код ошибки и сообщаем пользователю что произошло
+        switch(e.getErrorCode()){
+            case "BAD_FILE_TYPE":
+                System.out.println("Неподходящий тип файла");
+                throw e;
+            case "FILE_NOT_FOUND_EXCEPTION":
+                System.out.println("Файл не найден");
+                break;
+            case "CAN_NOT_CREATE_FILE":
+                System.out.println("Ошибка при создании файла");
+                break;
+            default:
+                System.out.println("Произошла неизвестная ошибка " + e.getMessage());
+                e.printStackTrace();
         }
     }
 }
+
+
+

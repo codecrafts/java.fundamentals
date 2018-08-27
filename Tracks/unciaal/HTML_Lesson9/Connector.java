@@ -1,8 +1,9 @@
+
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 public interface Connector {
-    void sendFile(String path) throws IOException;
-    void searchText(String startTag,String EndTag) throws IOException;
+    public String getFileAsString() throws ExceptionHandling;
+    public ArrayList searchTextBetweenTags(String startTag,String endTag) throws ExceptionHandling;
+    public ArrayList searchHyperlinks(ArrayList<String> rowHyperlinks) throws ExceptionHandling;
 }
