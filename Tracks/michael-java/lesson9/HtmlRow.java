@@ -12,6 +12,7 @@ import java.util.List;
 public class HtmlRow implements HtmlRowI{
     private final static int LENGTH_OPEN_TAG = 4;
     private final static int LENGTH_CLOSE_TAG = 5;
+    private final static int START_POSITION = 0;
 
     private String htmlFileAsString;            // HTML файл в одной строке
     private List<Header> headerRow_;            // список объектов - заголовки
@@ -35,11 +36,11 @@ public class HtmlRow implements HtmlRowI{
         if (!isHTML()) throw new CustomException("Файл не HTML");
 
         for (Tags tagType: Tags.values()) {
-            int position = 0;
+            int position = START_POSITION;
             do {
                 indexOpenTag = htmlFileAsString.indexOf(tagType.getOpenTag(), position);
                 indexCloseTag = htmlFileAsString.indexOf(tagType.getCloseTag(), indexOpenTag);
-                if (indexOpenTag < 0 || indexCloseTag < 0)
+                if (indexOpenTag < START_POSITION || indexCloseTag < START_POSITION)
                     break;
                 System.out.println ("length" + htmlFileAsString.length () + " position=" + position + " i1:" + indexOpenTag + " i2:" + indexCloseTag + " подстрока: " + htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag));
                 header = htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag);
