@@ -17,79 +17,25 @@
 package lesson9;
 
 import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Lesson9 {
-    public static void main(String[] args) throws IOException {
-        HtmlRow htmlRow;
+    public static void main(String[] args) throws IOException, CustomException {
+
+        HtmlRowI htmlRow;
 
         try {
-            Files.readAllLines ( Paths.get ( "D:\\example.txt" ) );
-        } catch (IOException e) {
-            System.out.println ( "File not found " + e.getMessage () );
-        } finally {
-            htmlRow = new HtmlRow ( "D:\\example.txt", Charset.defaultCharset () );
-        }
-
-        try {
-            htmlRow.headerParsing ();
+            htmlRow = new HtmlRow("D:\\example.txt", Charset.defaultCharset());
+            htmlRow.parsingHeader();
+            htmlRow.saveToFile("D:\\result.txt");
+            Test.doTest();
         } catch (CustomException e) {
             System.out.println (e.getMessage());
-        }
-
-        try {
-            htmlRow.saveToFile ( "d:\\result.txt" );
         } catch (IOException e) {
-            System.out.println ( "IOException is thrown " + e.toString () );
+            System.out.println ("IOException is thrown " + e.getMessage() + e.toString());
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-        HtmlRow htmlRowTest = new HtmlRow("<html>");
-        System.out.println (htmlRowTest.isHTML() ?  "тест пройден" : "тест не пройден");
-
-        htmlRowTest = new HtmlRow("<!DOCTYPE html>");
-        System.out.println (htmlRowTest.isHTML() ?  "тест пройден" : "тест не пройден");
-
-        htmlRowTest = new HtmlRow("qwerty");
-        System.out.println (!htmlRowTest.isHTML() ?  "тест пройден" : "тест не пройден");
-
-        try {
-            Header headerTest = new Header("<h1>Заголовок</h1>");
-            System.out.println (headerTest.getHeaderString() != null && headerTest.getHeaderType() != null  ?  "тест пройден" : "тест не пройден");
-        } catch (CustomException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Header headerTest = new Header("<h1>Нет закрывающего тэга");
-            System.out.println (headerTest.getHeaderString() == null && headerTest.getHeaderType() == null  ?  "тест пройден" : "тест не пройден");
-        } catch (CustomException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Header headerTest = new Header("Нет открывающего тэга</h1>");
-            System.out.println (headerTest.getHeaderString() == null && headerTest.getHeaderType() == null  ?  "тест пройден" : "тест не пройден");
-        } catch (CustomException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Header headerTest = new Header("Нет тэгов");
-            System.out.println (headerTest.getHeaderType() == null  ?  "тест пройден" : "тест не пройден");
-        } catch (CustomException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Header headerTest = new Header("");
-            System.out.println ("тест не пройден");
-        } catch (CustomException e) {
-            System.out.println ("тест пройден");
-        }
-
-
     }
 }
 

@@ -9,41 +9,63 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HtmlRow {
-    private final static int FIRST_LINE = 0;
-    private List<String> noParsingRow_;
-    private List<Header> headerRow_;
+public class HtmlRow implements HtmlRowI{
+    private final static int LENGTH_OPEN_TAG = 4;
+    private final static int LENGTH_CLOSE_TAG = 5;
 
-    public HtmlRow(String path, Charset encoding) throws IOException {
-        noParsingRow_ = Files.readAllLines(Paths.get(path), encoding) ;
+    private String htmlFileAsString;            // HTML файл в одной строке
+    private List<Header> headerRow_;            // список объектов - заголовки
+
+    HtmlRow(String str) {                       // конструктор для тестов
+        htmlFileAsString = str;
         headerRow_ = new ArrayList<>();
     }
 
-    public HtmlRow(String str) {
-        noParsingRow_ = new ArrayList<>();
-        noParsingRow_.add(str);
+    HtmlRow(String path, Charset encoding) throws IOException {
+        htmlFileAsString = getFileAsString(path, encoding);
+        headerRow_ = new ArrayList<>();
     }
 
-    public boolean isHTML(){
-        String str = noParsingRow_.get(FIRST_LINE).trim();
-        return (str.contains("<!DOCTYPE html>") || str.contains("<html>"));
-    }
+    @Override
+    public void parsingHeader() throws CustomException {
+        int indexOpenTag;
+        int indexCloseTag;
+        String header;
 
-    public void headerParsing() throws CustomException {
         if (!isHTML()) throw new CustomException("Файл не HTML");
 
-        for (String str : noParsingRow_) {
-            try {
-                headerRow_.add(new Header(str));
-            } catch (CustomException ex) {
-                System.out.println (ex.getMessage());
-            }
+        for (Tags tagType: Tags.values()) {
+            int position = 0;
+            do {
+                indexOpenTag = htmlFileAsString.indexOf(tagType.getOpenTag(), position);
+                indexCloseTag = htmlFileAsString.indexOf(tagType.getCloseTag(), indexOpenTag);
+                if (indexOpenTag < 0 || indexCloseTag < 0)
+                    break;
+                System.out.println ("length" + htmlFileAsString.length () + " position=" + position + " i1:" + indexOpenTag + " i2:" + indexCloseTag + " подстрока: " + htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag));
+                header = htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag);
+                headerRow_.add(new Header(header, tagType));
+                position = indexCloseTag + LENGTH_CLOSE_TAG;
+            } while (true);
         }
     }
 
-    public void saveToFile(String path) throws IOException  {
+    boolean isHTML() throws CustomException {
+        if (htmlFileAsString.equals("")) throw new CustomException("HTML файл не проинициализирован");
+        return (htmlFileAsString.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString.startsWith("\uFEFF<html>"));
+    }
+
+    private String getFileAsString(String path, Charset encoding) throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
+    @Override
+    public void saveToFile(String path) throws CustomException, IOException {
+        if(headerRow_ == null) throw new CustomException("Файл не содержит заголовков");
+
         FileWriter fileReader = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileReader);
+
         for (Header header : headerRow_) {
             if (header.getHeaderType() != null) {
                 bufferedWriter.write(header.getHeaderString());
@@ -51,5 +73,13 @@ public class HtmlRow {
             }
         }
         bufferedWriter.flush();
+    }
+
+    public List<Header> getHeaderRow_() {
+        return headerRow_;
+    }
+
+    public Header getHeader(int index) {
+        return headerRow_.get(index);
     }
 }
