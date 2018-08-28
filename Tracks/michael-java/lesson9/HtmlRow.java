@@ -42,7 +42,6 @@ public class HtmlRow implements HtmlRowI{
                 indexCloseTag = htmlFileAsString.indexOf(tagType.getCloseTag(), indexOpenTag);
                 if (indexOpenTag < START_POSITION || indexCloseTag < START_POSITION)
                     break;
-                System.out.println ("length" + htmlFileAsString.length () + " position=" + position + " i1:" + indexOpenTag + " i2:" + indexCloseTag + " подстрока: " + htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag));
                 header = htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag);
                 headerRow_.add(new Header(header, tagType));
                 position = indexCloseTag + LENGTH_CLOSE_TAG;
@@ -74,10 +73,6 @@ public class HtmlRow implements HtmlRowI{
             }
         }
         bufferedWriter.flush();
-    }
-
-    public List<Header> getHeaderRow_() {
-        return headerRow_;
     }
 
     public Header getHeader(int index) {
