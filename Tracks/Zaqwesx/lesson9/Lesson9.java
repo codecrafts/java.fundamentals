@@ -19,17 +19,13 @@
 //Второй абзац
 //Google it
 
-import java.nio.charset.Charset;
-import java.util.List;
-
 public class Lesson9 {
     public static void main(String[] args) {
-        String sourceFilePath = "C:\\Users\\stan\\GitHub\\java.fundamentals\\Tracks\\Zaqwesx\\lesson9\\SourceText.html";
-        String resultFilePath = "C:\\Users\\stan\\GitHub\\java.fundamentals\\Tracks\\Zaqwesx\\lesson9\\ResultText";
-        List<String> sourceText = FileManipulations.getFileStrings(sourceFilePath, Charset.defaultCharset());
-        List<String> resultText;
+        if (Tests.readAbsentFile() && Tests.readNotHtmlFile() && Tests.checkTagsRemoving() && Tests.tryWritingToReadOnly())
+            System.out.println("Тесты пройдены.");
+        else
+            System.out.println("Тесты не пройдены.");
 
-        resultText = FileManipulations.removeTagsFromList(sourceText);
-        FileManipulations.writeStringsToFile(resultFilePath, resultText);
     }
+
 }
