@@ -1,20 +1,19 @@
 package lesson9;
 
 public class Header {
+    private final String headerString_;
+    private final Tags headerType_;
 
-    private final String headerString;
-    private final Tags headerType;
-
-    public Header(String str, Tags tag) {
-        headerString = str;
-        headerType = tag;
+    public Header(String string, Tags tag) {
+        headerString_ = string;
+        headerType_ = tag;
     }
 
     public Tags getHeaderType() {
-        return this.headerType;
+        return this.headerType_;
     }
 
     public String getHeaderString() {
-        return headerString;
+        return headerString_;
     }
 }

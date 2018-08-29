@@ -21,7 +21,6 @@ import java.io.IOException;
 
 public class Lesson9 {
     public static void main(String[] args) throws IOException, CustomException {
-
         HtmlRowI htmlRow;
 
         try {
@@ -32,7 +31,7 @@ public class Lesson9 {
         } catch (CustomException e) {
             System.out.println (e.getMessage());
         } catch (IOException e) {
-            System.out.println ("IOException is thrown " + e.getMessage() + e.toString());
+            System.out.println("IOException is thrown " + e.getMessage() + e.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
         }

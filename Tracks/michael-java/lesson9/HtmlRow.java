@@ -15,16 +15,16 @@ public class HtmlRow implements HtmlRowI{
     private final static int START_POSITION = 0;
 
     private String htmlFileAsString;            // HTML файл в одной строке
-    private List<Header> headerRow_;            // список объектов - заголовки
+    private List<Header> headerRow;            // список объектов - заголовки
 
     HtmlRow(String str) {                       // конструктор для тестов
         htmlFileAsString = str;
-        headerRow_ = new ArrayList<>();
+        headerRow = new ArrayList<>();
     }
 
     HtmlRow(String path, Charset encoding) throws IOException {
         htmlFileAsString = getFileAsString(path, encoding);
-        headerRow_ = new ArrayList<>();
+        headerRow = new ArrayList<>();
     }
 
     @Override
@@ -43,15 +43,14 @@ public class HtmlRow implements HtmlRowI{
                 if (indexOpenTag < START_POSITION || indexCloseTag < START_POSITION)
                     break;
                 header = htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag);
-                headerRow_.add(new Header(header, tagType));
+                headerRow.add(new Header(header, tagType));
                 position = indexCloseTag + LENGTH_CLOSE_TAG;
             } while (true);
         }
     }
 
-    boolean isHTML() throws CustomException {
-        if (htmlFileAsString.equals("")) throw new CustomException("HTML файл не проинициализирован");
-        return (htmlFileAsString.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString.startsWith("\uFEFF<html>"));
+    boolean isHTML() {
+        return(htmlFileAsString.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString.startsWith("\uFEFF<html>"));
     }
 
     private String getFileAsString(String path, Charset encoding) throws IOException {
@@ -60,22 +59,18 @@ public class HtmlRow implements HtmlRowI{
     }
 
     @Override
-    public void saveToFile(String path) throws CustomException, IOException {
-        if(headerRow_ == null) throw new CustomException("Файл не содержит заголовков");
-
+    public void saveToFile(String path) throws IOException {
         FileWriter fileReader = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileReader);
 
-        for (Header header : headerRow_) {
-            if (header.getHeaderType() != null) {
+        for (Header header : headerRow) {
                 bufferedWriter.write(header.getHeaderString());
                 bufferedWriter.newLine();
-            }
         }
         bufferedWriter.flush();
     }
 
     public Header getHeader(int index) {
-        return headerRow_.get(index);
+        return headerRow.get(index);
     }
 }
