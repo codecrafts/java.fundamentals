@@ -33,7 +33,7 @@ public class HtmlRow implements HtmlRowI{
         int indexCloseTag;
         String header;
 
-        if (!isHTML()) throw new CustomException("Файл не HTML");
+        if (!isHTMLFile()) throw new CustomException("Файл не HTML");
 
         for (Tags tagType: Tags.values()) {
             int position = START_POSITION;
@@ -49,7 +49,7 @@ public class HtmlRow implements HtmlRowI{
         }
     }
 
-    boolean isHTML() {
+    boolean isHTMLFile() {
         return(htmlFileAsString.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString.startsWith("\uFEFF<html>"));
     }
 

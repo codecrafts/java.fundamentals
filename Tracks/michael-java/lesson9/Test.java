@@ -9,13 +9,13 @@ public class Test {
     public static void doTest() throws CustomException {
 
         HtmlRow htmlRow = new HtmlRow("\uFEFF<html>");
-        System.out.println (htmlRow.isHTML() ? "тест 1 is HTML пройден" : "тест не пройден");
+        System.out.println (htmlRow.isHTMLFile() ? "тест 1 is HTML пройден" : "тест не пройден");
 
         htmlRow = new HtmlRow("\uFEFF<!DOCTYPE html>");
-        System.out.println (htmlRow.isHTML() ? "тест 2 is HTML пройден" : "тест не пройден");
+        System.out.println (htmlRow.isHTMLFile() ? "тест 2 is HTML пройден" : "тест не пройден");
 
         htmlRow = new HtmlRow("qwerty");
-        System.out.println(!htmlRow.isHTML() ? "тест 3 is HTML пройден" : "тест не пройден");
+        System.out.println(!htmlRow.isHTMLFile() ? "тест 3 is HTML пройден" : "тест не пройден");
 
         htmlRow = new HtmlRow("\uFEFF<html> <h1>Заголовок</h1>");
         htmlRow.parsingHeader();
