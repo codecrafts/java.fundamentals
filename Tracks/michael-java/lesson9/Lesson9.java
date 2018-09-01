@@ -20,7 +20,7 @@ import java.nio.charset.Charset;
 import java.io.IOException;
 
 public class Lesson9 {
-    public static void main(String[] args) throws IOException, CustomException {
+    public static void main(String[] args){
         HtmlRowI htmlRow;
 
         try {
@@ -28,7 +28,7 @@ public class Lesson9 {
             htmlRow.parsingHeader();
             htmlRow.saveToFile("D:\\result.txt");
             Test.doTest();
-        } catch (CustomException e) {
+        } catch (NoHTMLException e) {
             System.out.println (e.getMessage());
         } catch (IOException e) {
             System.out.println("IOException is thrown " + e.getMessage() + e.toString());
@@ -37,5 +37,3 @@ public class Lesson9 {
         }
     }
 }
-
-

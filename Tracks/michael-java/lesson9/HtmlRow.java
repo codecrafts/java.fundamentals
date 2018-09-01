@@ -28,12 +28,12 @@ public class HtmlRow implements HtmlRowI{
     }
 
     @Override
-    public void parsingHeader() throws CustomException {
+    public void parsingHeader() throws NoHTMLException {
         int indexOpenTag;
         int indexCloseTag;
         String header;
 
-        if (!isHTMLFile()) throw new CustomException("Файл не HTML");
+        if (!isHTMLFile()) throw new NoHTMLException("Файл не HTML");
 
         for (Tags tagType: Tags.values()) {
             int position = START_POSITION;
