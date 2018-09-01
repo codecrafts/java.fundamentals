@@ -21,7 +21,7 @@
 
 public class Lesson9 {
     public static void main(String[] args) {
-        if (Tests.readAbsentFile() && Tests.readNotHtmlFile() && Tests.checkTagsRemoving() && Tests.tryWritingToReadOnly())
+        if (Tests.test())
             System.out.println("Тесты пройдены.");
         else
             System.out.println("Тесты не пройдены.");

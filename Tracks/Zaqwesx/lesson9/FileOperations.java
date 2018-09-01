@@ -21,18 +21,18 @@ public class FileOperations {
 
     // Метод проверяет, является ли файл html.
     static List<String> checkHtml(List<String> text) throws FileNotHtmlException{
-        int htmlChecker = 0;
+        boolean htmlChecker = false;
         for (String openTag : text) {
             if (openTag.trim().contains("<html")) {
                 for (String closeTag : text) {
                     if (closeTag.trim().contains("</html>")) {
-                        htmlChecker = 1;
+                        htmlChecker = true;
                     }
                 }
             }
         }
 
-        if (htmlChecker == 1)
+        if (htmlChecker)
             return text;
         else {
             throw new FileNotHtmlException();
@@ -41,18 +41,16 @@ public class FileOperations {
 
     // Метод убирает теги из строки.
     static String removeTagsFromString(String string) {
-        int tagStart = 0;
-        int tagEnd = 0;
+        boolean isTag = false;
         StringBuilder sb = new StringBuilder();
-        sb.append(string);
 
-        for (int i = sb.length() - 1; i >= 0; i --) {
-            if (sb.charAt(i) == '>')
-                tagStart = i;
-            else if (sb.charAt(i) == '<') {
-                tagEnd = i;
-                sb.delete(tagEnd, tagStart + 1);
-            }
+        for (int i = 0; i < string.length(); i ++) {
+            if (string.charAt(i) == '<')
+                isTag = true;
+            else if (string.charAt(i) == '>')
+                isTag = false;
+            else if (!isTag)
+                sb.append(string.charAt(i));
         }
 
         return sb.toString().trim();
@@ -61,10 +59,9 @@ public class FileOperations {
     // Метод убирает тэги из списка строк.
     static List<String> removeTagsFromList(List<String> strings) {
         List<String> resultList = new ArrayList<String>();
-        String string;
 
         for (String str : strings) {
-            string = removeTagsFromString(str);
+            String string = removeTagsFromString(str);
             if(string.length() != 0)
                 resultList.add(string);
         }
