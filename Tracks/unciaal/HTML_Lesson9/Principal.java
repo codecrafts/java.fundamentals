@@ -6,21 +6,10 @@ import java.util.ArrayList;
     http://google.com*/
    public class Principal {
         public static void main(String[] args) throws ExceptionHandling {
-            try {
-                //Test test = new Test();
-                //test.testRun();
-                Connector htmlFile = new File("D:\\example.txt");
-                ((File) htmlFile).chekHtml();
-                Row htmlRow = new Row(htmlFile.getFileAsString(),"<a","</a>");
-                ArrayList listr = htmlRow.fillingArray();
-                ArrayList list = htmlRow.searchHyperlinks(listr);
-                ((File) htmlFile).creatFile(list);
-            } catch (ExceptionHandling e) {
-                ExceptionHandling.processErrorCodes(e);
-            }
+                Connector htmlFile = new HtmlFileTransformer("D:\\example.txt","<a","</a>");
+                Row fileString = htmlFile.get_htmlRow_();
+                ArrayList<String> findTagRow = fileString.writeArray();
+                ArrayList<String> ref = fileString.searchHyperlinks(findTagRow);
+                htmlFile.createFile(ref);
         }
-
-
-
-
 }

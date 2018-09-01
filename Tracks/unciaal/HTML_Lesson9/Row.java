@@ -1,21 +1,23 @@
 import java.util.ArrayList;
 
 public class Row {
-    private String row;
-    private String startTag;
-    private String endTag;
-    private int indexContinueTag = 0;
-    public Row(String row,String startTag,String endTag) {
-        this.row = row;
-        this.startTag = startTag;
-        this.endTag = endTag;
+    private String _row_;
+    private String _startTag_;
+    private String _endTag_;
+    private int _indexContinueTag_;
+    public Row(String row,String startTag,String endTag,int indexTag) {
+        this._row_ = row;
+        this._startTag_ = startTag;
+        this._endTag_ = endTag;
+        this._indexContinueTag_ = indexTag;
+
     }
-    public ArrayList fillingArray() {
-        String subRow = row.substring(indexContinueTag);
-        ArrayList rowArray = new ArrayList();
-        while (checkStringContainsTag(subRow)) {
+    public ArrayList writeArray() {
+        String subRow = _row_.substring(_indexContinueTag_);
+        ArrayList<String> rowArray = new ArrayList<String>();
+        while (subRow.contains(_startTag_) && subRow.contains(_endTag_)) {
             rowArray.add(getFindRow());
-            subRow = row.substring(indexContinueTag);
+            subRow = _row_.substring(_indexContinueTag_);
         }
         return rowArray;
     }
@@ -23,25 +25,26 @@ public class Row {
     public String getFindRow() {
         int indexTagStart;
         int indexTagEnd;
-        indexTagStart = searchStartingPosition(row,startTag, indexContinueTag) + startTag.length();
-        indexTagEnd = searchStartingPosition(row,endTag,indexTagStart);
-        indexContinueTag = indexTagEnd + endTag.length();
-        String findRow = row.substring(indexTagStart,indexTagEnd);
+        indexTagStart = searchPosition(_row_, _startTag_, _indexContinueTag_) + _startTag_.length();
+        indexTagEnd = searchPosition(_row_, _endTag_,indexTagStart);
+        _indexContinueTag_ = indexTagEnd + _endTag_.length();
+        String findRow = _row_.substring(indexTagStart,indexTagEnd);
         return findRow;
     }
-    public int searchStartingPosition(String htmlText,String searchStr,int fromIndex) {
+
+    public int searchPosition(String htmlText,String searchStr,int fromIndex) {
         int positionStr = htmlText.indexOf(searchStr,fromIndex);
         return positionStr;
     }
-    private boolean checkStringContainsTag(String row) {
-        if (row.contains(startTag) && row.contains(endTag))return true;
-        return false;
-    }
+
     public ArrayList searchHyperlinks(ArrayList<String> rowHyperlinks) {
-        ArrayList hyperlinks =new ArrayList();
+        ArrayList<String> hyperlinks =new ArrayList<String>();
         for (String href: rowHyperlinks) {
-            Row hrefRow =new Row(href," href=\"","\"");
-            hyperlinks.add(hrefRow.getFindRow());
+            this._row_ = href;
+            this._startTag_ = "href=\"";
+            this._endTag_ = "\"";
+            this._indexContinueTag_ = 0;
+            hyperlinks.add(getFindRow());
         }
         return hyperlinks;
     }
