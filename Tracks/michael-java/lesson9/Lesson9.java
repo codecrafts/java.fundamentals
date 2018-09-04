@@ -20,8 +20,9 @@ import java.nio.charset.Charset;
 import java.io.IOException;
 
 public class Lesson9 {
+
     public static void main(String[] args){
-        HtmlRowI htmlRow;
+        HtmlRow htmlRow;
 
         try {
             htmlRow = new HtmlRow("D:\\example.txt", Charset.defaultCharset());

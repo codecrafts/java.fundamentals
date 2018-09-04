@@ -9,48 +9,51 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HtmlRow implements HtmlRowI{
+public class HtmlRow{
     private final static int LENGTH_OPEN_TAG = 4;
-    private final static int LENGTH_CLOSE_TAG = 5;
     private final static int START_POSITION = 0;
+    private final static int NEXT_STEP = 1;
 
-    private String htmlFileAsString;            // HTML файл в одной строке
-    private List<Header> headerRow;            // список объектов - заголовки
+    private String htmlFileAsString_;           // HTML файл в одной строке
+    private List<Header> headerRow_;            // список объектов - заголовки
 
     HtmlRow(String str) {                       // конструктор для тестов
-        htmlFileAsString = str;
-        headerRow = new ArrayList<>();
+        htmlFileAsString_ = str;
+        headerRow_ = new ArrayList<>();
     }
 
     HtmlRow(String path, Charset encoding) throws IOException {
-        htmlFileAsString = getFileAsString(path, encoding);
-        headerRow = new ArrayList<>();
+        htmlFileAsString_ = getFileAsString(path, encoding);
+        headerRow_ = new ArrayList<>();
     }
 
-    @Override
     public void parsingHeader() throws NoHTMLException {
-        int indexOpenTag;
-        int indexCloseTag;
+        int positionOpenTag;
+        int positionCloseTag;
         String header;
 
         if (!isHTMLFile()) throw new NoHTMLException("Файл не HTML");
 
-        for (Tags tagType: Tags.values()) {
-            int position = START_POSITION;
+            int currentPosition = START_POSITION;
             do {
-                indexOpenTag = htmlFileAsString.indexOf(tagType.getOpenTag(), position);
-                indexCloseTag = htmlFileAsString.indexOf(tagType.getCloseTag(), indexOpenTag);
-                if (indexOpenTag < START_POSITION || indexCloseTag < START_POSITION)
-                    break;
-                header = htmlFileAsString.substring(indexOpenTag + LENGTH_OPEN_TAG, indexCloseTag);
-                headerRow.add(new Header(header, tagType));
-                position = indexCloseTag + LENGTH_CLOSE_TAG;
+                positionOpenTag = htmlFileAsString_.indexOf ("<h", currentPosition);
+                if (positionOpenTag < START_POSITION) break;
+
+                for (Tags tagType: Tags.values()) {
+                    if (tagType.getOpenTag().equals(htmlFileAsString_.substring(positionOpenTag, positionOpenTag + LENGTH_OPEN_TAG))) {
+                        positionCloseTag = htmlFileAsString_.indexOf(tagType.getCloseTag(), positionOpenTag + LENGTH_OPEN_TAG);
+                        if (positionCloseTag < START_POSITION) throw new NoHTMLException("Ошибка тега заголовка: нет закрывающего тега");
+
+                        header = htmlFileAsString_.substring(positionOpenTag + LENGTH_OPEN_TAG, positionCloseTag);
+                        headerRow_.add (new Header (header, tagType));
+                        currentPosition = positionCloseTag;
+                    } else currentPosition = positionOpenTag + NEXT_STEP;
+                }
             } while (true);
-        }
     }
 
     boolean isHTMLFile() {
-        return(htmlFileAsString.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString.startsWith("\uFEFF<html>"));
+        return(htmlFileAsString_.startsWith("\uFEFF<!DOCTYPE html>") || htmlFileAsString_.startsWith("\uFEFF<html>"));
     }
 
     private String getFileAsString(String path, Charset encoding) throws IOException {
@@ -58,12 +61,11 @@ public class HtmlRow implements HtmlRowI{
         return new String(encoded, encoding);
     }
 
-    @Override
     public void saveToFile(String path) throws IOException {
         FileWriter fileReader = new FileWriter(path);
         BufferedWriter bufferedWriter = new BufferedWriter(fileReader);
 
-        for (Header header : headerRow) {
+        for (Header header : headerRow_) {
                 bufferedWriter.write(header.getHeaderString());
                 bufferedWriter.newLine();
         }
@@ -71,6 +73,6 @@ public class HtmlRow implements HtmlRowI{
     }
 
     public Header getHeader(int index) {
-        return headerRow.get(index);
+        return headerRow_.get(index);
     }
 }
