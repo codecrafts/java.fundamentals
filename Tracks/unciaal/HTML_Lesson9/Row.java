@@ -5,7 +5,7 @@ public class Row {
     private String _startTag_;
     private String _endTag_;
     private int _indexContinueTag_;
-    public Row(String row,String startTag,String endTag,int indexTag) {
+    public Row(String row, String startTag, String endTag, int indexTag) {
         this._row_ = row;
         this._startTag_ = startTag;
         this._endTag_ = endTag;
@@ -23,22 +23,15 @@ public class Row {
     }
 
     public String getFindRow() {
-        int indexTagStart;
-        int indexTagEnd;
-        indexTagStart = searchPosition(_row_, _startTag_, _indexContinueTag_) + _startTag_.length();
-        indexTagEnd = searchPosition(_row_, _endTag_,indexTagStart);
+        int indexTagStart = _row_.indexOf (_startTag_, _indexContinueTag_) + _startTag_.length();
+        int indexTagEnd = _row_.indexOf (_endTag_,indexTagStart);
         _indexContinueTag_ = indexTagEnd + _endTag_.length();
         String findRow = _row_.substring(indexTagStart,indexTagEnd);
         return findRow;
     }
 
-    public int searchPosition(String htmlText,String searchStr,int fromIndex) {
-        int positionStr = htmlText.indexOf(searchStr,fromIndex);
-        return positionStr;
-    }
-
-    public ArrayList searchHyperlinks(ArrayList<String> rowHyperlinks) {
-        ArrayList<String> hyperlinks =new ArrayList<String>();
+    public ArrayList getHyperlinks(ArrayList<String> rowHyperlinks) {
+        ArrayList<String> hyperlinks = new ArrayList<String>();
         for (String href: rowHyperlinks) {
             this._row_ = href;
             this._startTag_ = "href=\"";
