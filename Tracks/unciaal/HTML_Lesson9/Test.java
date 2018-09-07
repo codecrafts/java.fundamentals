@@ -11,14 +11,14 @@ public class Test {
             ArrayList<String> hyperlinks = testRow.getHyperlinks(findRow);
             String result =  hyperlinks.get(0);
             if (result.equals("http://google.com")) System.out.println("Тест с верными входными данными пройден");
-        }
+        } else System.out.println("Тест с верными входными данными не пройден");
 
         //тест с не верными входными данными
         Row testWrongRow = new Row(" href=\"http://google.com\">Google it","<a","</a>",0);
         ArrayList<String> findWrongRow = testWrongRow.writeArray();
         if (findWrongRow.size() == 0) {
              System.out.println("Тест с неверными входными данными пройден");
-        }
+        }  else System.out.println("Тест с неверными входными данными не пройден");
 
     }
 
