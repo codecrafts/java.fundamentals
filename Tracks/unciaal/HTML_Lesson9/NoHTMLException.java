@@ -4,9 +4,6 @@ public class NoHTMLException extends Exception {
         super(message);
     }
 
-    public NoHTMLException() {
-
-    }
 }
 
 

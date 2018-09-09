@@ -9,7 +9,7 @@ import java.util.ArrayList;
         public static void main(String[] args) throws NoHTMLException, IOException {
             Test.makeTests();
                 Connector htmlFile = new HtmlFileTransformer("D:\\example.txt","<a","</a>");
-                Row fileString = htmlFile.get_HtmlRow_();
+                Row fileString = htmlFile.getHtmlRow();
                 ArrayList<String> findTagRow = fileString.writeArray();
                 ArrayList<String> ref = fileString.getHyperlinks(findTagRow);
                 htmlFile.createFile(ref);

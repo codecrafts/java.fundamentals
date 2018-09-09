@@ -9,7 +9,7 @@ public class HtmlFileTransformer implements Connector {
     private final String _path_;
     private Row _htmlRow_;
 
-    public Row get_HtmlRow_() {
+    public Row getHtmlRow() {
         return _htmlRow_;
     }
 
