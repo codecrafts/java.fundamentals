@@ -2,6 +2,7 @@ package ru.codecrafts;
 import java.util.Scanner;
 
 public class Primenumber {
+    static final int amountTest = 5;
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("To what range we will look for prime numbers? ");
@@ -23,7 +24,7 @@ public class Primenumber {
         }
     }
     static boolean isPrime(int num) {
-        if (num < 2){
+        if (num < 2) {
             return false;
         }
         for (int i = 2; i <= Math.sqrt(num); i++) {
@@ -32,5 +33,30 @@ public class Primenumber {
             }
         }
         return true;
+    }
+    static boolean testCode() {
+        int testcount = 0;
+        if (isPrime(109)) {
+            System.out.println("Test passed!");
+            testcount++;
+        }
+        if (isPrime(997)) {
+            System.out.println("Test passed!");
+            testcount++;
+        }
+        if (!isPrime(-7)) {
+            System.out.println("Test passed!");
+            testcount++;
+        }
+        if (!isPrime(1)) {
+            System.out.println("Test passed!");
+            testcount++;
+        }
+        if (!isPrime(0)) {
+            System.out.println("Test passed!");
+            testcount++;
+        }
+        if (testcount == amountTest) return true;
+        else return false;
     }
 }
