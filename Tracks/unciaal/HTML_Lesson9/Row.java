@@ -12,7 +12,7 @@ public class Row {
         this._indexContinueTag_ = indexTag;
 
     }
-    public ArrayList writeArray() {
+    public ArrayList getTagArray() {
         String subRow = _row_.substring(_indexContinueTag_);
         ArrayList<String> rowArray = new ArrayList<String>();
         while (subRow.contains(_startTag_) && subRow.contains(_endTag_)) {

@@ -16,7 +16,7 @@ public class HtmlFileTransformer implements Connector {
     public HtmlFileTransformer(String path, String startTag, String endTag) throws IOException, NoHTMLException {
         this._path_ = path;
         String row = getFileAsString();
-        chekHtml(row);
+        cheсkHtml(row);
         this._htmlRow_ = new Row(row,startTag,endTag,0);
     }
 
@@ -40,9 +40,9 @@ public class HtmlFileTransformer implements Connector {
         bufferedWriter.flush();
     }
 
-    public void chekHtml (String row) throws NoHTMLException {
+    public void cheсkHtml(String row) throws NoHTMLException {
             Row html = new Row(row, "<html>", "</html>",0);
-            ArrayList<String> listRow = html.writeArray();
+            ArrayList<String> listRow = html.getTagArray();
             if (listRow.size() == 0) throw new NoHTMLException("Файл не HTML");
     }
 }

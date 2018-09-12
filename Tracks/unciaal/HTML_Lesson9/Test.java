@@ -5,7 +5,7 @@ public class Test {
 
         //тест с верными входными данными
         Row testRow = new Row("<a href=\"http://google.com\">Google it</a>","<a","</a>",0);
-        ArrayList<String> findRow = testRow.writeArray();
+        ArrayList<String> findRow = testRow.getTagArray();
         String textTest = findRow.get(0);
         if (textTest.equals(" href=\"http://google.com\">Google it")) {
             ArrayList<String> hyperlinks = testRow.getHyperlinks(findRow);
@@ -15,7 +15,7 @@ public class Test {
 
         //тест с не верными входными данными
         Row testWrongRow = new Row(" href=\"http://google.com\">Google it","<a","</a>",0);
-        ArrayList<String> findWrongRow = testWrongRow.writeArray();
+        ArrayList<String> findWrongRow = testWrongRow.getTagArray();
         if (findWrongRow.size() == 0) {
              System.out.println("Тест с неверными входными данными пройден");
         }  else System.out.println("Тест с неверными входными данными не пройден");
