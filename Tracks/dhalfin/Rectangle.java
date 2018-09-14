@@ -1,19 +1,19 @@
 package ru.codecrafts;
 
 public class Rectangle implements Figure {
-    private Point a;
-    private Point b;
-    private Point c;
-    private Point d;
+    private Point A;
+    private Point B;
+    private Point C;
+    private Point D;
 
     private Rectangle() {
     }
 
     public Rectangle(Point a, Point b, Point c, Point d) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
+        this.A = a;
+        this.B = b;
+        this.C = c;
+        this.D = d;
     }
 
     public static Builder newBuilder() {
@@ -22,22 +22,22 @@ public class Rectangle implements Figure {
 
     public class Builder {
         public Builder setA(int x, int y) {
-            Rectangle.this.a = new Point(x, y);
+            Rectangle.this.A = new Point(x, y);
             return this;
         }
 
         public Builder setB(int x, int y) {
-            Rectangle.this.b =  new Point(x, y);
+            Rectangle.this.B =  new Point(x, y);
             return this;
         }
 
         public Builder setC(int x, int y) {
-            Rectangle.this.c =  new Point(x, y);
+            Rectangle.this.C =  new Point(x, y);
             return this;
         }
 
         public Builder setD(int x, int y) {
-            Rectangle.this.d = new Point(x, y);
+            Rectangle.this.D = new Point(x, y);
             return this;
         }
 
@@ -46,18 +46,18 @@ public class Rectangle implements Figure {
         }
     }
     // get the area of rectangle
-    public float getSquare() {
-        float x1 = a.getX();
-        float y1 = a.getY();
-        float x2 = b.getX();
-        float y2 = b.getY();
-        float x3 = c.getX();
-        float y3 = c.getY();
-        float AB = (float) Math.abs(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-        float BC = (float) Math.abs(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
-        float space = AB * BC;
+    public double getSquare() {
+        double x1 = A.getX();
+        double y1 = A.getY();
+        double x2 = B.getX();
+        double y2 = B.getY();
+        double x3 = C.getX();
+        double y3 = C.getY();
+        double AB = (float) Math.abs(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+        double BC = (float) Math.abs(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
+        double space = AB * BC;
         if (space == 0)
-            space = Float.NaN;
+            space = Double.NaN;
         return space;
     }
     // validation of coordinates
@@ -65,13 +65,13 @@ public class Rectangle implements Figure {
         boolean isValidRect = false;
         int sheerSides = 0;
 
-        if ((b.getX() - a.getX()) * (c.getX() - b.getX()) + (b.getY() - a.getY()) * (c.getY() - b.getY()) == 0)
+        if ((B.getX() - A.getX()) * (C.getX() - B.getX()) + (B.getY() - A.getY()) * (C.getY() - B.getY()) == 0)
             sheerSides++;
-        if ((c.getX() - b.getX()) * (d.getX() - c.getX()) + (c.getY() - b.getY()) * (d.getY() - c.getY()) == 0)
+        if ((C.getX() - B.getX()) * (D.getX() - C.getX()) + (C.getY() - B.getY()) * (D.getY() - C.getY()) == 0)
             sheerSides++;
-        if ((d.getX() - c.getX()) * (a.getX() - d.getX()) + (d.getY() - c.getY()) * (a.getY() - d.getY()) == 0)
+        if ((D.getX() - C.getX()) * (A.getX() - D.getX()) + (D.getY() - C.getY()) * (A.getY() - D.getY()) == 0)
             sheerSides++;
-        if ((a.getX() - d.getX()) * (b.getX() - a.getX()) + (a.getY() - d.getY()) * (b.getY() - a.getY()) == 0)
+        if ((A.getX() - D.getX()) * (B.getX() - A.getX()) + (A.getY() - D.getY()) * (B.getY() - A.getY()) == 0)
             sheerSides++;
         if (sheerSides == 4)  // If all 4 lines are perpendicular, so then we have a rectangle.
             isValidRect = true;
