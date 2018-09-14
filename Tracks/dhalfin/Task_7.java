@@ -11,10 +11,10 @@ public class Task_7 {
     static final int Test_size = 5;
 
     public static void main(String[] args) {
-        Point a = inletPointXY("A");
-        Point b = inletPointXY("B");
-        Point c = inletPointXY("C");
-        Point d = inletPointXY("D");
+        Point a = inputPointXY("A");
+        Point b = inputPointXY("B");
+        Point c = inputPointXY("C");
+        Point d = inputPointXY("D");
         Figure oblong = new Rectangle(a, b, c, d);
 
         if(!oblong.isValid ())
@@ -48,11 +48,11 @@ public class Task_7 {
         if (!testOblong1.isValid ()) testCounter++;            // checking the entered coordinates
         if (testOblong2.isValid ()) testCounter++;
         if (testOblong2.getSquare() != 0) testCounter++;       // check the area
-        if (Float.isNaN(testOblong.getSquare())) testCounter++;
+        if (Double.isNaN(testOblong.getSquare())) testCounter++;
         System.out.println (attemptTest() ? "test passed" : "test failed");
         return testCounter == Test_size;                       // return true if all tests passed successfully
     }
-    public static Point inletPointXY(String point){
+    public static Point inputPointXY(String point){
         Scanner get = new Scanner(System.in);
         System.out.println("Enter the 1-st coordinate of point: " +  point);
         int x = get.nextInt();
