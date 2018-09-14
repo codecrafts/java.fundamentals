@@ -1,6 +1,6 @@
 package ru.codecrafts;
 
 public interface Figure {
-    float getSquare();
+    double getSquare();
     boolean isValid();
 }
