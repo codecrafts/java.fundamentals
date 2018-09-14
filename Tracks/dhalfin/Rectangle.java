@@ -53,8 +53,8 @@ public class Rectangle implements Figure {
         double y2 = B.getY();
         double x3 = C.getX();
         double y3 = C.getY();
-        double AB = (float) Math.abs(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-        double BC = (float) Math.abs(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
+        double AB = Math.abs(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+        double BC = Math.abs(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
         double space = AB * BC;
         if (space == 0)
             space = Double.NaN;
