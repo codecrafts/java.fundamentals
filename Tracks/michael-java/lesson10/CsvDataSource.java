@@ -15,11 +15,14 @@ public class CsvDataSource implements CsvDataSourceObservable {
     private List<String> strokeUnparsedList_;                   // строчки из CSV файла
     private TransactionsObserver transactionsListObserver_;     // наблюдатель
 
+    public CsvDataSource() {}
+
     public CsvDataSource(String path, Charset encoding) throws IOException {
-        strokeUnparsedList_ = getFileStrings(path, encoding);
+        strokeUnparsedList_ = Files.readAllLines(Paths.get(path), encoding);
     }
-    private static List<String> getFileStrings(String path, Charset encoding) throws IOException {
-        return Files.readAllLines(Paths.get(path), encoding);
+
+    public void setStrokeUnparsedList_(List<String> strokeUnparsedList_) {
+        this.strokeUnparsedList_ = strokeUnparsedList_;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class CsvDataSource implements CsvDataSourceObservable {
         transactionsListObserver_ = transactionsListObserver;
     }
 
-    public void parsTransactions() throws noValidFileExeption {
+    public void parsTransactions() throws noValidFileExeption {     // парсер строчек csv файла,
         LocalDate date;
         double sum;
         String type;
@@ -36,19 +39,20 @@ public class CsvDataSource implements CsvDataSourceObservable {
         int secondSemicolon;
         int thirdSemicolon;
         String parsedLine;
-
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        if(strokeUnparsedList_.isEmpty()) throw new noValidFileExeption("Неверный формат входного файла");
 
         for (int i = 1; i < strokeUnparsedList_.size(); i++) {
             parsedLine = strokeUnparsedList_.get(i);
-
             firstSemicolon = parsedLine.indexOf(";");
             secondSemicolon = parsedLine.indexOf(";", firstSemicolon + 1);
             thirdSemicolon = parsedLine.indexOf(";", secondSemicolon + 1);
+
             if (firstSemicolon < 0 &&  secondSemicolon < 0 && thirdSemicolon < 0)  throw new noValidFileExeption("Неверный формат входного файла");
 
-            String parsedDate = parsedLine.substring(0, firstSemicolon);
-            String parsedSum = parsedLine.substring(firstSemicolon + 1, secondSemicolon);
+            String parsedDate = parsedLine.substring(0, firstSemicolon);                        // первое поле - дата
+            String parsedSum = parsedLine.substring(firstSemicolon + 1, secondSemicolon);       // второе поле - сумма
 
             if(!isValid(parsedDate, parsedSum)) throw new noValidFileExeption("Неверный формат входного файла");
 
@@ -56,45 +60,21 @@ public class CsvDataSource implements CsvDataSourceObservable {
             sum = Double.parseDouble(parsedSum);
             type = parsedLine.substring(secondSemicolon + 1, thirdSemicolon);
             description = parsedLine.substring(thirdSemicolon + 1);
-            notifyTransaction(date, sum, type, description);
+
+            notifyTransaction(date, sum, type, description);                                    // сигналим наблюдателю
         }
     }
 
-    public void saveToFile(String path) throws IOException {
-        String SEMICOLON = ";";
-        StringBuilder string;
-
-        FileWriter fileReader = new FileWriter(path);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileReader);
-        bufferedWriter.write("Дата;Сумма расходов за день");
-        bufferedWriter.newLine();
-
-        for (TransactionsList.DayItogTransactions transactionsListObserver_ : transactionsListObserver_.getDayTransactionsList()) {
-            string = new StringBuilder(String.valueOf(transactionsListObserver_.getDate()));
-            string.append(SEMICOLON);
-            string.append(String.valueOf(transactionsListObserver_.getDaySum()));
-            bufferedWriter.write(String.valueOf(string));
-            bufferedWriter.newLine();
-        }
-        bufferedWriter.flush();
+    private boolean isValid(String date, String sum) {
+        return (isDateValid(date) && isDigit(sum));
     }
 
-    boolean isValid(String date, String sum) {
-        return (isDateValid(date) && isNumeric(sum) && isDigit(sum));
-    }
-
-    private boolean isNumeric(String string) {
-        NumberFormat formatter = NumberFormat.getInstance();
-        ParsePosition pos = new ParsePosition(0);
-        formatter.parse(string, pos);
-        return string.length() == pos.getIndex();
-    }
-
-    static boolean isDateValid(String value) {
-        if (value == null && value.length() != DATE_SIZE) {
+    boolean isDateValid(String value) {
+        if (value == null && value.length() != DATE_SIZE && value.length() != 0) {
             return false;
         }
         SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+
         formatter.setLenient(false);
         try {
             formatter.parse(value);
@@ -104,7 +84,7 @@ public class CsvDataSource implements CsvDataSourceObservable {
         return true;
     }
 
-    private static boolean isDigit(String value) throws NumberFormatException {
+    boolean isDigit(String value) throws NumberFormatException {
         if (value.equals("")) {
             return false;
         }

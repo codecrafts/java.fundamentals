@@ -16,9 +16,13 @@ package lesson10;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
+
+import static org.mockito.Mockito.mock;
 
 public class Lesson10 {
     public static void main(String[] args) throws Exception {
+
 
         CsvDataSource csvDataSource;
         try {
@@ -26,8 +30,9 @@ public class Lesson10 {
             TransactionsList transactionsList = new TransactionsList(csvDataSource);
             csvDataSource.parsTransactions();
             transactionsList.calculateDaysCosts();
-            csvDataSource.saveToFile("D:\\result.csv");
-//            Test.doTest();
+            transactionsList.saveToFile("D:\\result.csv");
+            Test test = new Test();
+            test.doTest();
         } catch (IOException | noValidFileExeption e) {
             System.out.println("IOException is thrown " + e.getMessage() + e.toString());
             e.printStackTrace();

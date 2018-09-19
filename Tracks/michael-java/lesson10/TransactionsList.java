@@ -1,16 +1,19 @@
 package lesson10;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TransactionsList implements TransactionsObserver {
-    private ArrayList<TransactionsList.Transaction> transactionsList_;      // список транзакций
-    private ArrayList<DayItogTransactions> dayItogTransactionsList_;        // итоги транзакций за день
+    private ArrayList<Transaction> transactionsList_;                         // список транзакций
+    private ArrayList<DayItogTransactions> dayItogTransactionsList_;          // итоги транзакций за день
 
     public TransactionsList(CsvDataSourceObservable csvDataSource) {
         transactionsList_ = new ArrayList<>();
         dayItogTransactionsList_ = new ArrayList<>();
-        csvDataSource.registerTransactionsObserver(this);
+        csvDataSource.registerTransactionsObserver(this);       // регистрируем наблюдателя
     }
 
     @Override
@@ -23,31 +26,30 @@ public class TransactionsList implements TransactionsObserver {
         transactionsList_.add(new Transaction(date, sum, type, description));
     }
 
-    public void calculateDaysCosts() {
+    public void calculateDaysCosts() throws Exception {     // считаем итоги расходов за день
         LocalDate date;
-        double costsSum_;
+        double costsSum;
 
-        if (!transactionsList_.isEmpty()) {
-            date = transactionsList_.get(0).date_;
-            costsSum_ = transactionsList_.get(0).sum_ < 0 ? transactionsList_.get(0).sum_ : 0;
+        dayItogTransactionsList_.clear();
+        if (transactionsList_.isEmpty()) throw new Exception("Список транзакций пуст!");
 
-            for (int i = 1; i < transactionsList_.size(); i++) {
-                if (transactionsList_.get(i).date_.equals(date) && transactionsList_.get(i).sum_ < 0)
-                    costsSum_ += Math.abs(transactionsList_.get(i).sum_);
-                else {
-                    dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum_));
-                    costsSum_ = transactionsList_.get(i).sum_ < 0 ? transactionsList_.get(i).sum_ : 0;
-                    date = transactionsList_.get(i).date_;
-                }
-                if (i == transactionsList_.size() - 1)
-                    dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum_));
+        date = transactionsList_.get(0).date_;
+        costsSum = transactionsList_.get(0).sum_ < 0 ? Math.abs(transactionsList_.get(0).sum_): 0;
+
+        for (int i = 1; i < transactionsList_.size(); i++) {
+            if (transactionsList_.get(i).date_.equals(date) && transactionsList_.get(i).sum_ < 0)
+                costsSum += Math.abs(transactionsList_.get(i).sum_);
+            else {
+                dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum));
+                costsSum = transactionsList_.get(i).sum_ < 0 ? Math.abs(transactionsList_.get(i).sum_) : 0;
+                date = transactionsList_.get(i).date_;
             }
-        } else
-            System.out.println("Список транзакций пуст");
+            if (i == transactionsList_.size() - 1)
+                dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum));
+        }
     }
 
-
-    public class DayItogTransactions {              // итогои транзакций за день
+    public class DayItogTransactions {              // итоги транзакций за день
         private final LocalDate date_;
         private final double dayCostsSum;
 
@@ -65,7 +67,7 @@ public class TransactionsList implements TransactionsObserver {
         }
     }
 
-    public class Transaction {                  // транзакции
+    public class Transaction {                      // транзакция
         private final LocalDate date_;
         private final double sum_;
         private String type_;
@@ -77,5 +79,24 @@ public class TransactionsList implements TransactionsObserver {
             type_ = type;
             description_ = description;
         }
+    }
+
+    public void saveToFile(String path) throws IOException {
+        String SEMICOLON = ";";
+        StringBuilder string;
+
+        FileWriter fileReader = new FileWriter(path);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileReader);
+        bufferedWriter.write("Дата;Сумма расходов за день");
+        bufferedWriter.newLine();
+
+        for (DayItogTransactions itogTransactions : dayItogTransactionsList_) {
+            string = new StringBuilder(String.valueOf(itogTransactions.getDate()));
+            string.append(SEMICOLON);
+            string.append(String.valueOf(itogTransactions.getDaySum()));
+            bufferedWriter.write(String.valueOf(string));
+            bufferedWriter.newLine();
+        }
+        bufferedWriter.flush();
     }
 }
