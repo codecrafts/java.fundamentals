@@ -6,12 +6,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionList implements Observed{
-    private List<Transaction> transactions_ = new ArrayList<Transaction>();
-    private List<Observer> observers_ = new ArrayList<Observer>();
+    private List<Transaction> transactions_;
+    private List<Observer> observers_;
+
+    public TransactionList() {
+        this.transactions_ = new ArrayList<Transaction>();
+        this.observers_ = new ArrayList<Observer>();
+    }
 
     static class Transaction {
-        int cash;
-        int semicolonCounter = 0;
+        private int cash;
+        private int semicolonCounter = 0;
+
+        public int getCash() {
+            return this.cash;
+        }
 
         public Transaction(String transactionString) {
             try {
@@ -64,6 +73,10 @@ public class TransactionList implements Observed{
         }
     }
 
+    public List<Transaction> getTransactions_() {
+        return transactions_;
+    }
+
     public void getTranListFromFile(String path) {
         try {
             List<String> stringList = FileReader.getFileStrings(path, Charset.defaultCharset());
@@ -81,7 +94,14 @@ public class TransactionList implements Observed{
         notifyObservers();
     }
 
-    public void removeTransaction(Transaction transaction) {
+    public void addTransaction(String text) {
+        Transaction transaction = new Transaction(text);
+        this.transactions_.add(transaction);
+        notifyObservers();
+    }
+
+    public void removeTransaction(String text) {
+        Transaction transaction = new Transaction(text);
         this.transactions_.remove(transaction);
         notifyObservers();
     }
@@ -99,7 +119,7 @@ public class TransactionList implements Observed{
     @Override
     public void notifyObservers() {
         for(Observer observer : observers_) {
-            observer.Calculate(transactions_);
+            observer.handleEvent(this);
         }
     }
 }
