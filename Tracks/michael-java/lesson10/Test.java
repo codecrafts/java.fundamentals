@@ -1,15 +1,12 @@
 package lesson10;
 
-import org.mockito.Mock;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 
 public class Test {
 
-    public void doUnitTest() throws Exception {
+    public void doUnitTest() {
         CsvDataSource csvDataSource = new CsvDataSource();
 
         // тесты метода проверки поля даты
@@ -33,13 +30,9 @@ public class Test {
         MockCsvDataSource mockCsvDataSource = new MockCsvDataSource();
         TransactionsList transactionsList = new TransactionsList(mockCsvDataSource);
 
-        mockCsvDataSource.notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), 100000, "", "");
-        mockCsvDataSource.notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), -300, "Бизнес-ланч", "Еда");
-        mockCsvDataSource.notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), -100, "Перекус", "Еда");
-        mockCsvDataSource.notifyTransaction(LocalDate.of(2018, Month.AUGUST, 20), -300, "Аддон к Ведьмаку 3", "Развлечения");
-        mockCsvDataSource.notifyTransaction(LocalDate.of(2018, Month.AUGUST, 19), -3000, "Шмотки", "Покупки");
-
+        mockCsvDataSource.mockNotifyTransaction();
         transactionsList.calculateDaysCosts();
+
         LocalDate date = transactionsList.getDayTransactionsList().get(0).getDate();
         double sum = transactionsList.getDayTransactionsList().get(0).getDaySum();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
@@ -52,8 +45,8 @@ public class Test {
         System.out.println(sum == 300 ? "тест пройден" : "тест не пройден");
     }
 
-    class MockCsvDataSource implements CsvDataSourceObservable {
-        private TransactionsObserver transactionsListObserver_;     // наблюдатель
+    class MockCsvDataSource implements CsvDataSourceObservable {    // mock для CsvDataSource
+        private TransactionsObserver transactionsListObserver_;
 
         @Override
         public void registerTransactionsObserver(TransactionsObserver transactionsListObserver) {
@@ -61,8 +54,14 @@ public class Test {
         }
 
         @Override
-        public void notifyTransaction(LocalDate date, double sum, String type, String description) {
-            transactionsListObserver_.onUpdate(date, sum, type, description);
+        public void notifyTransaction(LocalDate date, double sum, String type, String description) {}
+
+        void mockNotifyTransaction() {
+            notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), 100000, "", "");
+            notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), -300, "Бизнес-ланч", "Еда");
+            notifyTransaction(LocalDate.of(2018, Month.AUGUST, 21), -100, "Перекус", "Еда");
+            notifyTransaction(LocalDate.of(2018, Month.AUGUST, 20), -300, "Аддон к Ведьмаку 3", "Развлечения");
+            notifyTransaction(LocalDate.of(2018, Month.AUGUST, 19), -3000, "Шмотки", "Покупки");
         }
     }
 }
