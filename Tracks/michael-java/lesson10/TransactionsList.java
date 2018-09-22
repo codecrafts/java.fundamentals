@@ -8,17 +8,17 @@ import java.util.ArrayList;
 
 public class TransactionsList implements TransactionsObserver {
     private ArrayList<Transaction> transactionsList_;                         // список транзакций
-    private ArrayList<DayItogTransactions> dayItogTransactionsList_;          // итоги транзакций за день
+    private ArrayList<DayResultTransactions> dayResultTransactions_;          // итоги транзакций за день
 
     public TransactionsList(CsvDataSourceObservable csvDataSource) {
         transactionsList_ = new ArrayList<>();
-        dayItogTransactionsList_ = new ArrayList<>();
+        dayResultTransactions_ = new ArrayList<>();
         csvDataSource.registerTransactionsObserver(this);       // регистрируем наблюдателя
     }
 
     @Override
-    public ArrayList<DayItogTransactions> getDayTransactionsList() {
-        return dayItogTransactionsList_;
+    public ArrayList<DayResultTransactions> getDayTransactionsList() {
+        return dayResultTransactions_;
     }
 
     @Override
@@ -30,7 +30,7 @@ public class TransactionsList implements TransactionsObserver {
         LocalDate date;
         double costsSum;
 
-        dayItogTransactionsList_.clear();
+        dayResultTransactions_.clear();
         if (transactionsList_.isEmpty()) throw new Exception("Список транзакций пуст!");
 
         date = transactionsList_.get(0).date_;
@@ -40,20 +40,20 @@ public class TransactionsList implements TransactionsObserver {
             if (transactionsList_.get(i).date_.equals(date) && transactionsList_.get(i).sum_ < 0)
                 costsSum += Math.abs(transactionsList_.get(i).sum_);
             else {
-                dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum));
+                dayResultTransactions_.add(new DayResultTransactions(date, costsSum));
                 costsSum = transactionsList_.get(i).sum_ < 0 ? Math.abs(transactionsList_.get(i).sum_) : 0;
                 date = transactionsList_.get(i).date_;
             }
             if (i == transactionsList_.size() - 1)
-                dayItogTransactionsList_.add(new DayItogTransactions(date, costsSum));
+                dayResultTransactions_.add(new DayResultTransactions(date, costsSum));
         }
     }
 
-    public class DayItogTransactions {              // итоги транзакций за день
+    public class DayResultTransactions {              // итоги транзакций за день
         private final LocalDate date_;
         private final double dayCostsSum;
 
-        DayItogTransactions(LocalDate date, double sum) {
+        DayResultTransactions(LocalDate date, double sum) {
             date_ = date;
             dayCostsSum = sum;
         }
@@ -90,7 +90,7 @@ public class TransactionsList implements TransactionsObserver {
         bufferedWriter.write("Дата;Сумма расходов за день");
         bufferedWriter.newLine();
 
-        for (DayItogTransactions itogTransactions : dayItogTransactionsList_) {
+        for (DayResultTransactions itogTransactions : dayResultTransactions_) {
             string = new StringBuilder(String.valueOf(itogTransactions.getDate()));
             string.append(SEMICOLON);
             string.append(String.valueOf(itogTransactions.getDaySum()));

@@ -1,12 +1,10 @@
 package lesson10;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.text.*;
-import java.time.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -19,10 +17,6 @@ public class CsvDataSource implements CsvDataSourceObservable {
 
     public CsvDataSource(String path, Charset encoding) throws IOException {
         strokeUnparsedList_ = Files.readAllLines(Paths.get(path), encoding);
-    }
-
-    public void setStrokeUnparsedList_(List<String> strokeUnparsedList_) {
-        this.strokeUnparsedList_ = strokeUnparsedList_;
     }
 
     @Override
@@ -70,11 +64,11 @@ public class CsvDataSource implements CsvDataSourceObservable {
     }
 
     boolean isDateValid(String value) {
-        if (value == null && value.length() != DATE_SIZE && value.length() != 0) {
+        if (value == null && value.length() != DATE_SIZE) {
             return false;
         }
-        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
         formatter.setLenient(false);
         try {
             formatter.parse(value);

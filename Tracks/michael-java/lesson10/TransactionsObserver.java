@@ -5,6 +5,6 @@ import java.util.ArrayList;
 
 public interface TransactionsObserver {
 
-    ArrayList<TransactionsList.DayItogTransactions> getDayTransactionsList();
+    ArrayList<TransactionsList.DayResultTransactions> getDayTransactionsList();
     void onUpdate(LocalDate date, double sum, String type, String description);
 }
