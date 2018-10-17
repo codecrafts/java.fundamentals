@@ -10,20 +10,34 @@
 //Тесты должны быть написаны для класса бизнес-логики с использованием техники мокирования данных. (без использования файла данных) .
 //Необходимо посчитать баланс денег (доходы - расходы) за неделю.
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+
 public class Lesson10 {
     public static void main(String[] args) {
-        System.out.println("==========================================");
-        System.out.println("Running mock tests.");
-        System.out.println("==========================================");
-        MockingTranList mockTest = new MockingTranList();
-        mockTest.doMockTest();
+        TestsLesson10.doMockTests();
 
-        System.out.println("==========================================");
-        System.out.println("Reading data from file");
-        System.out.println("==========================================");
-        TransactionList transactionList = new TransactionList();
-        BudgetCalculator budgetCalc = new BudgetCalculator();
-        transactionList.addObserver(budgetCalc);
-        transactionList.getTranListFromFile("C:\\Users\\stan\\GitHub\\java.fundamentals\\Tracks\\Zaqwesx\\lesson10\\DataSource");
+        System.out.println("Введите дату начала рассчета(число.месяц.год):");
+        Scanner input = new Scanner(System.in);
+        String date = input.next();
+        if (TransactionList.Transaction.isValidDate(date)) {
+            System.out.println("==========================================");
+            System.out.println("Reading data from file");
+            System.out.println("==========================================");
+            CsvFileTransactionLoader csvFileTransactionLoader = new CsvFileTransactionLoader("C:\\Users\\stan\\GitHub\\java.fundamentals\\Tracks\\Zaqwesx\\lesson10\\DataSource");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+            TransactionList transactionList = null;
+            try {
+               transactionList = new TransactionList(csvFileTransactionLoader.getTransactions_(), formatter.parse(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            csvFileTransactionLoader.addObserver(transactionList);
+            csvFileTransactionLoader.addTransaction("1.01.2018;-1000;Продукты в Ашане;Еда");
+            csvFileTransactionLoader.removeTransaction("21.08.2018;100000;Аванс;Зарплата");
+        } else
+            System.out.println("Неверная дата.");
     }
 }

@@ -1,40 +1,91 @@
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class TransactionList implements Observed{
+public class TransactionList implements Observer{
     private List<Transaction> transactions_;
-    private List<Observer> observers_;
+    private int totalExceptions;
+    private Date date;
 
-    public TransactionList() {
+    public int getTotalExceptions() {
+        return totalExceptions;
+    }
+
+    public TransactionList(List<String> stringList, Date date) {
         this.transactions_ = new ArrayList<Transaction>();
-        this.observers_ = new ArrayList<Observer>();
+        this.totalExceptions = 0;
+        this.date = date;
+
+        for (String str : stringList) {
+            Transaction trans = new Transaction(str);
+            if (trans.exceptionThrown)
+                this.totalExceptions ++;
+            this.transactions_.add(trans);
+
+        }
+
+        calculate(date);
+    }
+
+    @Override
+    public void handleEvent(List<String> stringList) {
+        this.transactions_.clear();
+        this.totalExceptions = 0;
+        for (String str : stringList) {
+            Transaction trans = new Transaction(str);
+            if (trans.exceptionThrown)
+                this.totalExceptions ++;
+            this.transactions_.add(trans);
+        }
+
+        calculate(date);
+    }
+
+    public void calculate(Date date) {
+        int balance = 0;
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+        Date startDate = calendar.getTime();
+        calendar.add(Calendar.DAY_OF_MONTH, 8);
+        Date endDate = calendar.getTime();
+
+        for (TransactionList.Transaction trans : this.transactions_) {
+            if (trans.getDate() != null && trans.getDate().after(startDate) && trans.getDate().before(endDate)) {
+                balance = balance + trans.getCash();
+            }
+        }
+
+        System.out.println("Balance: " + balance);
     }
 
     static class Transaction {
+        private Date date;
         private int cash;
         private int semicolonCounter = 0;
+        private boolean exceptionThrown = false;
 
         public int getCash() {
             return this.cash;
         }
 
+        public Date getDate() {
+            return date;
+        }
+
         public Transaction(String transactionString) {
             try {
-                this.cash = getCashFromTran(transactionString);
+                parseTransaction(transactionString);
             } catch (NotCvsException e) {
+                exceptionThrown = true;
                 e.printStackTrace();
             }
         }
 
-        public Integer getCashFromTran(String transaction) throws NotCvsException{
-            for (int i = 0; i < transaction.length(); i ++) {
+        public void parseTransaction(String transaction) throws NotCvsException {
+            for (int i = 0; i < transaction.length(); i++) {
                 if (transaction.charAt(i) == ';')
-                    semicolonCounter ++;
-
+                    semicolonCounter++;
             }
 
             if (semicolonCounter != 3)
@@ -42,19 +93,26 @@ public class TransactionList implements Observed{
 
             String[] transactionParts = transaction.split(";");
 
-            for (int i = 0; i < transactionParts.length; i ++)
+            for (int i = 0; i < transactionParts.length; i++)
                 if (transactionParts[i].trim() == null)
                     throw new NotCvsException("Fields are lacking data.");
 
-            if (!isValidDate(transactionParts[0]))
+            if (isValidDate(transactionParts[0])) {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+                try {
+                    this.date = formatter.parse(transactionParts[0]);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } else {
                 throw new NotCvsException("Wrong date.");
+            }
 
             try {
                 this.cash = Integer.parseInt(transactionParts[1]);
             } catch (NumberFormatException ex) {
                 throw new NotCvsException("Wrong cash format.");
             }
-            return this.cash;
         }
 
         public static boolean isValidDate(String date) {
@@ -70,56 +128,6 @@ public class TransactionList implements Observed{
                 return false;
             }
             return true;
-        }
-    }
-
-    public List<Transaction> getTransactions_() {
-        return transactions_;
-    }
-
-    public void getTranListFromFile(String path) {
-        try {
-            List<String> stringList = FileReader.getFileStrings(path, Charset.defaultCharset());
-            for (int i = 1; i < stringList.size(); i ++) {
-                Transaction trans = new Transaction(stringList.get(i));
-                this.addTransaction(trans);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addTransaction(Transaction transaction) {
-        this.transactions_.add(transaction);
-        notifyObservers();
-    }
-
-    public void addTransaction(String text) {
-        Transaction transaction = new Transaction(text);
-        this.transactions_.add(transaction);
-        notifyObservers();
-    }
-
-    public void removeTransaction(String text) {
-        Transaction transaction = new Transaction(text);
-        this.transactions_.remove(transaction);
-        notifyObservers();
-    }
-
-    @Override
-    public void addObserver(Observer observer) {
-        this.observers_.add(observer);
-    }
-
-    @Override
-    public void removeObserver(Observer observer) {
-        this.observers_.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for(Observer observer : observers_) {
-            observer.handleEvent(this);
         }
     }
 }

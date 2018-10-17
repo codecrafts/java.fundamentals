@@ -1,3 +1,5 @@
+import java.util.List;
+
 public interface Observer {
-    void handleEvent(TransactionList transactions);
+    void handleEvent(List<String> stringList);
 }
