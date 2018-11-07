@@ -35,8 +35,10 @@ public class Lesson10 {
             }
 
             csvFileTransactionLoader.addObserver(transactionList);
-            csvFileTransactionLoader.addTransaction("1.01.2018;-1000;Продукты в Ашане;Еда");
-            csvFileTransactionLoader.removeTransaction("21.08.2018;100000;Аванс;Зарплата");
+            csvFileTransactionLoader.addObserver(transactionList);
+            csvFileTransactionLoader.addTransaction("01.01.2018;-1000;Продукты в Ашане;Еда");
+            csvFileTransactionLoader.addTransaction("01.01.2018;-1000;Продукты в Ашане;Еда");
+            csvFileTransactionLoader.removeTransaction("21.08.2018;100;Аванс;Зарплата");
         } else
             System.out.println("Неверная дата.");
     }
