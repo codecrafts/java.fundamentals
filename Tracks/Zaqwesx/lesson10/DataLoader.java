@@ -6,21 +6,27 @@ public class DataLoader implements Observed {
     private List<Observer> observers_ = new ArrayList<>();
 
     @Override
-    public void addObserver(Observer observer) {
+    public boolean addObserver(Observer observer) {
         if (!this.observers_.contains(observer)) {
             this.observers_.add((observer));
             System.out.println("Observer added.");
-        } else
+            return true;
+        } else {
             System.out.println("This observer already exists.");
+            return false;
+        }
     }
 
     @Override
-    public void removeObserver(Observer observer) {
+    public boolean removeObserver(Observer observer) {
         if (this.observers_.contains(observer)) {
             this.observers_.remove((observer));
             System.out.println("Observer removed.");
-        } else
+            return true;
+        } else {
             System.out.println("This observer does not exists.");
+            return false;
+        }
 
     }
 
@@ -32,23 +38,29 @@ public class DataLoader implements Observed {
     }
 
     @Override
-    public void addTransaction(String string) {
+    public boolean addTransaction(String string) {
         if (!this.transactions_.contains(string)) {
             this.transactions_.add(string);
             System.out.println("Transaction added.");
             notifyObservers();
-        } else
+            return true;
+        } else {
             System.out.println("This transaction already exists.");
+            return false;
+        }
 
     }
 
     @Override
-    public void removeTransaction(String string) {
+    public boolean removeTransaction(String string) {
         if (this.transactions_.contains(string)) {
             this.transactions_.remove(string);
             System.out.println("Transaction removed.");
             notifyObservers();
-        } else
+            return true;
+        } else {
             System.out.println("This transaction does not exists.");
+            return false;
+        }
     }
 }

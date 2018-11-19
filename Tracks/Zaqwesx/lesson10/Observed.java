@@ -1,7 +1,7 @@
 public interface Observed {
-    void addObserver(Observer observer);
-    void removeObserver(Observer observer);
+    boolean addObserver(Observer observer);
+    boolean removeObserver(Observer observer);
     void notifyObservers();
-    void addTransaction(String string);
-    void removeTransaction(String string);
+    boolean addTransaction(String string);
+    boolean removeTransaction(String string);
 }
