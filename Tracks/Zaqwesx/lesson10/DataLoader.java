@@ -7,34 +7,21 @@ public class DataLoader implements Observed {
 
     @Override
     public void addObserver(Observer observer) {
-        boolean obsCheck = true;
-        for (Observer obs : this.observers_) {
-            if (obs == observer) {
-                obsCheck = false;
-//                break;
-            }
-        }
-
-        if (obsCheck == true)
-            this.observers_.add(observer);
-        else
+        if (!this.observers_.contains(observer)) {
+            this.observers_.add((observer));
+            System.out.println("Observer added.");
+        } else
             System.out.println("This observer already exists.");
     }
 
     @Override
     public void removeObserver(Observer observer) {
-        boolean obsCheck = false;
-        for (Observer obs : observers_) {
-            if (obs == observer) {
-                obsCheck = true;
-                break;
-            }
-        }
+        if (this.observers_.contains(observer)) {
+            this.observers_.remove((observer));
+            System.out.println("Observer removed.");
+        } else
+            System.out.println("This observer does not exists.");
 
-        if (obsCheck == true)
-            this.observers_.remove(observer);
-        else
-            System.out.println("No such observer.");
     }
 
     @Override
@@ -46,38 +33,22 @@ public class DataLoader implements Observed {
 
     @Override
     public void addTransaction(String string) {
-        boolean tranCheck = true;
-        for (String tran : transactions_) {
-            if (tran == string) {
-                tranCheck = false;
-                break;
-            }
-        }
-
-        if (tranCheck == true) {
+        if (!this.transactions_.contains(string)) {
             this.transactions_.add(string);
-            System.out.println("New changes: " + string);
+            System.out.println("Transaction added.");
             notifyObservers();
-        }
-        else
+        } else
             System.out.println("This transaction already exists.");
+
     }
 
     @Override
     public void removeTransaction(String string) {
-        boolean transCheck = false;
-        for (String trans : transactions_) {
-            if (trans == string) {
-                transCheck = true;
-                break;
-            }
-        }
-
-        if (transCheck == true) {
+        if (this.transactions_.contains(string)) {
             this.transactions_.remove(string);
-            System.out.println("New changes: " + string);
+            System.out.println("Transaction removed.");
             notifyObservers();
         } else
-            System.out.println("No such transaction.");
+            System.out.println("This transaction does not exists.");
     }
 }
